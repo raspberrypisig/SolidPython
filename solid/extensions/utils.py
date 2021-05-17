@@ -5,7 +5,7 @@ from math import pi, ceil, floor, sqrt, atan2, degrees, radians
 from solid import union, cube, translate, rotate, square, circle, polyhedron, polygon
 from solid import difference, intersection, multmatrix, cylinder, color
 from solid import text, linear_extrude, resize
-from solid import run_euclid_patch
+from solid.extensions.patch_euclid import run_euclid_patch
 from solid import OpenSCADObject, P2, P3, P4, Vec3 , Vec4, Vec34, P3s, P23
 from solid import Points, Indexes, ScadSize
 
@@ -1251,4 +1251,4 @@ def obj_tree_str(sp_obj:OpenSCADObject, vars_to_print:Sequence[str]=None) -> str
 # = DEPENDENT IMPORTS =
 # =====================
 # imported here to mitigate import loops
-from solid.extrude_along_path import extrude_along_path
+from solid.extensions.extrude_along_path import extrude_along_path

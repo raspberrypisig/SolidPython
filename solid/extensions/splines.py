@@ -1,11 +1,10 @@
 #! /usr/bin/env python
 from math import pow
+from euclid3 import Vector2, Vector3, Point2, Point3
+from typing import Sequence, Tuple, Union, List, cast
 
 from solid import union, circle, cylinder, polygon, color, OpenSCADObject, translate, linear_extrude, polyhedron
-from solid.utils import bounding_box, right, Red, Tuple3, euclidify
-from euclid3 import Vector2, Vector3, Point2, Point3
-
-from typing import Sequence, Tuple, Union, List, cast
+from solid.extensions.utils import bounding_box, right, Red, Tuple3, euclidify
 
 Point23 = Union[Point2, Point3]
 # These *Input types accept either euclid3.Point* objects, or bare n-tuples

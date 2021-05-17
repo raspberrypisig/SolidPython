@@ -11,7 +11,7 @@ from .open_scad_object import OpenSCADObject,\
 
 from .open_scad_builtins import *
 from .open_scad_import import import_scad, use
-from .patch_euclid import run_euclid_patch
+from .extensions.patch_euclid import run_euclid_patch
 
 # Type hints
 from .open_scad_builtins import P2, P3, P4, Vec3 , Vec4, Vec34, P3s, P23, Points, Indexes, ScadSize, OpenSCADObjectPlus
