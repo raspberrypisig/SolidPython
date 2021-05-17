@@ -1,4 +1,5 @@
 import inspect
+import keyword
 
 from types import ModuleType
 
@@ -24,37 +25,37 @@ def calling_module(stack_depth: int = 2) -> ModuleType:
         import __main__ as calling_mod  # type: ignore
     return calling_mod
 
-def subbed_keyword(keyword: str) -> str:
+def subbed_keyword(identifier: str) -> str:
     """
     Append an underscore to any python reserved word.
     Prepend an underscore to any OpenSCAD identifier starting with a digit.
     No-op for all other strings, e.g. 'or' => 'or_', 'other' => 'other'
     """
-    new_key = keyword
+    new_identifier = identifier
 
-    if keyword in keyword.kwlist:
-        new_key = keyword + "_"
+    if identifier in keyword.kwlist:
+        new_identifier = identifier + "_"
 
-    if keyword[0].isdigit():
-        new_key = "_" + keyword
+    if identifier[0].isdigit():
+        new_identifier = "_" + identifier
 
-    if new_key != keyword:
+    if new_identifier != identifier:
         print(f"\nFound OpenSCAD code that's not compatible with Python. \n"
               f"Imported OpenSCAD code using `{keyword}` \n"
-              f"can be accessed with `{new_key}` in SolidPython\n")
-    return new_key
+              f"can be accessed with `{new_identifier}` in SolidPython\n")
+    return new_identifier
 
-def unsubbed_keyword(subbed_keyword: str) -> str:
+def unsubbed_keyword(identifier: str) -> str:
     """
     Remove trailing underscore for already-subbed python reserved words.
     Remove prepending underscore if remaining identifier starts with a digit.
     No-op for all other strings: e.g. 'or_' => 'or', 'other_' => 'other_'
     """
-    if subbed_keyword.endswith("_") and subbed_keyword[:-1] in keyword.kwlist:
-        return subbed_keyword[:-1]
+    if identifier.endswith("_") and identifier[:-1] in keyword.kwlist:
+        return identifier[:-1]
 
-    if subbed_keyword.startswith("_") and subbed_keyword[1].isdigit():
-        return subbed_keyword[1:]
+    if identifier.startswith("_") and identifier[1].isdigit():
+        return identifier[1:]
 
-    return subbed_keyword
+    return identifier
 
