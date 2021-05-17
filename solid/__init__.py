@@ -10,7 +10,7 @@ from .open_scad_object import OpenSCADObject,\
                               IncludedOpenSCADObject
 
 from .open_scad_builtins import *
-from .objects import *
+from .open_scad_import import import_scad, use
 from .patch_euclid import run_euclid_patch
 
 # Type hints
