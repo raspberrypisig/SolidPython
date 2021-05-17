@@ -2,9 +2,7 @@
 import sys
 from pathlib import Path
 
-from solid import scad_render_to_file
-from solid.objects import import_scad, use
-
+from solid import scad_render_to_file, import_scad, use
 
 # Import OpenSCAD code and call it from Python code.
 # The path given to use() or import_scad() must be absolute or findable in sys.path
