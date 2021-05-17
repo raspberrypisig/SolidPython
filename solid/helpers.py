@@ -3,6 +3,9 @@ import keyword
 
 from types import ModuleType
 
+def indent(s: str) -> str:
+    return s.replace("\n", "\n\t")
+
 def calling_module(stack_depth: int = 2) -> ModuleType:
     """
     Returns the module *2* back in the frame stack.  That means:

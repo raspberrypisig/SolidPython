@@ -7,7 +7,7 @@ from typing import Callable, Optional, Union, Set
 from types import ModuleType
 
 from solid.object_base import OpenSCADObject, IncludedOpenSCADObject
-from solid.helpers import calling_module
+from solid.helpers import calling_module, indent
 
 PathStr = Union[Path, str]
 AnimFunc = Callable[[Optional[float]], 'OpenSCADObject']
@@ -15,9 +15,6 @@ AnimFunc = Callable[[Optional[float]], 'OpenSCADObject']
 # =========================================
 # = Rendering Python code to OpenSCAD code=
 # =========================================
-def indent(s: str) -> str:
-    return s.replace("\n", "\n\t")
-
 def _find_include_strings(obj: Union[IncludedOpenSCADObject, OpenSCADObject]) -> Set[str]:
     include_strings = set()
     if isinstance(obj, IncludedOpenSCADObject):
