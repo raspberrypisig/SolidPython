@@ -38,14 +38,14 @@ use(OPENSCAD_BUILTINS_FILE, builtins=True)
 
 # = Modifier Convenience Methods =
 def debug(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.debug()
+    return openscad_obj.set_modifier("#")
 
 def background(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.background()
+    return openscad_obj.set_modifier("%")
 
 def root(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.root()
+    return openscad_obj.set_modifier("!")
 
 def disable(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.disable()
+    return openscad_obj.set_modifier("*")
 
