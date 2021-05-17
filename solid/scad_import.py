@@ -3,7 +3,7 @@ from types import SimpleNamespace
 from pathlib import Path
 PathStr = Union[Path, str]
 
-from solid.utilityFunctions import subbed_keyword
+from solid.helpers import subbed_keyword
 
 # ===========
 # = Parsing =

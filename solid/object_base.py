@@ -6,7 +6,7 @@ import keyword
 
 from typing import Dict, Optional, List, Union, Sequence, Iterable
 
-from solid.utilityFunctions import unsubbed_keyword
+from solid.helpers import unsubbed_keyword
 
 # These are features added to SolidPython but NOT in OpenSCAD.
 # Mark them for special treatment
