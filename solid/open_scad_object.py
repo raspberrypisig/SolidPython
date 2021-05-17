@@ -6,6 +6,8 @@ import keyword
 
 from typing import Dict, Optional, List, Union, Sequence, Iterable
 
+from solid.utilityFunctions import unsubbed_keyword
+
 # These are features added to SolidPython but NOT in OpenSCAD.
 # Mark them for special treatment
 
@@ -124,7 +126,7 @@ class OpenSCADObject:
         return s
 
     def _render_str_no_children(self) -> str:
-        callable_name = _unsubbed_keyword(self.name)
+        callable_name = unsubbed_keyword(self.name)
         s = "\n" + self.modifier + callable_name + "("
         first = True
 
@@ -132,7 +134,7 @@ class OpenSCADObject:
         # OpenSCAD will accept Python reserved words as callables or argument names,
         # but they won't compile in Python. Those have already been substituted
         # out (e.g 'or' => 'or_'). Sub them back here.
-        self.params = {_unsubbed_keyword(k): v for k, v in self.params.items()}
+        self.params = {unsubbed_keyword(k): v for k, v in self.params.items()}
 
         # OpenSCAD doesn't have a 'segments' argument, but it does
         # have '$fn'.  Swap one for the other
@@ -596,20 +598,6 @@ class IncludedOpenSCADObject(OpenSCADObject):
 
         # No loadable SCAD file was found in sys.path.  Raise an error
         raise ValueError(f"Unable to find included SCAD file: {include_file_path} in sys.path")
-
-def _unsubbed_keyword(subbed_keyword: str) -> str:
-    """
-    Remove trailing underscore for already-subbed python reserved words.
-    Remove prepending underscore if remaining identifier starts with a digit.
-    No-op for all other strings: e.g. 'or_' => 'or', 'other_' => 'other_'
-    """
-    if subbed_keyword.endswith("_") and subbed_keyword[:-1] in keyword.kwlist:
-        return subbed_keyword[:-1]
-
-    if subbed_keyword.startswith("_") and subbed_keyword[1].isdigit():
-        return subbed_keyword[1:]
-
-    return subbed_keyword
 
 def py2openscad(o: Union[bool, float, str, Iterable]) -> str:
     if type(o) == bool:

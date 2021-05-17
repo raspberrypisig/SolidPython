@@ -1,13 +1,13 @@
 import datetime
 import regex as re
 import pkg_resources
-import inspect
 
 from pathlib import Path
 from typing import Callable, Optional, Union, Set
 from types import ModuleType
 
 from solid.open_scad_object import OpenSCADObject, IncludedOpenSCADObject
+from solid.utilityFunctions import calling_module
 
 PathStr = Union[Path, str]
 AnimFunc = Callable[[Optional[float]], 'OpenSCADObject']
@@ -15,27 +15,8 @@ AnimFunc = Callable[[Optional[float]], 'OpenSCADObject']
 # =========================================
 # = Rendering Python code to OpenSCAD code=
 # =========================================
-def calling_module(stack_depth: int = 2) -> ModuleType:
-    """
-    Returns the module *2* back in the frame stack.  That means:
-    code in module A calls code in module B, which asks calling_module()
-    for module A.
-
-    This means that we have to know exactly how far back in the stack
-    our desired module is; if code in module B calls another function in 
-    module B, we have to increase the stack_depth argument to account for
-    this.
-
-    Got that?
-    """
-    frm = inspect.stack()[stack_depth]
-    calling_mod = inspect.getmodule(frm[0])
-    # If calling_mod is None, this is being called from an interactive session.
-    # Return that module.  (Note that __main__ doesn't have a __file__ attr,
-    # but that's caught elsewhere.)
-    if not calling_mod:
-        import __main__ as calling_mod  # type: ignore
-    return calling_mod
+def indent(s: str) -> str:
+    return s.replace("\n", "\n\t")
 
 def _find_include_strings(obj: Union[IncludedOpenSCADObject, OpenSCADObject]) -> Set[str]:
     include_strings = set()

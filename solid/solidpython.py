@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import keyword
 
+from .utilityFunctions import subbed_keyword
+
 # ===========
 # = Parsing =
 # ===========
@@ -48,9 +50,9 @@ def new_openscad_class_str(class_name: str,
     # Re: https://github.com/SolidCode/SolidPython/issues/99
     # Don't allow any reserved words as argument names or module names
     # (They might be valid OpenSCAD argument names, but not in Python)
-    class_name = _subbed_keyword(class_name)
+    class_name = subbed_keyword(class_name)
 
-    args = map(_subbed_keyword, args)  # type: ignore
+    args = map(subbed_keyword, args)  # type: ignore
     for arg in args:
         args_str += ', ' + arg
         args_pairs += f"'{arg}':{arg}, "
@@ -58,7 +60,7 @@ def new_openscad_class_str(class_name: str,
     # kwargs have a default value defined in their SCAD versions.  We don't
     # care what that default value will be (SCAD will take care of that), just
     # that one is defined.
-    kwargs = map(_subbed_keyword, kwargs)  # type: ignore
+    kwargs = map(subbed_keyword, kwargs)  # type: ignore
     for kwarg in kwargs:
         args_str += f', {kwarg}=None'
         args_pairs += f"'{kwarg}':{kwarg}, "
@@ -86,28 +88,3 @@ def new_openscad_class_str(class_name: str,
 
     return result
 
-def _subbed_keyword(keyword: str) -> str:
-    """
-    Append an underscore to any python reserved word.
-    Prepend an underscore to any OpenSCAD identifier starting with a digit.
-    No-op for all other strings, e.g. 'or' => 'or_', 'other' => 'other'
-    """
-    new_key = keyword
-
-    if keyword in keyword.kwlist:
-        new_key = keyword + "_"
-
-    if keyword[0].isdigit():
-        new_key = "_" + keyword
-
-    if new_key != keyword:
-        print(f"\nFound OpenSCAD code that's not compatible with Python. \n"
-              f"Imported OpenSCAD code using `{keyword}` \n"
-              f"can be accessed with `{new_key}` in SolidPython\n")
-    return new_key
-
-# now that we have the base class defined, we can do a circular import
-from . import objects
-
-def indent(s: str) -> str:
-    return s.replace("\n", "\n\t")
