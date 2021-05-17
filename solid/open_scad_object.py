@@ -1,3 +1,9 @@
+import tempfile
+import sys
+import os
+import subprocess
+import keyword
+
 from typing import Dict, Optional, List, Union, Sequence, Iterable
 
 # These are features added to SolidPython but NOT in OpenSCAD.
@@ -597,7 +603,7 @@ def _unsubbed_keyword(subbed_keyword: str) -> str:
     Remove prepending underscore if remaining identifier starts with a digit.
     No-op for all other strings: e.g. 'or_' => 'or', 'other_' => 'other_'
     """
-    if subbed_keyword.endswith("_") and subbed_keyword[:-1] in PYTHON_ONLY_RESERVED_WORDS:
+    if subbed_keyword.endswith("_") and subbed_keyword[:-1] in keyword.kwlist:
         return subbed_keyword[:-1]
 
     if subbed_keyword.startswith("_") and subbed_keyword[1].isdigit():
