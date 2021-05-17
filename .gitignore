@@ -16,3 +16,4 @@ lib
 lib64
 Doc/_build
 scratch/
+*.swp
