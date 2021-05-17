@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Callable, Optional, Union, Set
 from types import ModuleType
 
-from solid.base_object import OpenSCADObject, IncludedOpenSCADObject
+from solid.object_base import OpenSCADObject, IncludedOpenSCADObject
 from solid.helpers import calling_module
 
 PathStr = Union[Path, str]

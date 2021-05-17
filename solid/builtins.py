@@ -1,7 +1,7 @@
 from typing import Tuple, Union, Sequence
 from pathlib import Path
 
-from solid.base_object import OpenSCADObject, IncludedOpenSCADObject
+from solid.object_base import OpenSCADObject, IncludedOpenSCADObject
 
 PathStr = Union[Path, str]
 
