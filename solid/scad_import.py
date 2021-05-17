@@ -68,13 +68,18 @@ def new_openscad_class_str(class_name: str,
         result = (f"import solid\n"
                   f"class {class_name}(solid.IncludedOpenSCADObject):\n"
                   f"   def __init__(self{args_str}, **kwargs):\n"
-                  f"       solid.IncludedOpenSCADObject.__init__(self, '{class_name}', {{{args_pairs} }}, include_file_path='{include_file_str}', use_not_include={use_not_include}, **kwargs )\n"
+                  f"       solid.IncludedOpenSCADObject.__init__(self, '{class_name}', {{{args_pairs} }},"
+                  f"                                             include_file_path='{include_file_str}',"
+                  f"                                             use_not_include={use_not_include},"
+                  f"                                             **kwargs )\n"
                   f"   \n"
                   f"\n")
     else:
-        result = (f"class {class_name}(OpenSCADObject):\n"
-                  f"   def __init__(self{args_str}):\n"
-                  f"       OpenSCADObject.__init__(self, '{class_name}', {{{args_pairs }}})\n"
+        result = (f"import solid\n"
+                  f"class {class_name}(solid.OpenSCADObject):\n"
+                  f"   def __init__(self{args_str}, **kwargs):\n"
+                  f"       solid.OpenSCADObject.__init__(self, '{class_name}', {{{args_pairs }}},"
+                  f"                                     **kwargs)\n"
                   f"   \n"
                   f"\n")
 
@@ -168,7 +173,7 @@ def _find_library(library_name: PathStr) -> Path:
 # --include() makes those methods available AND executes all code in
 #   scad_file_path.scad, which may have side effects.
 #   Unless you have a specific need, call use().
-def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace_dict: Dict = None):
+def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace_dict: Dict = None, builtins=False):
     """
     Opens scad_file_path, parses it for all usable calls,
     and adds them to caller's namespace.
@@ -179,7 +184,7 @@ def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace_di
 
     for sd in symbols_dicts:
         class_str = new_openscad_class_str(sd['name'], sd['args'], sd['kwargs'],
-                                           scad_file_path.as_posix(), use_not_include)
+                                           scad_file_path.as_posix() if not builtins else None, use_not_include)
         # If this is called from 'include', we have to look deeper in the stack
         # to find the right module to add the new class to.
         if dest_namespace_dict is None:
