@@ -8,8 +8,10 @@ from .open_scad_render import scad_render,\
 
 from .open_scad_object import OpenSCADObject,\
                               IncludedOpenSCADObject
+
+from .open_scad_builtins import *
 from .objects import *
 from .patch_euclid import run_euclid_patch
 
 # Type hints
-from .objects import P2, P3, P4, Vec3 , Vec4, Vec34, P3s, P23, Points, Indexes, ScadSize, OpenSCADObjectPlus
+from .open_scad_builtins import P2, P3, P4, Vec3 , Vec4, Vec34, P3s, P23, Points, Indexes, ScadSize, OpenSCADObjectPlus
