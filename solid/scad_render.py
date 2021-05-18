@@ -6,8 +6,8 @@ from pathlib import Path
 from typing import Callable, Optional, Union, Set
 from types import ModuleType
 
-from solid.object_base import OpenSCADObject, IncludedOpenSCADObject
-from solid.helpers import calling_module, indent
+from .object_base import OpenSCADObject, IncludedOpenSCADObject
+from .helpers import calling_module, indent
 
 PathStr = Union[Path, str]
 AnimFunc = Callable[[Optional[float]], 'OpenSCADObject']

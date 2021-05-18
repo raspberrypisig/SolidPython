@@ -3,7 +3,7 @@ from types import SimpleNamespace
 from pathlib import Path
 PathStr = Union[Path, str]
 
-from solid.helpers import subbed_keyword, calling_module
+from .helpers import subbed_keyword, calling_module
 
 # ===========
 # = Parsing =
@@ -63,22 +63,18 @@ def new_openscad_class_str(class_name: str,
         # themselves
         include_file_str = Path(include_file_path).as_posix()
 
-        # NOTE the explicit import of 'solid' below. This is a fix for:
-        # https://github.com/SolidCode/SolidPython/issues/20 -ETJ 16 Jan 2014
-        result = (f"import solid\n"
-                  f"class {class_name}(solid.IncludedOpenSCADObject):\n"
+        result = ( f"class {class_name}(IncludedOpenSCADObject):\n"
                   f"   def __init__(self{args_str}, **kwargs):\n"
-                  f"       solid.IncludedOpenSCADObject.__init__(self, '{class_name}', {{{args_pairs} }},"
+                  f"       IncludedOpenSCADObject.__init__(self, '{class_name}', {{{args_pairs} }},"
                   f"                                             include_file_path='{include_file_str}',"
                   f"                                             use_not_include={use_not_include},"
                   f"                                             **kwargs )\n"
                   f"   \n"
                   f"\n")
     else:
-        result = (f"import solid\n"
-                  f"class {class_name}(solid.OpenSCADObject):\n"
+        result = ( f"class {class_name}(OpenSCADObject):\n"
                   f"   def __init__(self{args_str}, **kwargs):\n"
-                  f"       solid.OpenSCADObject.__init__(self, '{class_name}', {{{args_pairs }}},"
+                  f"       OpenSCADObject.__init__(self, '{class_name}', {{{args_pairs }}},"
                   f"                                     **kwargs)\n"
                   f"   \n"
                   f"\n")

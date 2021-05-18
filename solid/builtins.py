@@ -1,7 +1,7 @@
 from typing import Tuple, Union, Sequence
 from pathlib import Path
 
-from solid.object_base import OpenSCADObject, IncludedOpenSCADObject
+from .object_base import OpenSCADObject, IncludedOpenSCADObject
 
 #base data types -> why do we need them? What happened to the good ol' duck typing?
 P2 = Tuple[float, float]

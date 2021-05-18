@@ -1,4 +1,8 @@
 import sys
+from pathlib import Path
+
+solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
+sys.path.append(solidPath)
 
 from solid.builtins import *
 from solid import scad_render_to_file

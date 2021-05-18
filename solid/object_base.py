@@ -6,7 +6,7 @@ import keyword
 
 from typing import Dict, Optional, List, Union, Sequence, Iterable
 
-from solid.helpers import unsubbed_keyword, indent
+from .helpers import unsubbed_keyword, indent
 
 # These are features added to SolidPython but NOT in OpenSCAD.
 # Mark them for special treatment
@@ -281,32 +281,32 @@ class OpenSCADObject:
         This makes u = a+b identical to:
         u = union()(a, b )
         """
-        import solid.builtins
-        return solid.builtins.union()(self, x)
+        from .builtins import union
+        return union()(self, x)
 
     def __radd__(self, x: "OpenSCADObject") -> "OpenSCADObject":
         """
         This makes u = a+b identical to:
         u = union()(a, b )
         """
-        import solid.builtins
-        return solid.builtins.union()(self, x)
+        from .builtins import union
+        return union()(self, x)
 
     def __sub__(self, x: "OpenSCADObject") -> "OpenSCADObject":
         """
         This makes u = a - b identical to:
         u = difference()(a, b )
         """
-        import solid.builtins
-        return builtins.difference()(self, x)
+        from .builtins import difference
+        return difference()(self, x)
 
     def __mul__(self, x: "OpenSCADObject") -> "OpenSCADObject":
         """
         This makes u = a * b identical to:
         u = intersection()(a, b )
         """
-        import solid.builtins
-        return builtins.intersection()(self, x)
+        from .builtins import intersection
+        return intersection()(self, x)
 
     def _repr_png_(self) -> Optional[bytes]:
         """
