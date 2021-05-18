@@ -18,9 +18,13 @@
 #       -ETJ 08 Mar 2011
 
 import sys
+from pathlib import Path
+
+solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
+sys.path.append(solidPath)
 
 from solid import scad_render_to_file
-from solid.objects import cube, color, cylinder, difference, translate, union
+from solid.builtins import cube, color, cylinder, difference, translate, union
 from solid.utils import EPSILON
 from solid.utils import bill_of_materials, bom_part, set_bom_headers
 

@@ -3,6 +3,7 @@ from pathlib import Path
 
 from .object_base import OpenSCADObject, IncludedOpenSCADObject
 from .helpers import subbed_keyword
+from .exp_extensions.part_hole import part, hole
 
 #base data types -> why do we need them? What happened to the good ol' duck typing?
 P2 = Tuple[float, float]
@@ -71,16 +72,16 @@ for s in builtins_symbols:
 # = Modifier Convenience Methods =
 # ================================
 def debug(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.set_modifier("#")
+    return openscad_obj.debug()
 
 def background(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.set_modifier("%")
+    return openscad_obj.background()
 
 def root(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.set_modifier("!")
+    return openscad_obj.root()
 
 def disable(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.set_modifier("*")
+    return openscad_obj.disable()
 
 #add modifier convenience methods to cascading OpenSCADObject operations
 for name in ["debug", "root", "background", "disable"]:

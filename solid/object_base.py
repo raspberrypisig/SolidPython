@@ -21,52 +21,6 @@ class OpenSCADObject:
         self.children: List["OpenSCADObject"] = []
         self.modifier = ""
         self.parent: Optional["OpenSCADObject"] = None
-        self.is_hole = False
-        self.has_hole_children = False
-        self.is_part_root = False
-        self.traits: Dict[str, Dict[str, float]] = {}
-
-    def add_trait(self, trait_name:str, trait_data:Dict[str, float]):
-        self.traits[trait_name] = trait_data
-
-    def get_trait(self, trait_name:str) -> Optional[Dict[str, float]]:
-        return self.traits.get(trait_name)
-
-    def set_hole(self, is_hole: bool = True) -> "OpenSCADObject":
-        self.is_hole = is_hole
-        return self
-
-    def set_part_root(self, is_root: bool = True) -> "OpenSCADObject":
-        self.is_part_root = is_root
-        return self
-
-    def find_hole_children(self, path: List["OpenSCADObject"] = None) -> List["OpenSCADObject"]:
-        """
-        Because we don't force a copy every time we re-use a node
-        (e.g a = cylinder(2, 6);  b = right(10) (a)
-         the identical 'a' object appears in the tree twice),
-        we can't count on an object's 'parent' field to trace its
-        path to the root.  Instead, keep track explicitly
-        """
-        path = path if path else [self]
-        hole_kids = []
-
-        for child in self.children:
-            path.append(child)
-            if child.is_hole:
-                hole_kids.append(child)
-                # Mark all parents as having a hole child
-                for p in path:
-                    p.has_hole_children = True
-            # Don't append holes from separate parts below us
-            elif child.is_part_root:
-                continue
-            # Otherwise, look below us for children
-            else:
-                hole_kids += child.find_hole_children(path)
-            path.pop()
-
-        return hole_kids
 
     def set_modifier(self, m: str) -> "OpenSCADObject":
         """
@@ -85,44 +39,23 @@ class OpenSCADObject:
         self.modifier = string_vals.get(m.lower(), '')
         return self
 
-    def _render(self, render_holes: bool = False) -> str:
+    def _render(self) -> str:
         """
         NOTE: In general, you won't want to call this method. For most purposes,
         you really want scad_render(), 
         Calling obj._render won't include necessary 'use' or 'include' statements
         """
-        # First, render all children
         s = ""
-        for child in self.children:
-            # Don't immediately render hole children.
-            # Add them to the parent's hole list,
-            # And render after everything else
-            if not render_holes and child.is_hole:
-                continue
-            s += child._render(render_holes)
 
-        # Then render self and prepend/wrap it around the children
-        # I've added designated parts and explicit holes to SolidPython.
-        # OpenSCAD has neither, so don't render anything from these objects
-        if self.name in non_rendered_classes:
-            pass
-        elif not self.children:
+        # First, render all children
+        for child in self.children:
+            s += child._render()
+
+        if not self.children:
             s = self._render_str_no_children() + ";"
         else:
             s = self._render_str_no_children() + " {" + indent(s) + "\n}"
 
-        # If this is the root object or the top of a separate part,
-        # find all holes and subtract them after all positive geometry
-        # is rendered
-        if (not self.parent) or self.is_part_root:
-            hole_children = self.find_hole_children()
-
-            if len(hole_children) > 0:
-                s += "\n/* Holes Below*/"
-                s += self._render_hole_children()
-
-                # wrap everything in the difference
-                s = "\ndifference(){" + indent(s) + " /* End Holes */ \n}"
         return s
 
     def _render_str_no_children(self) -> str:
@@ -168,45 +101,6 @@ class OpenSCADObject:
                 s += k + " = " + py2openscad(v)
 
         s += ")"
-        return s
-
-    def _render_hole_children(self) -> str:
-        # Run down the tree, rendering only those nodes
-        # that are holes or have holes beneath them
-        if not self.has_hole_children:
-            return ""
-        s = ""
-        for child in self.children:
-            if child.is_hole:
-                s += child._render(render_holes=True)
-            elif child.has_hole_children:
-                s += child._render_hole_children()
-        if self.name in non_rendered_classes:
-            pass
-        else:
-            s = self._render_str_no_children() + "{" + indent(s) + "\n}"
-
-        # Holes exist in the compiled tree in two pieces:
-        # The shapes of the holes themselves, (an object for which
-        # obj.is_hole is True, and all its children) and the
-        # transforms necessary to put that hole in place, which
-        # are inherited from non-hole geometry.
-
-        # Non-hole Intersections & differences can change (shrink)
-        # the size of holes, and that shouldn't happen: an
-        # intersection/difference with an empty space should be the
-        # entirety of the empty space.
-        #  In fact, the intersection of two empty spaces should be
-        # everything contained in both of them:  their union.
-        # So... replace all super-hole intersection/diff transforms
-        # with union in the hole segment of the compiled tree.
-        # And if you figure out a better way to explain this,
-        # please, please do... because I think this works, but I
-        # also think my rationale is shaky and imprecise. 
-        # -ETJ 19 Feb 2013
-        s = s.replace("intersection", "union")
-        s = s.replace("difference", "union")
-
         return s
 
     def add(self, child: Union["OpenSCADObject", Sequence["OpenSCADObject"]]) -> "OpenSCADObject":
@@ -257,10 +151,7 @@ class OpenSCADObject:
             self.params['segments'] = self.params.pop('$fn')
 
         other = type(self)(**self.params)
-        other.set_modifier(self.modifier)
-        other.set_hole(self.is_hole)
-        other.set_part_root(self.is_part_root)
-        other.has_hole_children = self.has_hole_children
+        other.modifier = self.modifier
         for c in self.children:
             other.add(c.copy())
         return other
@@ -307,6 +198,22 @@ class OpenSCADObject:
         """
         from .builtins import intersection
         return intersection()(self, x)
+
+    def debug(self):
+        self.modifier = "#"
+        return self
+
+    def background(self):
+        self.modifier = "%"
+        return self
+
+    def root(self):
+        self.modifier = "!"
+        return self
+
+    def disable(self):
+        self.modifier = "*"
+        return self
 
     def _repr_png_(self) -> Optional[bytes]:
         """

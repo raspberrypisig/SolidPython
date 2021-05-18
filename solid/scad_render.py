@@ -8,6 +8,7 @@ from types import ModuleType
 
 from .object_base import OpenSCADObject, IncludedOpenSCADObject
 from .helpers import calling_module, indent
+from .exp_extensions.extension_base import default_extension_manager
 
 PathStr = Union[Path, str]
 AnimFunc = Callable[[Optional[float]], 'OpenSCADObject']
@@ -38,12 +39,17 @@ def scad_render(scad_object: OpenSCADObject, file_header: str = '') -> str:
 
     # and render the string
     includes = ''.join(include_strings) + "\n"
+
+    #call libraries pre_render and let them wrap the root node
+    root, extensions_header_str = \
+        default_extension_manager.call_pre_render_and_wrap_root_node(root)
+
     scad_body = root._render()
 
     if file_header and not file_header.endswith('\n'): 
         file_header += '\n'
 
-    return file_header + includes + scad_body
+    return file_header + includes + extensions_header_str + scad_body
 
 def scad_render_animated(func_to_animate: AnimFunc, 
                          steps: int =20, 

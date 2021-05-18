@@ -1,8 +1,12 @@
 #! /usr/bin/env python3
 import sys
+from pathlib import Path
+
+solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
+sys.path.append(solidPath)
 
 from solid import scad_render_to_file
-from solid.objects import cube, cylinder, hole, part, rotate
+from solid.builtins import cube, cylinder, hole, part, rotate
 from solid.utils import FORWARD_VEC, right, up
 
 SEGMENTS = 120
