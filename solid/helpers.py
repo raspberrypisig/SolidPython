@@ -44,7 +44,7 @@ def subbed_keyword(identifier: str) -> str:
 
     if new_identifier != identifier:
         print(f"\nFound OpenSCAD code that's not compatible with Python. \n"
-              f"Imported OpenSCAD code using `{keyword}` \n"
+              f"Imported OpenSCAD code using `{identifier}` \n"
               f"can be accessed with `{new_identifier}` in SolidPython\n")
     return new_identifier
 
