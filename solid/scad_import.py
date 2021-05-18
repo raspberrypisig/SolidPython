@@ -193,7 +193,7 @@ def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace_di
             msg = f"Unable to import SCAD module: `{classname}` from `{scad_file_path.name}`, with error: {e}"
             print(msg)
 
-    return True
+    return symbols_dicts
 
 def include(scad_file_path: PathStr) -> bool:
     return use(scad_file_path, use_not_include=False)

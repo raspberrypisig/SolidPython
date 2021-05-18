@@ -2,6 +2,7 @@ from typing import Tuple, Union, Sequence
 from pathlib import Path
 
 from .object_base import OpenSCADObject, IncludedOpenSCADObject
+from .helpers import subbed_keyword
 
 #base data types -> why do we need them? What happened to the good ol' duck typing?
 P2 = Tuple[float, float]
@@ -20,7 +21,9 @@ ScadSize = Union[int, Sequence[float]]
 #Is it used in the public interface? git grep says it's unused internally -jeff
 OpenSCADObjectPlus = Union[OpenSCADObject, Sequence[OpenSCADObject]]
 
+# ====================
 # = dynamic builtins =
+# ====================
 """
     This block loads all the built in OpenSCAD functions (like circle, square,
     color, translate.....) from builtins.openscad file.
@@ -33,10 +36,40 @@ OpenSCADObjectPlus = Union[OpenSCADObject, Sequence[OpenSCADObject]]
 OPENSCAD_BUILTINS_FILE = Path(__file__).absolute().parent / "builtins.openscad"
 
 from .scad_import import use
-use(OPENSCAD_BUILTINS_FILE, builtins=True)
+builtins_symbols = use(OPENSCAD_BUILTINS_FILE, builtins=True)
 
 
+# ========================
+# = Cascading Operations =
+# ========================
+"""
+    This is a "hack" to add cascading operations like:
+        cube([10, 20, 30]).translate([-5, 0, 0])
+    It simply takes every symbol (function or module name) and adds a wrapper
+    function to the OpenSCADObject class. :D
+
+    I really like this style and I don't see any reason why SolidPython should
+    not support it. Are there any?
+"""
+for s in builtins_symbols:
+    #add builtins to cascading OpenSCADObject operations
+    name = subbed_keyword(s["name"])
+
+    exec_str = f""\
+               f"def {name}_func(self, *args, **kwargs):\n"\
+               f"   return {name}(*args, **kwargs)(self)\n"\
+               f"\n"\
+               f"OpenSCADObject.{name} = {name}_func\n"
+
+    #uncomment to debug this
+    #print(f"================")
+    #print(exec_str)
+
+    exec(exec_str)
+
+# ================================
 # = Modifier Convenience Methods =
+# ================================
 def debug(openscad_obj: OpenSCADObject) -> OpenSCADObject:
     return openscad_obj.set_modifier("#")
 
@@ -49,3 +82,16 @@ def root(openscad_obj: OpenSCADObject) -> OpenSCADObject:
 def disable(openscad_obj: OpenSCADObject) -> OpenSCADObject:
     return openscad_obj.set_modifier("*")
 
+#add modifier convenience methods to cascading OpenSCADObject operations
+for name in ["debug", "root", "background", "disable"]:
+    exec_str = f""\
+               f"def {name}_func(self):\n"\
+               f"   return {name}(self)\n"\
+               f"\n"\
+               f"OpenSCADObject.{name} = {name}_func\n"
+
+    #uncomment to debug this
+    #print(f"================")
+    #print(exec_str)
+
+    exec(exec_str)
