@@ -83,16 +83,3 @@ def root(openscad_obj: OpenSCADObject) -> OpenSCADObject:
 def disable(openscad_obj: OpenSCADObject) -> OpenSCADObject:
     return openscad_obj.disable()
 
-#add modifier convenience methods to cascading OpenSCADObject operations
-for name in ["debug", "root", "background", "disable"]:
-    exec_str = f""\
-               f"def {name}_func(self):\n"\
-               f"   return {name}(self)\n"\
-               f"\n"\
-               f"OpenSCADObject.{name} = {name}_func\n"
-
-    #uncomment to debug this
-    #print(f"================")
-    #print(exec_str)
-
-    exec(exec_str)
