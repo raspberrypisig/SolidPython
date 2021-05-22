@@ -6,7 +6,7 @@ import keyword
 
 from typing import Dict, Optional, List, Union, Sequence, Iterable
 
-from .helpers import unsubbed_keyword, indent
+from .helpers import unsubbed_keyword, indent, resolve_scad_filename
 
 # These are features added to SolidPython but NOT in OpenSCAD.
 # Mark them for special treatment
@@ -251,7 +251,7 @@ class IncludedOpenSCADObject(OpenSCADObject):
     """
 
     def __init__(self, name, params, include_file_path, use_not_include=False, **kwargs):
-        self.include_file_path = self._get_include_path(include_file_path)
+        self.include_file_path = resolve_scad_filename(include_file_path)
 
         use_str = 'use' if use_not_include else 'include'
         self.include_string = f'{use_str} <{self.include_file_path}>\n'
@@ -262,20 +262,6 @@ class IncludedOpenSCADObject(OpenSCADObject):
             params.update(kwargs)
 
         OpenSCADObject.__init__(self, name, params)
-
-    def _get_include_path(self, include_file_path):
-        # Look through sys.path for anyplace we can find a valid file ending
-        # in include_file_path.  Return that absolute path
-        if os.path.isabs(include_file_path) and os.path.isfile(include_file_path):
-            return include_file_path
-        else:
-            for p in sys.path:
-                whole_path = os.path.join(p, include_file_path)
-                if os.path.isfile(whole_path):
-                    return os.path.abspath(whole_path)
-
-        # No loadable SCAD file was found in sys.path.  Raise an error
-        raise ValueError(f"Unable to find included SCAD file: {include_file_path} in sys.path")
 
 def py2openscad(o: Union[bool, float, str, Iterable]) -> str:
     if type(o) == bool:

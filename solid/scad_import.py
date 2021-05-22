@@ -3,7 +3,7 @@ from types import SimpleNamespace
 from pathlib import Path
 PathStr = Union[Path, str]
 
-from .helpers import subbed_keyword, calling_module
+from .helpers import subbed_keyword, calling_module, resolve_scad_filename
 
 # ===========
 # = Parsing =
@@ -90,22 +90,36 @@ def new_openscad_class_str(class_name: str,
 # ===========================
 # = IMPORTING OPENSCAD CODE =
 # ===========================
+module_cache_by_name = {}
+module_cache_by_resolved_filename = {}
+
 def import_scad(scad_file_or_dir: PathStr) -> SimpleNamespace:
     '''
     Recursively look in current directory & OpenSCAD library directories for
         OpenSCAD files. Create Python mappings for all OpenSCAD modules & functions
     Return a namespace or raise ValueError if no scad files found
     '''
-    scad = Path(scad_file_or_dir)
-    candidates: List[Path] = [scad]
-    if not scad.is_absolute():
-        candidates = [d/scad for d in _openscad_library_paths()]
+    global module_cache_by_name, module_cache_by_resolved_filename
 
-    for candidate_path in candidates:
-        namespace = _import_scad(candidate_path)
-        if namespace is not None:
-            return namespace
-    raise ValueError(f'Could not find .scad files at or under {scad}. \nLocations searched were: {candidates}')
+    if scad_file_or_dir in module_cache_by_name.keys():
+        return module_cache_by_name[scad_file_or_dir]
+
+    resolved_scad = resolve_scad_filename(scad_file_or_dir)
+
+    if resolved_scad in module_cache_by_resolved_filename.keys():
+        return module_cache_by_resolved_filename[resolved_scad]
+
+    if not resolved_scad:
+        raise ValueError(f'Could not find .scad files at or under {scad_file_or_dir}.')
+
+    namespace = _import_scad(resolved_scad)
+
+    if not namespace:
+        raise ValueError(f'Could not import .scad file {resolved_scad.as_posix()}.')
+
+    module_cache_by_name[scad_file_or_dir] = namespace
+    module_cache_by_resolved_filename[resolved_scad] = namespace
+    return namespace
 
 def _import_scad(scad: Path) -> Optional[SimpleNamespace]:
     '''
@@ -129,47 +143,10 @@ def _import_scad(scad: Path) -> Optional[SimpleNamespace]:
                 if namespace is None:
                     namespace = SimpleNamespace()
                 # Add a subspace to namespace named by the file/dir it represents
-                setattr(namespace, f.stem, subspace)
+                setattr(namespace, subbed_keyword(f.stem), subspace)
 
     return namespace
    
-def _openscad_library_paths() -> List[Path]:
-    """
-    Return system-dependent OpenSCAD library paths or paths defined in os.environ['OPENSCADPATH']
-    """
-    import platform
-    import os
-    import re
-
-    paths = [Path('.')]
-
-    user_path = os.environ.get('OPENSCADPATH')
-    if user_path:
-        for s in re.split(r'\s*[;:]\s*', user_path):
-            paths.append(Path(s))
-
-    default_paths = {
-        'Linux':   Path.home() / '.local/share/OpenSCAD/libraries',
-        'Darwin':  Path.home() / 'Documents/OpenSCAD/libraries',
-        'Windows': Path('My Documents\OpenSCAD\libraries')
-    }
-
-    paths.append(default_paths[platform.system()])
-    return paths
-
-def _find_library(library_name: PathStr) -> Path:
-    result = Path(library_name)
-
-    if not result.is_absolute():
-        paths = _openscad_library_paths()
-        for p in paths:
-            f = p / result
-            # print(f'Checking {f} -> {f.exists()}')
-            if f.exists():
-                result = f
-
-    return result
- 
 # use() & include() mimic OpenSCAD's use/include mechanics.
 # -- use() makes methods in scad_file_path.scad available to be called.
 # --include() makes those methods available AND executes all code in
@@ -180,7 +157,7 @@ def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace_di
     Opens scad_file_path, parses it for all usable calls,
     and adds them to caller's namespace.
     """
-    scad_file_path = _find_library(scad_file_path) 
+    scad_file_path = resolve_scad_filename(scad_file_path)
 
     symbols_dicts = parse_scad_callables(scad_file_path)
 

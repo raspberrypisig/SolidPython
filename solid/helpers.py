@@ -1,7 +1,9 @@
 import inspect
 import keyword
+from pathlib import Path
 
 from types import ModuleType
+from typing import List
 
 def indent(s: str) -> str:
     return s.replace("\n", "\n\t")
@@ -61,4 +63,39 @@ def unsubbed_keyword(identifier: str) -> str:
         return identifier[1:]
 
     return identifier
+
+def resolve_scad_filename(scad_file):
+    scad_path = Path(scad_file)
+    if scad_path.is_absolute():
+        return scad_path
+
+    for p in openscad_library_paths():
+        if (p / scad_path).exists():
+            return p / scad_path
+
+    return None
+
+def openscad_library_paths() -> List[Path]:
+    """
+    Return system-dependent OpenSCAD library paths or paths defined in os.environ['OPENSCADPATH']
+    """
+    import platform
+    import os
+    import re
+
+    paths = [Path('.')]
+
+    user_path = os.environ.get('OPENSCADPATH')
+    if user_path:
+        for s in re.split(r'\s*[;:]\s*', user_path):
+            paths.append(Path(s))
+
+    default_paths = {
+        'Linux':   Path.home() / '.local/share/OpenSCAD/libraries',
+        'Darwin':  Path.home() / 'Documents/OpenSCAD/libraries',
+        'Windows': Path('My Documents\OpenSCAD\libraries')
+    }
+
+    paths.append(default_paths[platform.system()])
+    return paths
 
