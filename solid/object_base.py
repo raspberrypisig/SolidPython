@@ -248,33 +248,6 @@ class OpenSCADObject:
         self.modifier = "*"
         return self
 
-    def _repr_png_(self) -> Optional[bytes]:
-        """
-        Allow rich clients such as the IPython Notebook, to display the current
-        OpenSCAD rendering of this object.
-        """
-        png_data = None
-        tmp = tempfile.NamedTemporaryFile(suffix=".scad", delete=False)
-        tmp_png = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
-        try:
-            scad_text = scad_render(self).encode("utf-8")
-            tmp.write(scad_text)
-            tmp.close()
-            tmp_png.close()
-            subprocess.Popen([
-                "openscad",
-                "--preview",
-                "-o", tmp_png.name,
-                tmp.name
-            ]).communicate()
-
-            with open(tmp_png.name, "rb") as png:
-                png_data = png.read()
-        finally:
-            os.unlink(tmp.name)
-            os.unlink(tmp_png.name)
-
-        return png_data
 
 class IncludedOpenSCADObject(OpenSCADObject):
     """
