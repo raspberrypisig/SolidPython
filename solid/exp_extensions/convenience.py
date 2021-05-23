@@ -1,4 +1,5 @@
-from ..objects import *
+from ..builtins import translate
+from ..object_base import OpenSCADObject
 
 def down(self, x):
     return translate([0, 0, -x])(self)
