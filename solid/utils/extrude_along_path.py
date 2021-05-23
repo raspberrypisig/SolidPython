@@ -5,7 +5,7 @@ from euclid3 import Point2, Point3, Vector2, Vector3
 from typing import Dict, Optional, Sequence, Tuple, Union, List, Callable
 
 from solid import OpenSCADObject, Points, Indexes, ScadSize, polyhedron
-from solid.extensions.utils import euclidify, euc_to_arr, transform_to_point, centroid
+from .utils import euclidify, euc_to_arr, transform_to_point, centroid
 
 Tuple2 = Tuple[float, float]
 FacetIndices = Tuple[int, int, int]

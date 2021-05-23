@@ -5,8 +5,8 @@ from typing import Sequence, Tuple, Union
 from euclid3 import Point3, Vector3
 
 from solid import scad_render_to_file
-from solid.open_scad_builtins import cylinder, polyhedron, render
-from solid.extensions.utils import EPSILON, UP_VEC, bounding_box, radians
+from solid.builtins import cylinder, polyhedron, render
+from .utils import EPSILON, UP_VEC, bounding_box, radians
 
 # NOTE: The PyEuclid on PyPi doesn't include several elements added to
 # the module as of 13 Feb 2013.  Add them here until euclid supports them
