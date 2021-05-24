@@ -116,7 +116,7 @@ def create_openscad_wrapper_from_symbols(name,
 module_cache_by_name = {}
 module_cache_by_resolved_filename = {}
 
-def import_scad(scad_file_or_dir: PathStr) -> SimpleNamespace:
+def import_scad(scad_file_or_dir: PathStr, dest_namespace = None) -> SimpleNamespace:
     '''
     Recursively look in current directory & OpenSCAD library directories for
         OpenSCAD files. Create Python mappings for all OpenSCAD modules & functions
@@ -135,7 +135,7 @@ def import_scad(scad_file_or_dir: PathStr) -> SimpleNamespace:
     if not resolved_scad:
         raise ValueError(f'Could not find .scad files at or under {scad_file_or_dir}.')
 
-    namespace = _import_scad(resolved_scad)
+    namespace = _import_scad(resolved_scad, dest_namespace)
 
     if not namespace:
         raise ValueError(f'Could not import .scad file {resolved_scad.as_posix()}.')
@@ -144,7 +144,7 @@ def import_scad(scad_file_or_dir: PathStr) -> SimpleNamespace:
     module_cache_by_resolved_filename[resolved_scad] = namespace
     return namespace
 
-def _import_scad(scad: Path) -> Optional[SimpleNamespace]:
+def _import_scad(scad: Path, dest_namespace=None) -> Optional[SimpleNamespace]:
     '''
     cases:
         single scad file:
@@ -158,14 +158,14 @@ def _import_scad(scad: Path) -> Optional[SimpleNamespace]:
     if not scad.exists():
         return None
 
+    if dest_namespace == None:
+        dest_namespace = SimpleNamespace()
     if scad.is_file():
-        namespace = SimpleNamespace()
-        use(scad.absolute(), dest_namespace_dict=namespace.__dict__)
-        return namespace
+        use(scad.absolute(), dest_namespace_dict=dest_namespace.__dict__)
+        return dest_namespace
 
     assert(scad.is_dir())
 
-    namespace = SimpleNamespace()
     for f in scad.iterdir():
         #skip non .scad files
         if f.suffix != ".scad":
@@ -175,9 +175,9 @@ def _import_scad(scad: Path) -> Optional[SimpleNamespace]:
         subspace = _import_scad(f)
         if subspace:
             identifier = escpape_openscad_identifier(f.stem)
-            setattr(namespace, identifier, subspace)
+            setattr(dest_namespace, identifier, subspace)
 
-    return namespace
+    return dest_namespace
 
     assert(False)
 
