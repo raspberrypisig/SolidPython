@@ -244,9 +244,9 @@ def p_error(p):
 
 def parseFile(scadFile):
 
-    lexer = lex.lex()
+    lexer = lex.lex(debug=False)
     lexer.filename = scadFile
-    parser = yacc.yacc()
+    parser = yacc.yacc(debug=False)
 
     uses = []
     includes = []
