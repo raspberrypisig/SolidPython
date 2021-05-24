@@ -2,7 +2,7 @@
 import sys
 
 from solid import scad_render_to_file
-from solid.objects import cube, cylinder, difference, translate, union
+from solid.builtins import cube, cylinder, difference, translate, union
 from solid.utils import right
 
 SEGMENTS = 48
