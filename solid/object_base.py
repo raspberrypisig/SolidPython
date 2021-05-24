@@ -6,12 +6,7 @@ import keyword
 
 from typing import Dict, Optional, List, Union, Sequence, Iterable
 
-from .helpers import unsubbed_keyword, indent, resolve_scad_filename
-
-# These are features added to SolidPython but NOT in OpenSCAD.
-# Mark them for special treatment
-
-non_rendered_classes = ['hole', 'part']
+from .helpers import indent, resolve_scad_filename, unescape_openscad_identifier
 
 class OpenSCADObject:
 
@@ -59,15 +54,14 @@ class OpenSCADObject:
         return s
 
     def _render_str_no_children(self) -> str:
-        callable_name = unsubbed_keyword(self.name)
+        callable_name = unescape_openscad_identifier(self.name)
         s = "\n" + self.modifier + callable_name + "("
-        first = True
 
         # Re: https://github.com/SolidCode/SolidPython/issues/99
         # OpenSCAD will accept Python reserved words as callables or argument names,
         # but they won't compile in Python. Those have already been substituted
         # out (e.g 'or' => 'or_'). Sub them back here.
-        self.params = {unsubbed_keyword(k): v for k, v in self.params.items()}
+        self.params = {unescape_openscad_identifier(k): v for k, v in self.params.items()}
 
         # OpenSCAD doesn't have a 'segments' argument, but it does
         # have '$fn'.  Swap one for the other
@@ -86,6 +80,7 @@ class OpenSCADObject:
         if all_params_sorted:
             all_params_sorted = sorted(all_params_sorted)
 
+        first = True
         for k in all_params_sorted:
             v = self.params[k]
             if v is None:
@@ -256,16 +251,14 @@ class IncludedOpenSCADObject(OpenSCADObject):
     to the scad file it's included from.
     """
 
-    def __init__(self, name, params, include_file_path, use_not_include=False, **kwargs):
-        self.include_file_path = resolve_scad_filename(include_file_path)
+    def __init__(self, name, params, include_file_path, use_not_include=False):
 
-        use_str = 'use' if use_not_include else 'include'
-        self.include_string = f'{use_str} <{self.include_file_path}>\n'
-
-        # Just pass any extra arguments straight on to OpenSCAD; it'll accept
-        # them
-        if kwargs:
-            params.update(kwargs)
+        if include_file_path:
+            self.include_file_path = resolve_scad_filename(include_file_path)
+            use_str = 'use' if use_not_include else 'include'
+            self.include_string = f'{use_str} <{self.include_file_path}>\n'
+        else:
+            self.include_string = ''
 
         OpenSCADObject.__init__(self, name, params)
 

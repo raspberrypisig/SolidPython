@@ -2,7 +2,7 @@ from typing import Tuple, Union, Sequence
 from pathlib import Path
 
 from .object_base import OpenSCADObject, IncludedOpenSCADObject
-from .helpers import subbed_keyword
+from .helpers import escpape_openscad_identifier
 from .exp_extensions.part_hole import part, hole
 
 #base data types -> why do we need them? What happened to the good ol' duck typing?
@@ -52,21 +52,26 @@ builtins_symbols = use(OPENSCAD_BUILTINS_FILE, builtins=True)
     I really like this style and I don't see any reason why SolidPython should
     not support it. Are there any?
 """
-for s in builtins_symbols:
-    #add builtins to cascading OpenSCADObject operations
-    name = subbed_keyword(s["name"])
+def add_to_openSCADObject(name):
+    def wrapper(self, *args, **kwargs):
+        #retrieve the builtin from the local namespace
+        builtin = globals()[name]
+        #and return an instance of it with self as child
+        return builtin(*args, **kwargs)(self)
 
-    exec_str = f""\
-               f"def {name}_func(self, *args, **kwargs):\n"\
-               f"   return {name}(*args, **kwargs)(self)\n"\
-               f"\n"\
-               f"OpenSCADObject.{name} = {name}_func\n"
+    #set OpenSCADObject.{name} = wrapper
+    #this means for example solidpython code like
+    #   c.translate(...)
+    #       will call the wrapper and will retrieve an instance of an translate
+    #       node wrapped around c
+    setattr(OpenSCADObject, name, wrapper)
 
-    #uncomment to debug this
-    #print(f"================")
-    #print(exec_str)
+cascading_builtins = ("union difference intersection intersection_for translate " +\
+                      "scale rotate mirror resize color offset hull render " +\
+                      "linear_extrude rotate_extrude projection surface").split(" ")
 
-    exec(exec_str)
+for b in cascading_builtins:
+    add_to_openSCADObject(escpape_openscad_identifier(b))
 
 # ================================
 # = Modifier Convenience Methods =

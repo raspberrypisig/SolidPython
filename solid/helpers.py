@@ -30,7 +30,7 @@ def calling_module(stack_depth: int = 2) -> ModuleType:
         import __main__ as calling_mod  # type: ignore
     return calling_mod
 
-def subbed_keyword(identifier: str) -> str:
+def escpape_openscad_identifier(identifier: str) -> str:
     """
     Append an underscore to any python reserved word.
     Prepend an underscore to any OpenSCAD identifier starting with a digit.
@@ -50,7 +50,7 @@ def subbed_keyword(identifier: str) -> str:
               f"can be accessed with `{new_identifier}` in SolidPython\n")
     return new_identifier
 
-def unsubbed_keyword(identifier: str) -> str:
+def unescape_openscad_identifier(identifier: str) -> str:
     """
     Remove trailing underscore for already-subbed python reserved words.
     Remove prepending underscore if remaining identifier starts with a digit.
