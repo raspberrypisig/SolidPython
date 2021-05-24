@@ -155,6 +155,9 @@ def _import_scad(scad: Path) -> Optional[SimpleNamespace]:
         non-scad file:
             return None            
     '''
+    if not scad.exists():
+        return None
+
     if scad.is_file():
         namespace = SimpleNamespace()
         use(scad.absolute(), dest_namespace_dict=namespace.__dict__)
