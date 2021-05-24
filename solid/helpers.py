@@ -90,6 +90,7 @@ def openscad_library_paths() -> List[Path]:
         for s in re.split(r'\s*[;:]\s*', user_path):
             paths.append(Path(s))
 
+    #user wide path
     default_paths = {
         'Linux':   Path.home() / '.local/share/OpenSCAD/libraries',
         'Darwin':  Path.home() / 'Documents/OpenSCAD/libraries',
@@ -97,5 +98,11 @@ def openscad_library_paths() -> List[Path]:
     }
 
     paths.append(default_paths[platform.system()])
+
+    #system wide paths
+    if platform.system() == 'Linux':
+        #sorry, but I've no clue what the paths are on other operating systems
+        paths.append("/usr/share/openscad/libraries")
+
     return paths
 
