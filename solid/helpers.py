@@ -36,19 +36,19 @@ def escpape_openscad_identifier(identifier: str) -> str:
     Prepend an underscore to any OpenSCAD identifier starting with a digit.
     No-op for all other strings, e.g. 'or' => 'or_', 'other' => 'other'
     """
-    new_identifier = identifier
-
     if identifier in keyword.kwlist:
-        new_identifier = identifier + "_"
+        return identifier + "_"
 
-    if identifier[0].isdigit():
-        new_identifier = "_" + identifier
+    elif identifier[0].isdigit():
+        return "_" + identifier
 
-    if new_identifier != identifier:
-        print(f"\nFound OpenSCAD code that's not compatible with Python. \n"
-              f"Imported OpenSCAD code using `{identifier}` \n"
-              f"can be accessed with `{new_identifier}` in SolidPython\n")
-    return new_identifier
+    elif identifier == "$fn":
+        return "segments"
+
+    elif identifier[0] == "$":
+        return "__" + identifier[1:]
+
+    return identifier
 
 def unescape_openscad_identifier(identifier: str) -> str:
     """
@@ -61,6 +61,9 @@ def unescape_openscad_identifier(identifier: str) -> str:
 
     if identifier.startswith("_") and identifier[1].isdigit():
         return identifier[1:]
+
+    if identifier == "segments":
+        return "$fn"
 
     return identifier
 
