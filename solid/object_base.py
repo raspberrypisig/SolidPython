@@ -243,6 +243,8 @@ class OpenSCADObject:
         self.modifier = "*"
         return self
 
+    def __invert__(self):
+        return self.debug()
 
 class IncludedOpenSCADObject(OpenSCADObject):
     """
