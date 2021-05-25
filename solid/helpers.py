@@ -59,6 +59,9 @@ def unescape_openscad_identifier(identifier: str) -> str:
     if identifier.endswith("_") and identifier[:-1] in keyword.kwlist:
         return identifier[:-1]
 
+    if identifier.startswith("__"):
+        return "$" + identifier[2:]
+
     if identifier.startswith("_") and identifier[1].isdigit():
         return identifier[1:]
 
