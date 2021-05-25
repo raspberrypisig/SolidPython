@@ -10,7 +10,7 @@ from .object_base import OpenSCADObject, IncludedOpenSCADObject
 # = Parsing =
 # ===========
 def parse_scad_callables(filename: str) -> List[dict]:
-    from .py_scadparser import scad_parser
+    from .libs.py_scadparser import scad_parser
 
     modules, functions, _ = scad_parser.parseFile(filename)
 
