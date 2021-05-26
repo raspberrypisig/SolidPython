@@ -8,7 +8,7 @@ from types import ModuleType
 
 from .object_base import OpenSCADObject, IncludedOpenSCADObject
 from .helpers import calling_module, indent
-from .exp_extensions.extension_base import default_extension_manager
+from .extensions.extension_base import default_extension_manager
 
 PathStr = Union[Path, str]
 AnimFunc = Callable[[Optional[float]], 'OpenSCADObject']

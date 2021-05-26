@@ -20,8 +20,7 @@ from .builtins import P2, P3, P4,\
                       ScadSize,\
                       OpenSCADObjectPlus
 
-from .exp_extensions.convenience import *
-from .exp_extensions.repr_png import __nothing__
+from .extensions.convenience import *
 
 #why is / was this included here and not in solid.utils?
 #from .extensions.patch_euclid import run_euclid_patch

@@ -6,13 +6,10 @@ sys.path.append(solidPath)
 
 from solid.builtins import *
 from solid import scad_render_to_file
-from solid.exp_extensions.solid_functions import *
 
-@scad_module()
 def second_func():
     return color("GREEN")(translate([0, -20, 0])(cube([10, 10, 10])))
 
-@scad_module()
 def demo_builtins():
     sp = debug(color("RED")(rotate(v=[0, 0, 90], a=1)(sphere(10))))
     cu = second_func()
