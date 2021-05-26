@@ -210,11 +210,11 @@ def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace_di
                                                  scad_file_path if not builtins else None,
                                                  use_not_include)
         #add it to the dest_namespace
-        dest_namespace_dict[sd["name"]] = c
+        dest_namespace_dict[escpape_openscad_identifier(sd["name"])] = c
 
     #return the symbols (they are used to add the builtins as OpenSCADObject functions, see builtins.py)
     return symbols_dicts
 
 def include(scad_file_path: PathStr) -> bool:
-    return use(scad_file_path, use_not_include=False, dest_namespace_dict = calling_module(3).__dict__)
+    return use(scad_file_path, use_not_include=False, dest_namespace_dict = calling_module(2).__dict__)
 
