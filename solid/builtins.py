@@ -1,26 +1,8 @@
-from typing import Tuple, Union, Sequence
 from pathlib import Path
 
-from .object_base import OpenSCADObject, IncludedOpenSCADObject
+from .object_base import OpenSCADObject
 from .helpers import escpape_openscad_identifier
 from .scad_import import use
-
-#base data types -> why do we need them? What happened to the good ol' duck typing?
-P2 = Tuple[float, float]
-P3 = Tuple[float, float, float]
-P4 = Tuple[float, float, float, float]
-Vec3 = P3
-Vec4 = P4
-Vec34 = Union[Vec3, Vec4]
-P3s = Sequence[P3]
-P23 = Union[P2, P3]
-Points = Sequence[P23]
-Indexes = Union[Sequence[int], Sequence[Sequence[int]]]
-ScadSize = Union[int, Sequence[float]]
-
-#do we need this??? or is this some old unused stuff?
-#Is it used in the public interface? git grep says it's unused internally -jeff
-OpenSCADObjectPlus = Union[OpenSCADObject, Sequence[OpenSCADObject]]
 
 # ====================
 # = dynamic builtins =
@@ -70,19 +52,4 @@ cascading_builtins = ("union difference intersection intersection_for translate 
 
 for b in cascading_builtins:
     add_to_openSCADObject(escpape_openscad_identifier(b))
-
-# ================================
-# = Modifier Convenience Methods =
-# ================================
-def debug(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.debug()
-
-def background(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.background()
-
-def root(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.root()
-
-def disable(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.disable()
 

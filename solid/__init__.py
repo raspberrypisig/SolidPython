@@ -12,14 +12,6 @@ from .object_base import OpenSCADObject,\
 from .builtins import *
 from .scad_import import import_scad, use
 
-# Type hints
-from .builtins import P2, P3, P4,\
-                      Vec3, Vec4, Vec34,\
-                      P3s, P23,\
-                      Points, Indexes,\
-                      ScadSize,\
-                      OpenSCADObjectPlus
-
 from .extensions.convenience import *
 
 #why is / was this included here and not in solid.utils?
