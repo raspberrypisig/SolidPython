@@ -3,6 +3,7 @@ from pathlib import Path
 
 from .object_base import OpenSCADObject, IncludedOpenSCADObject
 from .helpers import escpape_openscad_identifier
+from .scad_import import use
 
 #base data types -> why do we need them? What happened to the good ol' duck typing?
 P2 = Tuple[float, float]
@@ -35,7 +36,6 @@ OpenSCADObjectPlus = Union[OpenSCADObject, Sequence[OpenSCADObject]]
 """
 OPENSCAD_BUILTINS_FILE = Path(__file__).absolute().parent / "builtins.openscad"
 
-from .scad_import import use
 builtins_symbols = use(OPENSCAD_BUILTINS_FILE, builtins=True)
 
 # ========================
