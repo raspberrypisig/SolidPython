@@ -71,8 +71,7 @@ def m3_12():
 
 @bom_part("M3 Nut", 0.04, currency="R$")
 def m3_nut():
-    hx = cylinder(r=nut_rad, h=nut_height)
-    hx.add_param('$fn', 6)  # make the nut hexagonal
+    hx = cylinder(r=nut_rad, h=nut_height, segments=6)
     n = difference()(
             hx,
             translate((0, 0, -EPSILON))(

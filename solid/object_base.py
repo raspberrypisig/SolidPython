@@ -1,10 +1,5 @@
-import tempfile
-import sys
-import os
-import subprocess
-import keyword
-
-from typing import Dict, Optional, List, Union, Sequence, Iterable
+from copy import deepcopy
+from typing import Optional, List, Union, Sequence, Iterable
 
 from .helpers import indent, resolve_scad_filename, unescape_openscad_identifier
 
@@ -15,7 +10,6 @@ class OpenSCADObject:
         self.params = params
         self.children: List["OpenSCADObject"] = []
         self.modifier = ""
-        self.parent: Optional["OpenSCADObject"] = None
 
     def set_modifier(self, m: str) -> "OpenSCADObject":
         """
@@ -40,60 +34,36 @@ class OpenSCADObject:
         you really want scad_render(), 
         Calling obj._render won't include necessary 'use' or 'include' statements
         """
-        s = ""
-
-        # First, render all children
-        for child in self.children:
-            s += child._render()
+        s = self._render_str_no_children()
 
         if not self.children:
-            s = self._render_str_no_children() + ";"
-        else:
-            s = self._render_str_no_children() + " {" + indent(s) + "\n}"
+            return s + ";"
 
-        return s
+        s += " {"
+
+        for child in self.children:
+            s += indent(child._render())
+
+        return s + "\n}"
 
     def _render_str_no_children(self) -> str:
-        callable_name = unescape_openscad_identifier(self.name)
-        s = "\n" + self.modifier + callable_name + "("
+        s = "\n" + self.modifier + unescape_openscad_identifier(self.name) + "("
 
-        # Re: https://github.com/SolidCode/SolidPython/issues/99
-        # OpenSCAD will accept Python reserved words as callables or argument names,
-        # but they won't compile in Python. Those have already been substituted
-        # out (e.g 'or' => 'or_'). Sub them back here.
-        self.params = {unescape_openscad_identifier(k): v for k, v in self.params.items()}
-
-        # OpenSCAD doesn't have a 'segments' argument, but it does
-        # have '$fn'.  Swap one for the other
-        if 'segments' in self.params:
-            self.params['$fn'] = self.params.pop('segments')
-
-        valid_keys = self.params.keys()
-
-        # intkeys are the positional parameters
-        intkeys = list(filter(lambda x: type(x) == int, valid_keys))
-        intkeys.sort()
-
-        # named parameters
-        nonintkeys = list(filter(lambda x: not type(x) == int, valid_keys))
-        all_params_sorted = intkeys + nonintkeys
-        if all_params_sorted:
-            all_params_sorted = sorted(all_params_sorted)
-
-        first = True
-        for k in all_params_sorted:
-            v = self.params[k]
+        parameter_count = 0
+        for p in sorted(self.params.keys()):
+            v = self.params[p]
             if v is None:
                 continue
 
-            if not first:
-                s += ", "
-            first = False
+            parameter_count += 1
 
-            if type(k) == int:
-                s += py2openscad(v)
-            else:
-                s += k + " = " + py2openscad(v)
+            vv = py2openscad(v)
+            up = unescape_openscad_identifier(p)
+            s += f'{up} = {vv}, '
+
+        #remove trailing ,
+        if parameter_count:
+            s = s[:-2]
 
         s += ")"
         return s
@@ -106,50 +76,22 @@ class OpenSCADObject:
         if child is a list, assume its members are all OpenSCADObjects and
         add them all to self.children
         """
-        if isinstance(child, (list, tuple)):
-            # __call__ passes us a list inside a tuple, but we only care
-            # about the list, so skip single-member tuples containing lists
-            if len(child) == 1 and isinstance(child[0], (list, tuple)):
-                child = child[0]
-            [self.add(c) for c in child]
-        elif isinstance(child, int):
-            # Allowing for creating object by adding to 0 (as in sum())
+        # Allowing for creating object by adding to 0 (as in sum())
+        # why do we need this? --jeff
+        if isinstance(child, int):
             if child != 0:
                 raise ValueError
+            return self
+
+        if isinstance(child, list):
+            self.children += child
         else:
-            self.children.append(child)  # type: ignore
-            child.set_parent(self)  # type: ignore
-        return self
+            self.children += [child]
 
-    def set_parent(self, parent: "OpenSCADObject"):
-        self.parent = parent
-
-    def add_param(self, k: str, v: float) -> "OpenSCADObject":
-        if k == '$fn':
-            k = 'segments'
-        self.params[k] = v
         return self
 
     def copy(self) -> "OpenSCADObject":
-        """
-        Provides a copy of this object and all children,
-        but doesn't copy self.parent, meaning the new object belongs
-        to a different tree
-        Initialize an instance of this class with the same params
-        that created self, the object being copied.
-        """
-
-        # Python can't handle an '$fn' argument, while openSCAD only wants
-        # '$fn'.  Swap back and forth as needed; the final renderer will
-        # sort this out.
-        if '$fn' in self.params:
-            self.params['segments'] = self.params.pop('$fn')
-
-        other = type(self)(**self.params)
-        other.modifier = self.modifier
-        for c in self.children:
-            other.add(c.copy())
-        return other
+        return deepcopy(self)
 
     def __call__(self, *args: "OpenSCADObject") -> "OpenSCADObject":
         """
@@ -160,7 +102,7 @@ class OpenSCADObject:
             sphere()
         )
         """
-        return self.add(args)
+        return self.add(list(args))
 
     def __add__(self, x: "OpenSCADObject") -> "OpenSCADObject":
         """
@@ -169,12 +111,15 @@ class OpenSCADObject:
         """
         from .builtins import union
         res = union()
+
+        #add self or all its children to res
         if isinstance(self, union) and not len(self.modifier):
             for c in self.children:
                 res.add(c)
         else:
             res.add(self)
 
+        #add x or all its children to res
         if isinstance(x, union) and not len(x.modifier):
             for c in x.children:
                 res.add(c)
@@ -200,7 +145,6 @@ class OpenSCADObject:
                 res.add(c)
         else:
             res.add(self)
-
 
         res.add(x)
         return res
