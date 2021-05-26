@@ -4,29 +4,32 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from solid.objects import background, circle, cube, cylinder, debug, disable
-from solid.objects import hole, import_scad, include, part, root, rotate, sphere
-from solid.objects import square, translate, use, color, difference, hull
-from solid.objects import import_, intersection, intersection_for, linear_extrude, import_dxf
-from solid.objects import import_stl, minkowski, mirror, multmatrix, offset, polygon
-from solid.objects import polyhedron, projection, render, resize, rotate_extrude
-from solid.objects import scale, surface, union
+from solid.builtins import background, circle, cube, cylinder, debug, disable
+from solid.builtins import root, rotate, sphere
+from solid.builtins import square, translate, color, difference, hull
+from solid.builtins import import_, intersection, intersection_for, linear_extrude, import_dxf
+from solid.builtins import import_stl, minkowski, mirror, multmatrix, offset, polygon
+from solid.builtins import polyhedron, projection, render, resize, rotate_extrude
+from solid.builtins import scale, surface, union
 
-from solid.solidpython import scad_render, scad_render_animated_file, scad_render_to_file
+from solid.helpers import resolve_scad_filename
+from solid.scad_import import import_scad, include, use
+
+from solid.scad_render import scad_render, scad_render_animated_file, scad_render_to_file
 from solid.test.ExpandedTestCase import DiffOutput
 
 scad_test_case_templates = [
-    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {'paths': [[0, 1, 2]]}, 'expected': '\n\npolygon(paths = [[0, 1, 2]], points = [[0, 0], [1, 0], [0, 1]]);', 'args': {'points': [[0, 0, 0], [1, 0, 0], [0, 1, 0]]}, },
-    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {}, 'expected': '\n\npolygon(points = [[0, 0], [1, 0], [0, 1]]);', 'args': {'points': [[0, 0, 0], [1, 0, 0], [0, 1, 0]]}, },
-    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {}, 'expected': '\n\npolygon(convexity = 3, points = [[0, 0], [1, 0], [0, 1]]);', 'args': {'points': [[0, 0, 0], [1, 0, 0], [0, 1, 0]], 'convexity': 3}, },
-    {'name': 'circle', 'class': 'circle' , 'kwargs': {'segments': 12, 'r': 1}, 'expected': '\n\ncircle($fn = 12, r = 1);', 'args': {}, },
-    {'name': 'circle_diam', 'class': 'circle' , 'kwargs': {'segments': 12, 'd': 1}, 'expected': '\n\ncircle($fn = 12, d = 1);', 'args': {}, },
+    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {'paths': [[0, 1, 2]]}, 'expected': '\n\npolygon(paths = [[0, 1, 2]], points = [[0, 0], [1, 0], [0, 1]]);', 'args': {'points': [[0, 0], [1, 0], [0, 1]]}, },
+    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {}, 'expected': '\n\npolygon(points = [[0, 0], [1, 0], [0, 1]]);', 'args': {'points': [[0, 0], [1, 0], [0, 1]]}, },
+    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {}, 'expected': '\n\npolygon(convexity = 3, points = [[0, 0], [1, 0], [0, 1]]);', 'args': {'points': [[0, 0], [1, 0], [0, 1]], 'convexity': 3}, },
+    {'name': 'circle', 'class': 'circle' , 'kwargs': {'segments': 12, 'r': 1}, 'expected': '\n\ncircle(r = 1, $fn = 12);', 'args': {}, },
+    {'name': 'circle_diam', 'class': 'circle' , 'kwargs': {'segments': 12, 'd': 1}, 'expected': '\n\ncircle(d = 1, $fn = 12);', 'args': {}, },
     {'name': 'square', 'class': 'square' , 'kwargs': {'center': False, 'size': 1}, 'expected': '\n\nsquare(center = false, size = 1);', 'args': {}, },
-    {'name': 'sphere', 'class': 'sphere' , 'kwargs': {'segments': 12, 'r': 1}, 'expected': '\n\nsphere($fn = 12, r = 1);', 'args': {}, },
-    {'name': 'sphere_diam', 'class': 'sphere' , 'kwargs': {'segments': 12, 'd': 1}, 'expected': '\n\nsphere($fn = 12, d = 1);', 'args': {}, },
+    {'name': 'sphere', 'class': 'sphere' , 'kwargs': {'segments': 12, 'r': 1}, 'expected': '\n\nsphere(r = 1, $fn = 12);', 'args': {}, },
+    {'name': 'sphere_diam', 'class': 'sphere' , 'kwargs': {'segments': 12, 'd': 1}, 'expected': '\n\nsphere(d = 1, $fn = 12);', 'args': {}, },
     {'name': 'cube', 'class': 'cube' , 'kwargs': {'center': False, 'size': 1}, 'expected': '\n\ncube(center = false, size = 1);', 'args': {}, },
-    {'name': 'cylinder', 'class': 'cylinder' , 'kwargs': {'r1': None, 'r2': None, 'h': 1, 'segments': 12, 'r': 1, 'center': False}, 'expected': '\n\ncylinder($fn = 12, center = false, h = 1, r = 1);', 'args': {}, },
-    {'name': 'cylinder_d1d2', 'class': 'cylinder' , 'kwargs': {'d1': 4, 'd2': 2, 'h': 1, 'segments': 12, 'center': False}, 'expected': '\n\ncylinder($fn = 12, center = false, d1 = 4, d2 = 2, h = 1);', 'args': {}, },
+    {'name': 'cylinder', 'class': 'cylinder' , 'kwargs': {'r1': None, 'r2': None, 'h': 1, 'segments': 12, 'r': 1, 'center': False}, 'expected': '\n\ncylinder(center = false, h = 1, r = 1, $fn = 12);', 'args': {}, },
+    {'name': 'cylinder_d1d2', 'class': 'cylinder' , 'kwargs': {'d1': 4, 'd2': 2, 'h': 1, 'segments': 12, 'center': False}, 'expected': '\n\ncylinder(center = false, d1 = 4, d2 = 2, h = 1, $fn = 12);', 'args': {}, },
     {'name': 'polyhedron', 'class': 'polyhedron' , 'kwargs': {'convexity': None}, 'expected': '\n\npolyhedron(faces = [[0, 1, 2]], points = [[0, 0, 0], [1, 0, 0], [0, 1, 0]]);', 'args': {'points': [[0, 0, 0], [1, 0, 0], [0, 1, 0]], 'faces': [[0, 1, 2]]}, },
     {'name': 'union', 'class': 'union' , 'kwargs': {}, 'expected': '\n\nunion();', 'args': {}, },
     {'name': 'intersection', 'class': 'intersection' , 'kwargs': {}, 'expected': '\n\nintersection();', 'args': {}, },
@@ -39,19 +42,19 @@ scad_test_case_templates = [
     {'name': 'multmatrix', 'class': 'multmatrix' , 'kwargs': {}, 'expected': '\n\nmultmatrix(m = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]);', 'args': {'m': [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]}, },
     {'name': 'minkowski', 'class': 'minkowski' , 'kwargs': {}, 'expected': '\n\nminkowski();', 'args': {}, },
     {'name': 'offset', 'class': 'offset' , 'kwargs': {'r': 1}, 'expected': '\n\noffset(r = 1);', 'args': {}, },
-    {'name': 'offset_segments', 'class': 'offset' , 'kwargs': {'r': 1, 'segments': 12}, 'expected': '\n\noffset($fn = 12, r = 1);', 'args': {}, },
-    {'name': 'offset_chamfer', 'class': 'offset' , 'kwargs': {'delta': 1}, 'expected': '\n\noffset(chamfer = false, delta = 1);', 'args': {}, },
+    {'name': 'offset_segments', 'class': 'offset' , 'kwargs': {'r': 1, 'segments': 12}, 'expected': '\n\noffset(r = 1, $fn = 12);', 'args': {}, },
+    {'name': 'offset_chamfer', 'class': 'offset' , 'kwargs': {'delta': 1, 'chamfer' : 'False'}, 'expected': '\n\noffset(chamfer = false, delta = 1);', 'args': {}, },
     {'name': 'offset_zero_delta', 'class': 'offset' , 'kwargs': {'r': 0}, 'expected': '\n\noffset(r = 0);', 'args': {}, },
     {'name': 'hull', 'class': 'hull' , 'kwargs': {}, 'expected': '\n\nhull();', 'args': {}, },
     {'name': 'render', 'class': 'render' , 'kwargs': {'convexity': None}, 'expected': '\n\nrender();', 'args': {}, },
     {'name': 'projection', 'class': 'projection' , 'kwargs': {'cut': None}, 'expected': '\n\nprojection();', 'args': {}, },
     {'name': 'surface', 'class': 'surface' , 'kwargs': {'center': False, 'convexity': None}, 'expected': '\n\nsurface(center = false, file = "/Path/to/dummy.dxf");', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
-    {'name': 'import_stl', 'class': 'import_stl' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': '\n\nimport(file = "/Path/to/dummy.stl", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.stl'"}, },
-    {'name': 'import_dxf', 'class': 'import_dxf' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': '\n\nimport(file = "/Path/to/dummy.dxf", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
+    {'name': 'import_stl', 'class': 'import_stl' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': '\n\nimport_stl(file = "/Path/to/dummy.stl", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.stl'"}, },
+    {'name': 'import_dxf', 'class': 'import_dxf' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': '\n\nimport_dxf(file = "/Path/to/dummy.dxf", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
     {'name': 'import_', 'class': 'import_' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': '\n\nimport(file = "/Path/to/dummy.dxf", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
     {'name': 'import__convexity', 'class': 'import_' , 'kwargs': {'layer': None, 'origin': (0, 0), 'convexity': 2}, 'expected': '\n\nimport(convexity = 2, file = "/Path/to/dummy.dxf", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
     {'name': 'linear_extrude', 'class': 'linear_extrude' , 'kwargs': {'twist': None, 'slices': None, 'center': False, 'convexity': None, 'height': 1, 'scale': 0.9}, 'expected': '\n\nlinear_extrude(center = false, height = 1, scale = 0.9000000000);', 'args': {}, },
-    {'name': 'rotate_extrude', 'class': 'rotate_extrude' , 'kwargs': {'angle': 90, 'segments': 4, 'convexity': None}, 'expected': '\n\nrotate_extrude($fn = 4, angle = 90);', 'args': {}, },
+    {'name': 'rotate_extrude', 'class': 'rotate_extrude' , 'kwargs': {'angle': 90, 'segments': 4, 'convexity': None}, 'expected': '\n\nrotate_extrude(angle = 90, $fn = 4);', 'args': {}, },
     {'name': 'intersection_for', 'class': 'intersection_for' , 'kwargs': {}, 'expected': '\n\nintersection_for(n = [0, 1, 2]);', 'args': {'n': [0, 1, 2]}, },
 ]
 
@@ -183,7 +186,7 @@ class TestSolidPython(DiffOutput):
             {'name': 'var_with_conditional_assignment', 'args': [], 'kwargs': ['var_with_conditional_assignment']}
         ]
 
-        from solid.solidpython import parse_scad_callables
+        from solid.scad_import import parse_scad_callables
         actual = parse_scad_callables(scad_file)
 
         for e in expected:
@@ -198,7 +201,7 @@ class TestSolidPython(DiffOutput):
         a = steps(3) # type: ignore
         actual = scad_render(a)
 
-        abs_path = a._get_include_path(include_file)
+        abs_path = resolve_scad_filename(include_file)
         expected = f"use <{abs_path}>\n\n\nsteps(howmany = 3);"
         self.assertEqual(expected, actual)
 
@@ -208,7 +211,7 @@ class TestSolidPython(DiffOutput):
         a = mod.steps(3)
         actual = scad_render(a)
 
-        abs_path = a._get_include_path(include_file)
+        abs_path = resolve_scad_filename(include_file)
         expected = f"use <{abs_path}>\n\n\nsteps(howmany = 3);"
         self.assertEqual(expected, actual)
 
@@ -244,7 +247,7 @@ class TestSolidPython(DiffOutput):
         points = mod.scad_points();
         poly = polygon(points);
         actual = scad_render(poly);
-        abs_path = points._get_include_path(include_file)
+        abs_path = resolve_scad_filename(include_file)
         expected = f'use <{abs_path}>\n\n\npolygon(points = scad_points());'
         self.assertEqual(expected, actual)
 
@@ -277,19 +280,21 @@ class TestSolidPython(DiffOutput):
         a = steps(3) # type: ignore
 
         actual = scad_render(a)
-        abs_path = a._get_include_path(include_file)
+        abs_path = resolve_scad_filename(include_file)
         expected = f"include <{abs_path}>\n\n\nsteps(howmany = 3);"
         self.assertEqual(expected, actual)
 
+    """
     def test_extra_args_to_included_scad(self):
         include_file = self.expand_scad_path("examples/scad_to_include.scad")
         mod = import_scad(include_file)
         a = mod.steps(3, external_var=True)
         actual = scad_render(a)
 
-        abs_path = a._get_include_path(include_file)
+        abs_path = resolve_scad_filename(include_file)
         expected = f"use <{abs_path}>\n\n\nsteps(external_var = true, howmany = 3);"
         self.assertEqual(expected, actual)
+    """
 
     def test_background(self):
         a = cube(10)
@@ -324,65 +329,15 @@ class TestSolidPython(DiffOutput):
         ]
 
         expecteds = [
-            '\n\ncolor(alpha = 1.0000000000, c = [1, 0, 0]);',
+            '\n\ncolor(c = [1, 0, 0]);',
             '\n\ncolor(alpha = 0.5000000000, c = [1, 0, 0]);',
-            '\n\ncolor(alpha = 1.0000000000, c = "#66F");',
+            '\n\ncolor(c = "#66F");',
             '\n\ncolor(alpha = 0.5000000000, c = "Teal");',
         ]
         for args, expected in zip(all_args, expecteds):
             col = color(**args)
             actual = scad_render(col)
             self.assertEqual(expected, actual)
-
-    def test_explicit_hole(self):
-        a = cube(10, center=True) + hole()(cylinder(2, 20, center=True))
-        expected = '\n\ndifference(){\n\tunion() {\n\t\tcube(center = true, size = 10);\n\t}\n\t/* Holes Below*/\n\tunion(){\n\t\tcylinder(center = true, h = 20, r = 2);\n\t} /* End Holes */ \n}'
-        actual = scad_render(a)
-        self.assertEqual(expected, actual)
-
-    def test_hole_transform_propagation(self):
-        # earlier versions of holes had problems where a hole
-        # that was used a couple places wouldn't propagate correctly.
-        # Confirm that's still happening as it's supposed to
-        h = hole()(
-                rotate(a=90, v=[0, 1, 0])(
-                        cylinder(2, 20, center=True)
-                )
-        )
-
-        h_vert = rotate(a=-90, v=[0, 1, 0])(
-                h
-        )
-
-        a = cube(10, center=True) + h + h_vert
-        expected = '\n\ndifference(){\n\tunion() {\n\t\tcube(center = true, size = 10);\n\t\trotate(a = -90, v = [0, 1, 0]) {\n\t\t}\n\t}\n\t/* Holes Below*/\n\tunion(){\n\t\trotate(a = 90, v = [0, 1, 0]) {\n\t\t\tcylinder(center = true, h = 20, r = 2);\n\t\t}\n\t\trotate(a = -90, v = [0, 1, 0]){\n\t\t\trotate(a = 90, v = [0, 1, 0]) {\n\t\t\t\tcylinder(center = true, h = 20, r = 2);\n\t\t\t}\n\t\t}\n\t} /* End Holes */ \n}'
-        actual = scad_render(a)
-        self.assertEqual(expected, actual)
-
-    def test_separate_part_hole(self):
-        # Make two parts, a block with hole, and a cylinder that
-        # fits inside it.  Make them separate parts, meaning
-        # holes will be defined at the level of the part_root node,
-        # not the overall node.  This allows us to preserve holes as
-        # first class space, but then to actually fill them in with
-        # the parts intended to fit in them.
-        b = cube(10, center=True)
-        c = cylinder(r=2, h=12, center=True)
-        p1 = b - hole()(c)
-
-        # Mark this cube-with-hole as a separate part from the cylinder
-        p1 = part()(p1)
-
-        # This fits in the hole.  If p1 is set as a part_root, it will all appear.
-        # If not, the portion of the cylinder inside the cube will not appear,
-        # since it would have been removed by the hole in p1
-        p2 = cylinder(r=1.5, h=14, center=True)
-
-        a = p1 + p2
-
-        expected = '\n\nunion() {\n\tdifference(){\n\t\tdifference() {\n\t\t\tcube(center = true, size = 10);\n\t\t}\n\t\t/* Holes Below*/\n\t\tunion(){\n\t\t\tcylinder(center = true, h = 12, r = 2);\n\t\t} /* End Holes */ \n\t}\n\tcylinder(center = true, h = 14, r = 1.5000000000);\n}'
-        actual = scad_render(a)
-        self.assertEqual(expected, actual)
 
     def test_scad_render_animated_file(self):
         def my_animate(_time=0):
