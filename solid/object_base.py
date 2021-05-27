@@ -98,7 +98,7 @@ class IncludedOpenSCADObject(OpenSCADObject):
         if include_file_path:
             self.include_file_path = resolve_scad_filename(include_file_path)
             use_str = 'use' if use_not_include else 'include'
-            self.include_string = f'{use_str} <{self.include_file_path}>\n\n'
+            self.include_string = f'{use_str} <{self.include_file_path}>\n'
         else:
             self.include_string = None
 

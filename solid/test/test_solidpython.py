@@ -202,7 +202,7 @@ class TestSolidPython(DiffOutput):
         actual = scad_render(a)
 
         abs_path = resolve_scad_filename(include_file)
-        expected = f"use <{abs_path}>\n\n\nsteps(howmany = 3);\n"
+        expected = f"use <{abs_path}>\n\nsteps(howmany = 3);\n"
         self.assertEqual(expected, actual)
 
     def test_import_scad(self):
@@ -212,19 +212,19 @@ class TestSolidPython(DiffOutput):
         actual = scad_render(a)
 
         abs_path = resolve_scad_filename(include_file)
-        expected = f"use <{abs_path}>\n\n\nsteps(howmany = 3);\n"
+        expected = f"use <{abs_path}>\n\nsteps(howmany = 3);\n"
         self.assertEqual(expected, actual)
 
         # Make sure this plays nicely with `scad_render()`'s `file_header` arg
         header = '$fn = 24;'
         actual = scad_render(a, file_header=header)
-        expected = f"{header}\nuse <{abs_path}>\n\n\nsteps(howmany = 3);\n"
+        expected = f"{header}\nuse <{abs_path}>\n\nsteps(howmany = 3);\n"
         self.assertEqual(expected, actual)
 
         # Confirm that we can leave out even non-default arguments in OpenSCAD
         a = mod.optional_nondefault_arg();
         actual = scad_render(a)
-        expected = f'use <{abs_path}>\n\n\noptional_nondefault_arg();\n'
+        expected = f'use <{abs_path}>\n\noptional_nondefault_arg();\n'
         self.assertEqual(expected, actual);
 
         # Make sure we throw ValueError on nonexistent imports
@@ -248,7 +248,7 @@ class TestSolidPython(DiffOutput):
         poly = polygon(points);
         actual = scad_render(poly);
         abs_path = resolve_scad_filename(include_file)
-        expected = f'use <{abs_path}>\n\n\npolygon(points = scad_points());\n'
+        expected = f'use <{abs_path}>\n\npolygon(points = scad_points());\n'
         self.assertEqual(expected, actual)
 
     def test_use_reserved_words(self):
@@ -263,12 +263,12 @@ class TestSolidPython(DiffOutput):
             use(path)
             a = reserved_word_arg(_or=5) # type: ignore
             actual = scad_render(a)
-            expected = f"use <{path}>\n\n\nreserved_word_arg(or = 5);\n"
+            expected = f"use <{path}>\n\nreserved_word_arg(or = 5);\n"
             self.assertEqual(expected, actual)
 
             b = _or(arg=5) # type: ignore
             actual = scad_render(b)
-            expected = f"use <{path}>\n\n\nor(arg = 5);\n"
+            expected = f"use <{path}>\n\nor(arg = 5);\n"
             self.assertEqual(expected, actual)
         finally:
             os.remove(path)
@@ -281,7 +281,7 @@ class TestSolidPython(DiffOutput):
 
         actual = scad_render(a)
         abs_path = resolve_scad_filename(include_file)
-        expected = f"include <{abs_path}>\n\n\nsteps(howmany = 3);\n"
+        expected = f"include <{abs_path}>\n\nsteps(howmany = 3);\n"
         self.assertEqual(expected, actual)
 
     """
