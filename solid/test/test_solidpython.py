@@ -4,10 +4,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from solid.builtins import background, circle, cube, cylinder, debug, disable
-from solid.builtins import root, rotate, sphere
+from solid.extensions.modifiers import background, debug, disable, root
+from solid.builtins import rotate, sphere, circle, cube, cylinder
 from solid.builtins import square, translate, color, difference, hull
-from solid.builtins import import_, intersection, intersection_for, linear_extrude, import_dxf
+from solid.builtins import _import, intersection, intersection_for, linear_extrude, import_dxf
 from solid.builtins import import_stl, minkowski, mirror, multmatrix, offset, polygon
 from solid.builtins import polyhedron, projection, render, resize, rotate_extrude
 from solid.builtins import scale, surface, union
@@ -19,43 +19,43 @@ from solid.scad_render import scad_render, scad_render_animated_file, scad_rende
 from solid.test.ExpandedTestCase import DiffOutput
 
 scad_test_case_templates = [
-    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {'paths': [[0, 1, 2]]}, 'expected': '\n\npolygon(paths = [[0, 1, 2]], points = [[0, 0], [1, 0], [0, 1]]);', 'args': {'points': [[0, 0], [1, 0], [0, 1]]}, },
-    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {}, 'expected': '\n\npolygon(points = [[0, 0], [1, 0], [0, 1]]);', 'args': {'points': [[0, 0], [1, 0], [0, 1]]}, },
-    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {}, 'expected': '\n\npolygon(convexity = 3, points = [[0, 0], [1, 0], [0, 1]]);', 'args': {'points': [[0, 0], [1, 0], [0, 1]], 'convexity': 3}, },
-    {'name': 'circle', 'class': 'circle' , 'kwargs': {'segments': 12, 'r': 1}, 'expected': '\n\ncircle(r = 1, $fn = 12);', 'args': {}, },
-    {'name': 'circle_diam', 'class': 'circle' , 'kwargs': {'segments': 12, 'd': 1}, 'expected': '\n\ncircle(d = 1, $fn = 12);', 'args': {}, },
-    {'name': 'square', 'class': 'square' , 'kwargs': {'center': False, 'size': 1}, 'expected': '\n\nsquare(center = false, size = 1);', 'args': {}, },
-    {'name': 'sphere', 'class': 'sphere' , 'kwargs': {'segments': 12, 'r': 1}, 'expected': '\n\nsphere(r = 1, $fn = 12);', 'args': {}, },
-    {'name': 'sphere_diam', 'class': 'sphere' , 'kwargs': {'segments': 12, 'd': 1}, 'expected': '\n\nsphere(d = 1, $fn = 12);', 'args': {}, },
-    {'name': 'cube', 'class': 'cube' , 'kwargs': {'center': False, 'size': 1}, 'expected': '\n\ncube(center = false, size = 1);', 'args': {}, },
-    {'name': 'cylinder', 'class': 'cylinder' , 'kwargs': {'r1': None, 'r2': None, 'h': 1, 'segments': 12, 'r': 1, 'center': False}, 'expected': '\n\ncylinder(center = false, h = 1, r = 1, $fn = 12);', 'args': {}, },
-    {'name': 'cylinder_d1d2', 'class': 'cylinder' , 'kwargs': {'d1': 4, 'd2': 2, 'h': 1, 'segments': 12, 'center': False}, 'expected': '\n\ncylinder(center = false, d1 = 4, d2 = 2, h = 1, $fn = 12);', 'args': {}, },
-    {'name': 'polyhedron', 'class': 'polyhedron' , 'kwargs': {'convexity': None}, 'expected': '\n\npolyhedron(faces = [[0, 1, 2]], points = [[0, 0, 0], [1, 0, 0], [0, 1, 0]]);', 'args': {'points': [[0, 0, 0], [1, 0, 0], [0, 1, 0]], 'faces': [[0, 1, 2]]}, },
-    {'name': 'union', 'class': 'union' , 'kwargs': {}, 'expected': '\n\nunion();', 'args': {}, },
-    {'name': 'intersection', 'class': 'intersection' , 'kwargs': {}, 'expected': '\n\nintersection();', 'args': {}, },
-    {'name': 'difference', 'class': 'difference' , 'kwargs': {}, 'expected': '\n\ndifference();', 'args': {}, },
-    {'name': 'translate', 'class': 'translate' , 'kwargs': {'v': [1, 0, 0]}, 'expected': '\n\ntranslate(v = [1, 0, 0]);', 'args': {}, },
-    {'name': 'scale', 'class': 'scale' , 'kwargs': {'v': 0.5}, 'expected': '\n\nscale(v = 0.5000000000);', 'args': {}, },
-    {'name': 'rotate', 'class': 'rotate' , 'kwargs': {'a': 45, 'v': [0, 0, 1]}, 'expected': '\n\nrotate(a = 45, v = [0, 0, 1]);', 'args': {}, },
-    {'name': 'mirror', 'class': 'mirror' , 'kwargs': {}, 'expected': '\n\nmirror(v = [0, 0, 1]);', 'args': {'v': [0, 0, 1]}, },
-    {'name': 'resize', 'class': 'resize' , 'kwargs': {'newsize': [5, 5, 5], 'auto': [True, True, False]}, 'expected': '\n\nresize(auto = [true, true, false], newsize = [5, 5, 5]);', 'args': {}, },
-    {'name': 'multmatrix', 'class': 'multmatrix' , 'kwargs': {}, 'expected': '\n\nmultmatrix(m = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]);', 'args': {'m': [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]}, },
-    {'name': 'minkowski', 'class': 'minkowski' , 'kwargs': {}, 'expected': '\n\nminkowski();', 'args': {}, },
-    {'name': 'offset', 'class': 'offset' , 'kwargs': {'r': 1}, 'expected': '\n\noffset(r = 1);', 'args': {}, },
-    {'name': 'offset_segments', 'class': 'offset' , 'kwargs': {'r': 1, 'segments': 12}, 'expected': '\n\noffset(r = 1, $fn = 12);', 'args': {}, },
-    {'name': 'offset_chamfer', 'class': 'offset' , 'kwargs': {'delta': 1, 'chamfer' : 'False'}, 'expected': '\n\noffset(chamfer = false, delta = 1);', 'args': {}, },
-    {'name': 'offset_zero_delta', 'class': 'offset' , 'kwargs': {'r': 0}, 'expected': '\n\noffset(r = 0);', 'args': {}, },
-    {'name': 'hull', 'class': 'hull' , 'kwargs': {}, 'expected': '\n\nhull();', 'args': {}, },
-    {'name': 'render', 'class': 'render' , 'kwargs': {'convexity': None}, 'expected': '\n\nrender();', 'args': {}, },
-    {'name': 'projection', 'class': 'projection' , 'kwargs': {'cut': None}, 'expected': '\n\nprojection();', 'args': {}, },
-    {'name': 'surface', 'class': 'surface' , 'kwargs': {'center': False, 'convexity': None}, 'expected': '\n\nsurface(center = false, file = "/Path/to/dummy.dxf");', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
-    {'name': 'import_stl', 'class': 'import_stl' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': '\n\nimport_stl(file = "/Path/to/dummy.stl", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.stl'"}, },
-    {'name': 'import_dxf', 'class': 'import_dxf' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': '\n\nimport_dxf(file = "/Path/to/dummy.dxf", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
-    {'name': 'import_', 'class': 'import_' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': '\n\nimport(file = "/Path/to/dummy.dxf", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
-    {'name': 'import__convexity', 'class': 'import_' , 'kwargs': {'layer': None, 'origin': (0, 0), 'convexity': 2}, 'expected': '\n\nimport(convexity = 2, file = "/Path/to/dummy.dxf", origin = [0, 0]);', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
-    {'name': 'linear_extrude', 'class': 'linear_extrude' , 'kwargs': {'twist': None, 'slices': None, 'center': False, 'convexity': None, 'height': 1, 'scale': 0.9}, 'expected': '\n\nlinear_extrude(center = false, height = 1, scale = 0.9000000000);', 'args': {}, },
-    {'name': 'rotate_extrude', 'class': 'rotate_extrude' , 'kwargs': {'angle': 90, 'segments': 4, 'convexity': None}, 'expected': '\n\nrotate_extrude(angle = 90, $fn = 4);', 'args': {}, },
-    {'name': 'intersection_for', 'class': 'intersection_for' , 'kwargs': {}, 'expected': '\n\nintersection_for(n = [0, 1, 2]);', 'args': {'n': [0, 1, 2]}, },
+    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {'paths': [[0, 1, 2]]}, 'expected': 'polygon(paths = [[0, 1, 2]], points = [[0, 0], [1, 0], [0, 1]]);\n', 'args': {'points': [[0, 0], [1, 0], [0, 1]]}, },
+    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {}, 'expected': 'polygon(points = [[0, 0], [1, 0], [0, 1]]);\n', 'args': {'points': [[0, 0], [1, 0], [0, 1]]}, },
+    {'name': 'polygon', 'class': 'polygon' , 'kwargs': {}, 'expected': 'polygon(convexity = 3, points = [[0, 0], [1, 0], [0, 1]]);\n', 'args': {'points': [[0, 0], [1, 0], [0, 1]], 'convexity': 3}, },
+    {'name': 'circle', 'class': 'circle' , 'kwargs': {'_fn': 12, 'r': 1}, 'expected': 'circle($fn = 12, r = 1);\n', 'args': {}, },
+    {'name': 'circle_diam', 'class': 'circle' , 'kwargs': {'_fn': 12, 'd': 1}, 'expected': 'circle($fn = 12, d = 1);\n', 'args': {}, },
+    {'name': 'square', 'class': 'square' , 'kwargs': {'center': False, 'size': 1}, 'expected': 'square(center = false, size = 1);\n', 'args': {}, },
+    {'name': 'sphere', 'class': 'sphere' , 'kwargs': {'_fn': 12, 'r': 1}, 'expected': 'sphere($fn = 12, r = 1);\n', 'args': {}, },
+    {'name': 'sphere_diam', 'class': 'sphere' , 'kwargs': {'d': 1, '_fn': 12}, 'expected': 'sphere($fn = 12, d = 1);\n', 'args': {}, },
+    {'name': 'cube', 'class': 'cube' , 'kwargs': {'center': False, 'size': 1}, 'expected': 'cube(center = false, size = 1);\n', 'args': {}, },
+    {'name': 'cylinder', 'class': 'cylinder' , 'kwargs': {'r1': None, 'r2': None, 'h': 1, '_fn': 12, 'r': 1, 'center': False}, 'expected': 'cylinder($fn = 12, center = false, h = 1, r = 1);\n', 'args': {}, },
+    {'name': 'cylinder_d1d2', 'class': 'cylinder' , 'kwargs': {'d1': 4, 'd2': 2, 'h': 1, '_fn': 12, 'center': False}, 'expected': 'cylinder($fn = 12, center = false, d1 = 4, d2 = 2, h = 1);\n', 'args': {}, },
+    {'name': 'polyhedron', 'class': 'polyhedron' , 'kwargs': {'convexity': None}, 'expected': 'polyhedron(faces = [[0, 1, 2]], points = [[0, 0, 0], [1, 0, 0], [0, 1, 0]]);\n', 'args': {'points': [[0, 0, 0], [1, 0, 0], [0, 1, 0]], 'faces': [[0, 1, 2]]}, },
+    {'name': 'union', 'class': 'union' , 'kwargs': {}, 'expected': 'union();\n', 'args': {}, },
+    {'name': 'intersection', 'class': 'intersection' , 'kwargs': {}, 'expected': 'intersection();\n', 'args': {}, },
+    {'name': 'difference', 'class': 'difference' , 'kwargs': {}, 'expected': 'difference();\n', 'args': {}, },
+    {'name': 'translate', 'class': 'translate' , 'kwargs': {'v': [1, 0, 0]}, 'expected': 'translate(v = [1, 0, 0]);\n', 'args': {}, },
+    {'name': 'scale', 'class': 'scale' , 'kwargs': {'v': 0.5}, 'expected': 'scale(v = 0.5000000000);\n', 'args': {}, },
+    {'name': 'rotate', 'class': 'rotate' , 'kwargs': {'a': 45, 'v': [0, 0, 1]}, 'expected': 'rotate(a = 45, v = [0, 0, 1]);\n', 'args': {}, },
+    {'name': 'mirror', 'class': 'mirror' , 'kwargs': {}, 'expected': 'mirror(v = [0, 0, 1]);\n', 'args': {'v': [0, 0, 1]}, },
+    {'name': 'resize', 'class': 'resize' , 'kwargs': {'newsize': [5, 5, 5], 'auto': [True, True, False]}, 'expected': 'resize(auto = [true, true, false], newsize = [5, 5, 5]);\n', 'args': {}, },
+    {'name': 'multmatrix', 'class': 'multmatrix' , 'kwargs': {}, 'expected': 'multmatrix(m = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]);\n', 'args': {'m': [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]}, },
+    {'name': 'minkowski', 'class': 'minkowski' , 'kwargs': {}, 'expected': 'minkowski();\n', 'args': {}, },
+    {'name': 'offset', 'class': 'offset' , 'kwargs': {'r': 1}, 'expected': 'offset(r = 1);\n', 'args': {}, },
+    {'name': 'offset_segments', 'class': 'offset' , 'kwargs': {'r': 1, '_fn': 12}, 'expected': 'offset($fn = 12, r = 1);\n', 'args': {}, },
+    {'name': 'offset_chamfer', 'class': 'offset' , 'kwargs': {'delta': 1, 'chamfer' : 'False'}, 'expected': 'offset(chamfer = false, delta = 1);\n', 'args': {}, },
+    {'name': 'offset_zero_delta', 'class': 'offset' , 'kwargs': {'r': 0}, 'expected': 'offset(r = 0);\n', 'args': {}, },
+    {'name': 'hull', 'class': 'hull' , 'kwargs': {}, 'expected': 'hull();\n', 'args': {}, },
+    {'name': 'render', 'class': 'render' , 'kwargs': {'convexity': None}, 'expected': 'render();\n', 'args': {}, },
+    {'name': 'projection', 'class': 'projection' , 'kwargs': {'cut': None}, 'expected': 'projection();\n', 'args': {}, },
+    {'name': 'surface', 'class': 'surface' , 'kwargs': {'center': False, 'convexity': None}, 'expected': 'surface(center = false, file = "/Path/to/dummy.dxf");\n', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
+    {'name': 'import_stl', 'class': 'import_stl' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': 'import_stl(file = "/Path/to/dummy.stl", origin = [0, 0]);\n', 'args': {'file': "'/Path/to/dummy.stl'"}, },
+    {'name': 'import_dxf', 'class': 'import_dxf' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': 'import_dxf(file = "/Path/to/dummy.dxf", origin = [0, 0]);\n', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
+    {'name': 'import_', 'class': '_import' , 'kwargs': {'layer': None, 'origin': (0, 0)}, 'expected': 'import(file = "/Path/to/dummy.dxf", origin = [0, 0]);\n', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
+    {'name': 'import__convexity', 'class': '_import' , 'kwargs': {'layer': None, 'origin': (0, 0), 'convexity': 2}, 'expected': 'import(convexity = 2, file = "/Path/to/dummy.dxf", origin = [0, 0]);\n', 'args': {'file': "'/Path/to/dummy.dxf'"}, },
+    {'name': 'linear_extrude', 'class': 'linear_extrude' , 'kwargs': {'twist': None, 'slices': None, 'center': False, 'convexity': None, 'height': 1, 'scale': 0.9}, 'expected': 'linear_extrude(center = false, height = 1, scale = 0.9000000000);\n', 'args': {}, },
+    {'name': 'rotate_extrude', 'class': 'rotate_extrude' , 'kwargs': {'angle': 90, '_fn': 4, 'convexity': None}, 'expected': 'rotate_extrude($fn = 4, angle = 90);\n', 'args': {}, },
+    {'name': 'intersection_for', 'class': 'intersection_for' , 'kwargs': {}, 'expected': 'intersection_for(n = [0, 1, 2]);\n', 'args': {'n': [0, 1, 2]}, },
 ]
 
 
@@ -97,21 +97,21 @@ class TestSolidPython(DiffOutput):
     def test_infix_union(self):
         a = cube(2)
         b = sphere(2)
-        expected = '\n\nunion() {\n\tcube(size = 2);\n\tsphere(r = 2);\n}'
+        expected = 'union() {\n\tcube(size = 2);\n\tsphere(r = 2);\n}\n'
         actual = scad_render(a + b)
         self.assertEqual(expected, actual)
 
     def test_infix_difference(self):
         a = cube(2)
         b = sphere(2)
-        expected = '\n\ndifference() {\n\tcube(size = 2);\n\tsphere(r = 2);\n}'
+        expected = 'difference() {\n\tcube(size = 2);\n\tsphere(r = 2);\n}\n'
         actual = scad_render(a - b)
         self.assertEqual(expected, actual)
 
     def test_infix_intersection(self):
         a = cube(2)
         b = sphere(2)
-        expected = '\n\nintersection() {\n\tcube(size = 2);\n\tsphere(r = 2);\n}'
+        expected = 'intersection() {\n\tcube(size = 2);\n\tsphere(r = 2);\n}\n'
         actual = scad_render(a * b)
         self.assertEqual(expected, actual)
 
@@ -202,7 +202,7 @@ class TestSolidPython(DiffOutput):
         actual = scad_render(a)
 
         abs_path = resolve_scad_filename(include_file)
-        expected = f"use <{abs_path}>\n\n\nsteps(howmany = 3);"
+        expected = f"use <{abs_path}>\n\n\nsteps(howmany = 3);\n"
         self.assertEqual(expected, actual)
 
     def test_import_scad(self):
@@ -212,19 +212,19 @@ class TestSolidPython(DiffOutput):
         actual = scad_render(a)
 
         abs_path = resolve_scad_filename(include_file)
-        expected = f"use <{abs_path}>\n\n\nsteps(howmany = 3);"
+        expected = f"use <{abs_path}>\n\n\nsteps(howmany = 3);\n"
         self.assertEqual(expected, actual)
 
         # Make sure this plays nicely with `scad_render()`'s `file_header` arg
         header = '$fn = 24;'
         actual = scad_render(a, file_header=header)
-        expected = f"{header}\nuse <{abs_path}>\n\n\nsteps(howmany = 3);"
+        expected = f"{header}\nuse <{abs_path}>\n\n\nsteps(howmany = 3);\n"
         self.assertEqual(expected, actual)
 
         # Confirm that we can leave out even non-default arguments in OpenSCAD
         a = mod.optional_nondefault_arg();
         actual = scad_render(a)
-        expected = f'use <{abs_path}>\n\n\noptional_nondefault_arg();'
+        expected = f'use <{abs_path}>\n\n\noptional_nondefault_arg();\n'
         self.assertEqual(expected, actual);
 
         # Make sure we throw ValueError on nonexistent imports
@@ -248,7 +248,7 @@ class TestSolidPython(DiffOutput):
         poly = polygon(points);
         actual = scad_render(poly);
         abs_path = resolve_scad_filename(include_file)
-        expected = f'use <{abs_path}>\n\n\npolygon(points = scad_points());'
+        expected = f'use <{abs_path}>\n\n\npolygon(points = scad_points());\n'
         self.assertEqual(expected, actual)
 
     def test_use_reserved_words(self):
@@ -261,14 +261,14 @@ class TestSolidPython(DiffOutput):
                 f.write(scad_str)
 
             use(path)
-            a = reserved_word_arg(or_=5) # type: ignore
+            a = reserved_word_arg(_or=5) # type: ignore
             actual = scad_render(a)
-            expected = f"use <{path}>\n\n\nreserved_word_arg(or = 5);"
+            expected = f"use <{path}>\n\n\nreserved_word_arg(or = 5);\n"
             self.assertEqual(expected, actual)
 
-            b = or_(arg=5) # type: ignore
+            b = _or(arg=5) # type: ignore
             actual = scad_render(b)
-            expected = f"use <{path}>\n\n\nor(arg = 5);"
+            expected = f"use <{path}>\n\n\nor(arg = 5);\n"
             self.assertEqual(expected, actual)
         finally:
             os.remove(path)
@@ -281,7 +281,7 @@ class TestSolidPython(DiffOutput):
 
         actual = scad_render(a)
         abs_path = resolve_scad_filename(include_file)
-        expected = f"include <{abs_path}>\n\n\nsteps(howmany = 3);"
+        expected = f"include <{abs_path}>\n\n\nsteps(howmany = 3);\n"
         self.assertEqual(expected, actual)
 
     """
@@ -292,31 +292,31 @@ class TestSolidPython(DiffOutput):
         actual = scad_render(a)
 
         abs_path = resolve_scad_filename(include_file)
-        expected = f"use <{abs_path}>\n\n\nsteps(external_var = true, howmany = 3);"
+        expected = f"use <{abs_path}>\n\nsteps(external_var = true, howmany = 3);"
         self.assertEqual(expected, actual)
     """
 
     def test_background(self):
         a = cube(10)
-        expected = '\n\n%cube(size = 10);'
+        expected = '%cube(size = 10);\n'
         actual = scad_render(background(a))
         self.assertEqual(expected, actual)
 
     def test_debug(self):
         a = cube(10)
-        expected = '\n\n#cube(size = 10);'
+        expected = '#cube(size = 10);\n'
         actual = scad_render(debug(a))
         self.assertEqual(expected, actual)
 
     def test_disable(self):
         a = cube(10)
-        expected = '\n\n*cube(size = 10);'
+        expected = '*cube(size = 10);\n'
         actual = scad_render(disable(a))
         self.assertEqual(expected, actual)
 
     def test_root(self):
         a = cube(10)
-        expected = '\n\n!cube(size = 10);'
+        expected = '!cube(size = 10);\n'
         actual = scad_render(root(a))
         self.assertEqual(expected, actual)
 
@@ -329,10 +329,10 @@ class TestSolidPython(DiffOutput):
         ]
 
         expecteds = [
-            '\n\ncolor(c = [1, 0, 0]);',
-            '\n\ncolor(alpha = 0.5000000000, c = [1, 0, 0]);',
-            '\n\ncolor(c = "#66F");',
-            '\n\ncolor(alpha = 0.5000000000, c = "Teal");',
+            'color(c = [1, 0, 0]);\n',
+            'color(alpha = 0.5000000000, c = [1, 0, 0]);\n',
+            'color(c = "#66F");\n',
+            'color(alpha = 0.5000000000, c = "Teal");\n',
         ]
         for args, expected in zip(all_args, expecteds):
             col = color(**args)
@@ -353,7 +353,7 @@ class TestSolidPython(DiffOutput):
                                       filepath=tmp.name, include_orig_code=False)
 
         actual = tmp.contents
-        expected = '\nif ($t >= 0.0 && $t < 0.5){   \n\ttranslate(v = [15.0000000000, 0.0000000000]) {\n\t\tsquare(size = 10);\n\t}\n}\nif ($t >= 0.5 && $t < 1.0){   \n\ttranslate(v = [-15.0000000000, 0.0000000000]) {\n\t\tsquare(size = 10);\n\t}\n}\n'
+        expected = '\nif ($t >= 0.0 && $t < 0.5){\n\ttranslate(v = [15.0000000000, 0.0000000000]) {\n\t\tsquare(size = 10);\n\t}\n}\nif ($t >= 0.5 && $t < 1.0){\n\ttranslate(v = [-15.0000000000, 0.0000000000]) {\n\t\tsquare(size = 10);\n\t}\n}\n'
 
         self.assertEqual(expected, actual)
 
@@ -365,7 +365,7 @@ class TestSolidPython(DiffOutput):
             scad_render_to_file(a, filepath=tmp.name, include_orig_code=False)
 
         actual = tmp.contents
-        expected = '\n\ncircle(r = 10);'
+        expected = 'circle(r = 10);\n'
 
         # scad_render_to_file also adds a date & version stamp before scad code;
         # That won't match here, so just make sure the correct code is at the end
@@ -377,7 +377,7 @@ class TestSolidPython(DiffOutput):
                                 file_header='$fn = 24;')
 
         actual = tmp.contents
-        expected = '$fn = 24;\n\n\ncircle(r = 10);'
+        expected = '$fn = 24;\ncircle(r = 10);\n'
 
         self.assertTrue(actual.endswith(expected))
 
@@ -403,7 +403,7 @@ class TestSolidPython(DiffOutput):
         try:
             import numpy # type: ignore
             numpy_cube = cube(size=numpy.array([1, 2, 3]))
-            expected = '\n\ncube(size = [1,2,3]);'
+            expected = 'cube(size = [1,2,3]);\n'
             actual = scad_render(numpy_cube)
             self.assertEqual(expected, actual, 'Numpy SolidPython not rendered correctly')
         except ImportError:
@@ -416,7 +416,7 @@ class TestSolidPython(DiffOutput):
             def __iter__(self):
                 return iter([1, 2, 3])
 
-        expected = '\n\ncube(size = [1, 2, 3]);'
+        expected = 'cube(size = [1, 2, 3]);\n'
         iterables = [
             [1, 2, 3],
             (1, 2, 3),
