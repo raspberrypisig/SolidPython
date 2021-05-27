@@ -1,42 +1,126 @@
-from ..builtins import translate
+from .. import builtins
 from ..object_base import OpenSCADObject
+
+# ==============================================
+# = overwrite translate, rotate, scale, mirror =
+# ==============================================
+
+from functools import singledispatch
+
+# =============
+# = translate =
+# =============
+@singledispatch
+def translate(v):
+    return builtins.translate(v)
+
+@translate.register(int)
+@translate.register(float)
+def _translate(*args):
+    return builtins.translate(args)
+
+OpenSCADObject.translate = lambda self, *args: translate(*args)(self)
+
+# =========
+# = scale =
+# =========
+@singledispatch
+def scale(v):
+    return builtins.scale(v)
+
+@scale.register(int)
+@scale.register(float)
+def _scale(*args):
+    if len(args) == 1:
+        return builtins.scale(args[0])
+    else:
+        return builtins.scale(args)
+
+OpenSCADObject.scale = lambda self, *args: scale(*args)(self)
+
+# =============
+# = mirror =
+# =============
+@singledispatch
+def mirror(v):
+    return builtins.mirror(v)
+
+@mirror.register(int)
+@mirror.register(float)
+def _translate(*args):
+    return builtins.mirror(args)
+
+OpenSCADObject.mirror = lambda self, *args: mirror(*args)(self)
+
+# =========
+# = rotate =
+# =========
+def rotate(*args, **kwargs):
+    if kwargs:
+        return builtins.rotate(*args, **kwargs)
+    else:
+        if len(args) == 1:
+            return builtins.rotate(*args)
+        elif     (isinstance(args[0], int) or isinstance(args[0], float)) \
+             and (isinstance(args[1], list) or isinstance(args[1], tuple)):
+                return builtins.rotate(a=args[0], v=args[1:])
+        else:
+            return builtins.rotate(args)
+
+OpenSCADObject.rotate = lambda self, *args, **kwargs: rotate(*args, **kwargs)(self)
+
+# =============================
+# = overwrite square and cube =
+# =============================
+def extract_size_list(*args, **kwargs):
+    size_list = []
+    args_copy = list(args)
+
+    while args_copy:
+        a = args_copy.pop(0)
+        if type(a) == int or type(a) == float:
+            size_list += [a]
+        else:
+            args_copy = [a] + args_copy
+            break
+
+    if len(size_list) == 1:
+        size_list = size_list[0]
+
+    return size_list, args_copy, kwargs
+
+def square(*args, **kwargs):
+    size_list, args, kwargs = extract_size_list(*args, **kwargs)
+
+    if size_list:
+        return builtins.square(size_list, *args, **kwargs)
+    else:
+        return builtins.square(*args, **kwargs)
+
+def cube(*args, **kwargs):
+    size_list, args, kwargs = extract_size_list(*args, **kwargs)
+
+    if size_list:
+        return builtins.cube(size_list, *args, **kwargs)
+    else:
+        return builtins.cube(*args, **kwargs)
 
 #==================
 # = m(ove)x, y, z =
 #==================
-def mx(x):
-    return translate([x, 0, 0])
-
-def my(y):
-    return translate([0, y, 0])
-
-def mz(z):
-    return translate([0, 0, z])
-
-OpenSCADObject.mx = lambda self, x: mx(x)(self)
-OpenSCADObject.my = lambda self, y: my(y)(self)
-OpenSCADObject.mz = lambda self, z: mz(z)(self)
+OpenSCADObject.mx = lambda self, x: self.translate(x, 0, 0)
+OpenSCADObject.my = lambda self, y: self.translate(0, y, 0)
+OpenSCADObject.mz = lambda self, z: self.translate(0, 0, z)
 
 # ==============
 # = Directions =
 # ==============
-def up(z:float) -> OpenSCADObject:
-    return translate((0, 0, z))
-
-def down(z: float) -> OpenSCADObject:
-    return translate((0, 0, -z))
-
-def right(x: float) -> OpenSCADObject:
-    return translate((x, 0, 0))
-
-def left(x: float) -> OpenSCADObject:
-    return translate((-x, 0, 0))
-
-def forward(y: float) -> OpenSCADObject:
-    return translate((0, y, 0))
-
-def back(y: float) -> OpenSCADObject:
-    return translate((0, -y, 0))
+def up(z): return builtins.translate((0, 0, z))
+def down(z): return builtins.translate((0, 0, -z))
+def right(x): return builtins.translate((x, 0, 0))
+def left(x): return builtins.translate((-x, 0, 0))
+def forward(y): return builtins.translate((0, y, 0))
+def back(y): return builtins.translate((0, -y, 0))
 
 OpenSCADObject.down = lambda self, x: down(x)(self)
 OpenSCADObject.up = lambda self, x: up(x)(self)
@@ -45,18 +129,73 @@ OpenSCADObject.right = lambda self, x: right(x)(self)
 OpenSCADObject.back = lambda self, x: back(x)(self)
 OpenSCADObject.forward = lambda self, x: forward(x)(self)
 
-# ================================
-# = Modifier Convenience Methods =
-# ================================
-def debug(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.debug()
+# ============================================
+# = union, difference, intersectin operators =
+# ============================================
+def _union_op(self, x):
+    """
+    This makes u = a+b identical to:
+    u = union()(a, b )
+    """
+    res = builtins.union()
 
-def background(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.background()
+    #add self or all its children to res
+    if isinstance(self, builtins.union):
+        for c in self.children:
+            res.add(c)
+    else:
+        res.add(self)
 
-def root(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.root()
+    #add x or all its children to res
+    if isinstance(x, builtins.union):
+        for c in x.children:
+            res.add(c)
+    else:
+        res.add(x)
 
-def disable(openscad_obj: OpenSCADObject) -> OpenSCADObject:
-    return openscad_obj.disable()
+    return res
+
+def _difference_op(self, x):
+    """
+    This makes u = a - b identical to:
+    u = difference()(a, b )
+    """
+    res = builtins.difference()
+
+    if isinstance(self, builtins.difference) and len(self.children):
+        for c in self.children:
+            res.add(c)
+    else:
+        res.add(self)
+
+    res.add(x)
+    return res
+
+def _intersection_op(self, x):
+    """
+    This makes u = a * b identical to:
+    u = intersection()(a, b )
+    """
+    res = builtins.intersection()
+
+    if isinstance(self, builtins.intersection) and len(self.children):
+        for c in self.children:
+            res.add(c)
+    else:
+        res.add(self)
+
+    if isinstance(x, builtins.intersection):
+        for c in x.children:
+            res.add(c)
+    else:
+        res.add(x)
+
+    return res
+
+OpenSCADObject.__add__ = _union_op
+OpenSCADObject.__or__ = _union_op
+OpenSCADObject.__radd__ = _union_op
+OpenSCADObject.__sub__ = _difference_op
+OpenSCADObject.__mul__ = _intersection_op
+OpenSCADObject.__and__ = _intersection_op
 
