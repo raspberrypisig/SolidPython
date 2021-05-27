@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from solid.extensions.modifiers import background, debug, disable, root
+from solid.builtins import background, debug, disable, root
 from solid.builtins import rotate, sphere, circle, cube, cylinder
 from solid.builtins import square, translate, color, difference, hull
 from solid.builtins import _import, intersection, intersection_for, linear_extrude, import_dxf
