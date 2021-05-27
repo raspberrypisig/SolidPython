@@ -216,5 +216,5 @@ def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace=No
     return symbols_dicts
 
 def include(scad_file_path: PathStr) -> bool:
-    return use(scad_file_path, use_not_include=False, dest_namespace_dict = calling_module(2).__dict__)
+    return use(scad_file_path, use_not_include=False, dest_namespace = calling_module(2))
 
