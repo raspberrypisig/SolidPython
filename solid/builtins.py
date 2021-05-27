@@ -16,9 +16,9 @@ from .scad_import import use
     developing...). The only drawback is, that you have to setup your editor to
     also use OpenScad syntax highlighting for *.openscad files.
 """
-OPENSCAD_BUILTINS_FILE = Path(__file__).absolute().parent / "builtins.openscad"
+_OPENSCAD_BUILTINS_FILE = Path(__file__).absolute().parent / "builtins.openscad"
 
-builtins_symbols = use(OPENSCAD_BUILTINS_FILE, builtins=True)
+_builtins_symbols = use(_OPENSCAD_BUILTINS_FILE, builtins=True)
 
 # ========================
 # = Cascading Operations =
@@ -32,24 +32,35 @@ builtins_symbols = use(OPENSCAD_BUILTINS_FILE, builtins=True)
     I really like this style and I don't see any reason why SolidPython should
     not support it. Are there any?
 """
-def add_to_openSCADObject(name):
-    def wrapper(self, *args, **kwargs):
-        #retrieve the builtin from the local namespace
-        builtin = globals()[name]
-        #and return an instance of it with self as child
-        return builtin(*args, **kwargs)(self)
+def _add_to_openSCADObject(name):
+    """
+        This functions adds a (lambda) wrapper for each builtin as member function
+        to OpenSCADObject.
 
-    #set OpenSCADObject.{name} = wrapper
-    #this means for example solidpython code like
-    #   c.translate(...)
-    #       will call the wrapper and will retrieve an instance of an translate
-    #       node wrapped around c
-    setattr(OpenSCADObject, name, wrapper)
+        It retrieves the builtin class from the local namespace and creates a lambda
+        wrapper with the signature (self, *args, **kwargs) for each builtin and
+        binds it to OpenSCADObject.
 
-cascading_builtins = ("union difference intersection intersection_for translate " +\
+        It basicly does this:
+
+    OpenSCADObject.<buildin> = lambda self, *args, **kwargs : builtin(*args, **kwargs)(self)
+
+    """
+    #get the builtin
+    builtin = globals()[name]
+
+    #wrap a lambda func around it
+    func = lambda self, *args, **kwargs : builtin(*args, **kwargs)(self)
+
+    #bind it to OpenSCADObject
+    setattr(OpenSCADObject, name, func)
+
+#the list of builtins that should be added as member functions to OpenSCADObject
+#(it makes no sense to include circle or cube...)
+_cascading_builtins = ("union difference intersection intersection_for translate " +\
                       "scale rotate mirror resize color offset hull render " +\
                       "linear_extrude rotate_extrude projection surface").split(" ")
 
-for b in cascading_builtins:
-    add_to_openSCADObject(escpape_openscad_identifier(b))
+for b in _cascading_builtins:
+    _add_to_openSCADObject(escpape_openscad_identifier(b))
 
