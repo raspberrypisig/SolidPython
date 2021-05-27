@@ -19,7 +19,8 @@ AnimFunc = Callable[[Optional[float]], 'OpenSCADObject']
 def _find_include_strings(obj: Union[IncludedOpenSCADObject, OpenSCADObject]) -> Set[str]:
     include_strings = set()
     if isinstance(obj, IncludedOpenSCADObject):
-        include_strings.add(obj.include_string)
+        if obj.include_string:
+            include_strings.add(obj.include_string)
     for child in obj.children:
         include_strings.update(_find_include_strings(child))
     # We also accept IncludedOpenSCADObject instances as parameters to functions, 
@@ -38,7 +39,9 @@ def scad_render(scad_object: OpenSCADObject, file_header: str = '') -> str:
     include_strings = _find_include_strings(root)
 
     # and render the string
-    includes = ''.join(include_strings) + "\n"
+    includes = ''
+    if include_strings:
+        includes = ''.join(include_strings) + "\n"
 
     #call libraries pre_render and let them wrap the root node
     root, extensions_header_str = \
@@ -108,8 +111,8 @@ def scad_render_animated(func_to_animate: AnimFunc,
         scad_obj = func_to_animate(_time=eval_time)  # type: ignore
 
         scad_str = indent(scad_obj._render())
-        rendered_string += f"if ($t >= {time} && $t < {end_time}){{" \
-                           f"   {scad_str}\n" \
+        rendered_string += f"if ($t >= {time} && $t < {end_time}){{\n" \
+                           f"{scad_str}" \
                            f"}}\n"
     return rendered_string
 

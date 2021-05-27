@@ -6,7 +6,11 @@ from types import ModuleType
 from typing import List
 
 def indent(s: str) -> str:
-    return s.replace("\n", "\n\t")
+    res = ''
+    for ns in s.splitlines(True):
+        res += f'\t{ns}'
+
+    return res
 
 def calling_module(stack_depth: int = 2) -> ModuleType:
     """

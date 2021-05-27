@@ -19,17 +19,17 @@ class OpenSCADObject:
         s = self._render_str_no_children()
 
         if not self.children:
-            return s + ";"
+            return s + ";\n"
 
-        s += " {"
+        s += " {\n"
 
         for child in self.children:
             s += indent(child._render())
 
-        return s + "\n}"
+        return s + "}\n"
 
     def _render_str_no_children(self):
-        s = "\n" + unescape_openscad_identifier(self.name) + "("
+        s = unescape_openscad_identifier(self.name) + "("
 
         parameter_count = 0
         for p in sorted(self.params.keys()):
@@ -165,9 +165,9 @@ class IncludedOpenSCADObject(OpenSCADObject):
         if include_file_path:
             self.include_file_path = resolve_scad_filename(include_file_path)
             use_str = 'use' if use_not_include else 'include'
-            self.include_string = f'{use_str} <{self.include_file_path}>\n'
+            self.include_string = f'{use_str} <{self.include_file_path}>\n\n'
         else:
-            self.include_string = ''
+            self.include_string = None
 
         OpenSCADObject.__init__(self, name, params)
 
@@ -182,7 +182,7 @@ def py2openscad(o: Union[bool, float, str, Iterable]) -> str:
         import numpy  # type: ignore
         return numpy.array2string(o, separator=",", threshold=1000000000)
     if isinstance(o, IncludedOpenSCADObject):
-        return o._render()[1:-1]
+        return o._render()[:-2]
     if hasattr(o, "__iter__"):
         s = "["
         first = True
