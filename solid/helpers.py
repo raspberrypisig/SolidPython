@@ -23,11 +23,14 @@ def calling_module(stack_depth: int = 2) -> ModuleType:
     """
     frm = inspect.stack()[stack_depth]
     calling_mod = inspect.getmodule(frm[0])
+
     # If calling_mod is None, this is being called from an interactive session.
     # Return that module.  (Note that __main__ doesn't have a __file__ attr,
     # but that's caught elsewhere.)
     if not calling_mod:
-        import __main__ as calling_mod  # type: ignore
+        import __main__ as main_module
+        return main_module
+
     return calling_mod
 
 def escpape_openscad_identifier(identifier: str) -> str:
@@ -36,17 +39,11 @@ def escpape_openscad_identifier(identifier: str) -> str:
     Prepend an underscore to any OpenSCAD identifier starting with a digit.
     No-op for all other strings, e.g. 'or' => 'or_', 'other' => 'other'
     """
-    if identifier in keyword.kwlist:
-        return identifier + "_"
-
-    elif identifier[0].isdigit():
+    if identifier in keyword.kwlist or identifier[0].isdigit():
         return "_" + identifier
 
-    elif identifier == "$fn":
-        return "segments"
-
-    elif identifier[0] == "$":
-        return "__" + identifier[1:]
+    if identifier[0] == "$":
+        return "_" + identifier[1:]
 
     return identifier
 
@@ -56,17 +53,14 @@ def unescape_openscad_identifier(identifier: str) -> str:
     Remove prepending underscore if remaining identifier starts with a digit.
     No-op for all other strings: e.g. 'or_' => 'or', 'other_' => 'other_'
     """
-    if identifier.endswith("_") and identifier[:-1] in keyword.kwlist:
-        return identifier[:-1]
-
-    if identifier.startswith("__"):
-        return "$" + identifier[2:]
+    if identifier.startswith("_") and identifier[1:] in keyword.kwlist:
+        return identifier[1:]
 
     if identifier.startswith("_") and identifier[1].isdigit():
         return identifier[1:]
 
-    if identifier == "segments":
-        return "$fn"
+    if identifier.startswith("_"):
+        return "$" + identifier[1:]
 
     return identifier
 
