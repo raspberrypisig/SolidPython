@@ -161,7 +161,7 @@ def _import_scad(scad: Path, dest_namespace=None) -> Optional[SimpleNamespace]:
     if dest_namespace == None:
         dest_namespace = SimpleNamespace()
     if scad.is_file():
-        use(scad.absolute(), dest_namespace_dict=dest_namespace.__dict__)
+        use(scad.absolute(), dest_namespace=dest_namespace)
         return dest_namespace
 
     assert(scad.is_dir())
@@ -187,7 +187,7 @@ def _import_scad(scad: Path, dest_namespace=None) -> Optional[SimpleNamespace]:
 # --include() makes those methods available AND executes all code in
 #   scad_file_path.scad, which may have side effects.
 #   Unless you have a specific need, call use().
-def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace_dict: Dict = None, builtins=False):
+def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace=None, builtins=False):
     """
     Opens scad_file_path, parses it for all usable calls,
     and adds them to caller's namespace.
@@ -199,8 +199,8 @@ def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace_di
     symbols_dicts = parse_scad_callables(scad_file_path)
 
     #set the dest_namespace to the module calling this function
-    if dest_namespace_dict == None:
-        dest_namespace_dict = calling_module(2).__dict__
+    if dest_namespace == None:
+        dest_namespace = calling_module(2)
 
     #create a wrapper for each module and function in symbols
     for sd in symbols_dicts:
@@ -210,7 +210,7 @@ def use(scad_file_path: PathStr, use_not_include: bool = True, dest_namespace_di
                                                  scad_file_path if not builtins else None,
                                                  use_not_include)
         #add it to the dest_namespace
-        dest_namespace_dict[escpape_openscad_identifier(sd["name"])] = c
+        setattr(dest_namespace, escpape_openscad_identifier(sd["name"]), c)
 
     #return the symbols (they are used to add the builtins as OpenSCADObject functions, see builtins.py)
     return symbols_dicts
