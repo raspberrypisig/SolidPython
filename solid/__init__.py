@@ -13,6 +13,7 @@ from .builtins import *
 from .scad_import import import_scad, use
 
 from .extensions.convenience import *
+from .extensions.modifiers import *
 
 #why is / was this included here and not in solid.utils?
 #from .extensions.patch_euclid import run_euclid_patch

@@ -9,24 +9,6 @@ class OpenSCADObject:
         self.name = name
         self.params = params
         self.children: List["OpenSCADObject"] = []
-        self.modifier = ""
-
-    def set_modifier(self, m: str) -> "OpenSCADObject":
-        """
-        Used to add one of the 4 single-character modifiers:
-        #(debug) !(root) %(background) or *(disable)
-        """
-        string_vals = {'disable': '*',
-                       'debug': '#',
-                       'background': '%',
-                       'root': '!',
-                       '*': '*',
-                       '#': '#',
-                       '%': '%',
-                       '!': '!'}
-
-        self.modifier = string_vals.get(m.lower(), '')
-        return self
 
     def _render(self) -> str:
         """
@@ -46,8 +28,8 @@ class OpenSCADObject:
 
         return s + "\n}"
 
-    def _render_str_no_children(self) -> str:
-        s = "\n" + self.modifier + unescape_openscad_identifier(self.name) + "("
+    def _render_str_no_children(self):
+        s = "\n" + unescape_openscad_identifier(self.name) + "("
 
         parameter_count = 0
         for p in sorted(self.params.keys()):
@@ -170,25 +152,6 @@ class OpenSCADObject:
             res.add(x)
 
         return intersection()(self, x)
-
-    def debug(self):
-        self.modifier = "#"
-        return self
-
-    def background(self):
-        self.modifier = "%"
-        return self
-
-    def root(self):
-        self.modifier = "!"
-        return self
-
-    def disable(self):
-        self.modifier = "*"
-        return self
-
-    def __invert__(self):
-        return self.debug()
 
 class IncludedOpenSCADObject(OpenSCADObject):
     """
