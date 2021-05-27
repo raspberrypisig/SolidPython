@@ -5,12 +5,12 @@ from .helpers import indent, resolve_scad_filename, unescape_openscad_identifier
 
 class OpenSCADObject:
 
-    def __init__(self, name: str, params: dict):
+    def __init__(self, name, params):
         self.name = name
         self.params = params
         self.children: List["OpenSCADObject"] = []
 
-    def _render(self) -> str:
+    def _render(self):
         """
         NOTE: In general, you won't want to call this method. For most purposes,
         you really want scad_render(), 
@@ -50,7 +50,7 @@ class OpenSCADObject:
         s += ")"
         return s
 
-    def add(self, child: Union["OpenSCADObject", Sequence["OpenSCADObject"]]) -> "OpenSCADObject":
+    def add(self, child):
         """
         if child is a single object, assume it's an OpenSCADObjects and 
         add it to self.children
@@ -72,10 +72,10 @@ class OpenSCADObject:
 
         return self
 
-    def copy(self) -> "OpenSCADObject":
+    def copy(self):
         return deepcopy(self)
 
-    def __call__(self, *args: "OpenSCADObject") -> "OpenSCADObject":
+    def __call__(self, *args):
         """
         Adds all objects in args to self.  This enables OpenSCAD-like syntax,
         e.g.:
