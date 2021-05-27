@@ -2,7 +2,7 @@ from typing import Optional
 import tempfile
 import subprocess
 
-from .. import scad_render, OpenSCADObject
+from ... import scad_render, OpenSCADObject
 
 def _repr_png_(self) -> Optional[bytes]:
     """

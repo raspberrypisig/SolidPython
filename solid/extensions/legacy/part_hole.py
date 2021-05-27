@@ -1,6 +1,6 @@
-from ..object_base import OpenSCADObject
-from ..helpers import indent
-from .extension_base import InvisibleExtensionBase, default_extension_manager
+from ...object_base import OpenSCADObject
+from ...helpers import indent
+from ..extension_base import InvisibleExtensionBase, default_extension_manager
 
 # the hole extension this enables to use
 #   hole()(.....) in python

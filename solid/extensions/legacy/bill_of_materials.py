@@ -1,7 +1,7 @@
 from itertools import zip_longest
 from typing import List, Dict, Sequence
 
-from ..object_base import OpenSCADObject
+from ...object_base import OpenSCADObject
 
 g_bom_headers: List[str] = []
 
