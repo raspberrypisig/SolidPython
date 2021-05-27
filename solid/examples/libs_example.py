@@ -14,4 +14,4 @@ BOSL = import_scad("BOSL")
 b = BOSL.linear_bearings.linear_bearing_housing()
 c = BOSL.shapes.cuboid([20, 20, 30], chamfer=2)
 
-scad_render_to_file(b.right(50) + c, "examples/libs.scad")
+scad_render_to_file(b.right(50) + c)
