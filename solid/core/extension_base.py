@@ -1,4 +1,4 @@
-from ..object_base import ObjectBase
+from ..core.object_base import ObjectBase
 
 class RootExtensionBase(ObjectBase):
     def _pre_render(self, root):

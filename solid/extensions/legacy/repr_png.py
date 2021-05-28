@@ -2,7 +2,7 @@ from typing import Optional
 import tempfile
 import subprocess
 
-from ... import scad_render, OpenSCADObject
+from ...core import scad_render, ObjectBase
 
 def _repr_png_(self) -> Optional[bytes]:
     """
@@ -32,7 +32,7 @@ def _repr_png_(self) -> Optional[bytes]:
 
     return png_data
 
-OpenSCADObject._repr_png_ = _repr_png_
+ObjectBase._repr_png_ = _repr_png_
 
 #dummy variable to be able to import "nothing" from this
 #module but still execute it to extend OpenSCADObject

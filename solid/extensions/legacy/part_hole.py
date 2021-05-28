@@ -1,7 +1,7 @@
-from ...object_base import OpenSCADObject
-from ...helpers import indent
-from ...scad_code_generation import scad_call_code
-from ..extension_base import ObjectBase, default_extension_manager
+from ...core.object_base import ObjectBase
+from ...core.helpers import indent
+from ...core.scad_code_generation import generate_scad_node_head
+from ...core.extension_base import default_extension_manager
 
 # the hole extension this enables to use
 #   hole()(.....) in python

@@ -1,7 +1,7 @@
-from .. import builtins
+from ..core import builtins
 from . import convenience
-from ..helpers import escpape_openscad_identifier
-from ..object_base import ObjectBase
+from ..core.helpers import escpape_openscad_identifier
+from ..core.object_base import ObjectBase
 
 __nothing__ = None
 

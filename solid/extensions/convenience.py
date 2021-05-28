@@ -1,6 +1,6 @@
 from functools import singledispatch
 
-from .. import builtins
+from ..core import builtins
 
 def extract_size_list(*args, **kwargs):
     size_list = []

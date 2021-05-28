@@ -1,5 +1,7 @@
-from .. import builtins
-from ..object_base import ObjectBase
+from ..core import builtins
+from ..core.object_base import ObjectBase
+
+__nothing__ = None
 
 # ============================================
 # = union, difference, intersectin operators =
