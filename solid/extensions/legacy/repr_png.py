@@ -1,10 +1,13 @@
+import os
 from typing import Optional
 import tempfile
 import subprocess
 
 from ...core import scad_render, ObjectBase
 
-def _repr_png_(self) -> Optional[bytes]:
+__nothing__ = None
+
+def _repr_png_(self):
     """
     Allow rich clients such as the IPython Notebook, to display the current
     OpenSCAD rendering of this object.
@@ -33,8 +36,4 @@ def _repr_png_(self) -> Optional[bytes]:
     return png_data
 
 ObjectBase._repr_png_ = _repr_png_
-
-#dummy variable to be able to import "nothing" from this
-#module but still execute it to extend OpenSCADObject
-__nothing__ = None
 

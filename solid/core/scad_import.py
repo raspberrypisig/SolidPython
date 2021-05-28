@@ -1,13 +1,14 @@
 from types import SimpleNamespace
 
-from .helpers import calling_module, resolve_scad_filename, escpape_openscad_identifier
+from .helpers import calling_module, resolve_scad_filename,\
+                     escpape_openscad_identifier
 from .object_base import OpenSCADObject
 
 # ===========
 # = Parsing =
 # ===========
 def parse_scad_callables(filename):
-    from .libs.py_scadparser import scad_parser
+    from ..libs.py_scadparser import scad_parser
 
     modules, functions, _ = scad_parser.parseFile(filename)
 
@@ -103,30 +104,37 @@ def create_openscad_wrapper_from_symbols(name, args, kwargs, include_str):
     #add the function signature as __doc__ string, so ExpSolidNamespace can
     #display it
     param_str = ",".join([str(x) for x in args])
-    if args:
-        param_str += ","
+    param_str += "," if param_str else ''
     param_str += ",".join([str(x) + "=..." for x in kwargs])
     class_declaration.__doc__ = f'{name}({param_str})'
 
     return class_declaration
 
 class ExpSolidNamespace(SimpleNamespace):
+    """
+    we create our own namespace class for imported openscad module to be able
+    to overwrite the __repr__ func. This enables in a python shell
+
+        s = import_scad("...")
+        print(s)
+
+    to list the "contents" of this namespace
+    """
     def __init__(self, filename):
         super().__init__()
         self.__filename__ = filename
 
     def __repr__(self):
-        s = ''
-        #s = f"{self.__filename__}:\n"
+        node_strings = []
         for k in sorted(self.__dict__):
             if not k.startswith("__"):
                 i = self.__dict__[k]
                 if isinstance(i, ExpSolidNamespace):
-                    s += f'\t{k}\n'
+                    node_strings += [f'\t{k}']
                 else:
-                    s += f'\t{i.__doc__}\n'
+                    node_strings += [f'\t{i.__doc__}']
 
-        return s
+        return '\n'.join([f'{self.__filename__}:'] + node_strings)
 
 # ===========================
 # = IMPORTING OPENSCAD CODE =
@@ -152,8 +160,6 @@ def import_scad(scad_file_or_dir, dest_namespace = None):
 
     if resolved_scad in module_cache_by_resolved_filename.keys():
         return module_cache_by_resolved_filename[resolved_scad]
-
-    print(f'loading {resolved_scad.as_posix()}')
 
     namespace = _import_scad(resolved_scad, dest_namespace)
 
@@ -209,7 +215,7 @@ def _import_scad(scad, dest_namespace=None):
 #   Unless you have a specific need, call use().
 def include_str_from_filename(filename, use_not_include, builtins):
     if not filename or builtins:
-        return ''
+        return None
 
     include_file_path = resolve_scad_filename(filename)
     use_str = 'use' if use_not_include else 'include'

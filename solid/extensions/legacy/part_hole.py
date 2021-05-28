@@ -72,7 +72,7 @@ def find_and_render_child_holes(childs):
                 #if in the child sub tree where holes
                 if child_holes_str != '':
                     #render "self" around the child
-                    holes_str += scad_call_code(c.name, c.params) + "{" + indent(child_holes_str) + "\n}"
+                    holes_str += generate_scad_node_head(c.name, c.params) + "{" + indent(child_holes_str) + "\n}"
 
     return holes_str
 

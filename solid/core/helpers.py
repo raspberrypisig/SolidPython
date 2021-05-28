@@ -5,6 +5,9 @@ import inspect
 import keyword
 from pathlib import Path
 
+#don't do relative imports on the global scope to be able to import this file
+#from "everywhere"
+
 def indent(s):
     res = ''
     for ns in s.splitlines(True):
@@ -81,8 +84,8 @@ def resolve_scad_filename(scad_file):
 
 def openscad_library_paths():
     """
-    Return system-dependent OpenSCAD library paths or paths defined in os.environ['OPENSCADPATH']
-    """
+    Return system-dependent OpenSCAD library paths or paths defined in
+    os.environ['OPENSCADPATH'] """
     paths = [Path('.')]
 
     user_path = os.environ.get('OPENSCADPATH')

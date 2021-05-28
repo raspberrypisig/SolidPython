@@ -1,7 +1,7 @@
 from copy import deepcopy
 
-from .scad_code_generation import scad_code
-from .scad_render import scad_render
+#don't do relative imports on the global scope to be able to import this file
+#from "everywhere"
 
 class ObjectBase:
     def __init__(self):
@@ -29,15 +29,17 @@ class ObjectBase:
         return self
 
     def __repr__(self):
+        from .scad_render import scad_render
         return scad_render(self)[:-1]
 
 class OpenSCADObject(ObjectBase):
-    def __init__(self, name, params, include_string = ''):
+    def __init__(self, name, params, include_string = None):
         super().__init__()
         self.include_string = include_string
         self.name = name
         self.params = params
 
     def _render(self):
-        return scad_code(self.name, self.params, self.children)
+        from .scad_code_generation import generate_scad_node
+        return generate_scad_node(self.name, self.params, self.children)
 

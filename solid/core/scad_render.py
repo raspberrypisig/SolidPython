@@ -3,21 +3,18 @@ import regex as re
 import pkg_resources
 
 from pathlib import Path
-from typing import Callable, Optional, Union, Set
-from types import ModuleType
 
 from .helpers import calling_module, indent
 
 # =========================================
 # = Rendering Python code to OpenSCAD code=
 # =========================================
-def _find_include_strings(obj):
+def get_include_strings(obj):
     if not hasattr(obj, "include_string"):
         return set()
 
     include_strings = set()
-    if obj.include_string:
-        include_strings.add(obj.include_string)
+    include_strings.add(obj.include_string)
 
     for child in obj.children:
         include_strings.update(_find_include_strings(child))
@@ -27,23 +24,21 @@ def _find_include_strings(obj):
     for param in obj.params.values():
         include_strings.update(_find_include_strings(param))
 
+    include_strings.discard(None)
+
     return include_strings
 
-def scad_render(scad_object, file_header = ''):
-    # Make this object the root of the tree
-    root = scad_object
-
+def scad_render(root, file_header = ''):
     # Scan the tree for all instances of
     # OpenSCADObject, storing their strings
-    include_strings = _find_include_strings(root)
+    include_strings = get_include_strings(root)
 
     # and render the string
-    includes = ''
-    if include_strings:
-        includes = ''.join(include_strings) + "\n"
+    includes = '\n'.join(include_strings)
+    includes += '\n' if includes else ''
 
     #call libraries pre_render and let them wrap the root node
-    from .extensions.extension_base import default_extension_manager
+    from .extension_base import default_extension_manager
     root, extensions_header_str = \
         default_extension_manager.call_pre_render_and_wrap_root_node(root)
 
