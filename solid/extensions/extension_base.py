@@ -1,19 +1,6 @@
-from ..object_base import OpenSCADObject
+from ..object_base import ObjectBase
 
-class InvisibleExtensionBase(OpenSCADObject):
-    def __init__(self):
-        #set the OpenSCADIdentifier to a non identifer to
-        #raise a compile error if rendered
-        super().__init__('extension base not .=:!23nd32-4813!:=.', {})
-
-    def _render(self):
-        # only render the children, this is an invisible node
-        s = ""
-        for child in self.children:
-            s += child._render()
-        return s
-
-class RootExtensionBase(InvisibleExtensionBase):
+class RootExtensionBase(ObjectBase):
     def _pre_render(self, root):
         return ''
 

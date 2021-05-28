@@ -1,10 +1,11 @@
 from ...object_base import OpenSCADObject
 from ...helpers import indent
-from ..extension_base import InvisibleExtensionBase, default_extension_manager
+from ...scad_code_generation import scad_call_code
+from ..extension_base import ObjectBase, default_extension_manager
 
 # the hole extension this enables to use
 #   hole()(.....) in python
-class hole(InvisibleExtensionBase):
+class hole(ObjectBase):
     def _render(self):
         #override the _render function so we don't render the hole
         #in the regular rendering process
@@ -18,7 +19,7 @@ class hole(InvisibleExtensionBase):
 # the part extension this enable to use
 #   part()(...)
 # it is a RootExtension because we also inject it 
-class part(InvisibleExtensionBase):
+class part(ObjectBase):
     def _render(self):
         part_str = ""
 
@@ -29,12 +30,12 @@ class part(InvisibleExtensionBase):
         #render holes
         holes_str = find_and_render_child_holes(self.children)
         if len(holes_str):
-            holes_str = "\n/* Holes below */" + holes_str
+            holes_str = "/* Holes below */\n" + holes_str
 
         #if there are holes below this node.....
         if len(holes_str):
             #substract the holes from the part
-            part_str = '\ndifference(){ //part hole extension\n' + indent(part_str + holes_str ) + '\n}'
+            part_str = 'difference(){ //part hole extension\n' + indent(part_str + holes_str ) + '\n}\n'
 
         return part_str
 
@@ -71,7 +72,7 @@ def find_and_render_child_holes(childs):
                 #if in the child sub tree where holes
                 if child_holes_str != '':
                     #render "self" around the child
-                    holes_str += c._render_str_no_children() + "{" + indent(child_holes_str) + "\n}"
+                    holes_str += scad_call_code(c.name, c.params) + "{" + indent(child_holes_str) + "\n}"
 
     return holes_str
 

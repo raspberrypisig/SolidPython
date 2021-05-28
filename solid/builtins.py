@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from .scad_import import use
-from .extensions.extension_base import InvisibleExtensionBase
+from .object_base import ObjectBase
 
 # ====================
 # = dynamic builtins =
@@ -21,7 +21,7 @@ use(_OPENSCAD_BUILTINS_FILE, builtins=True)
 # =============
 # = modifiers =
 # =============
-class ModifierBase(InvisibleExtensionBase):
+class ModifierBase(ObjectBase):
     def __init__(self, child=None):
         super().__init__()
         if child:

@@ -1,18 +1,18 @@
+import platform
+import os
+import re
 import inspect
 import keyword
 from pathlib import Path
 
-from types import ModuleType
-from typing import List
-
-def indent(s: str) -> str:
+def indent(s):
     res = ''
     for ns in s.splitlines(True):
         res += f'\t{ns}'
 
     return res
 
-def calling_module(stack_depth: int = 2) -> ModuleType:
+def calling_module(stack_depth = 2):
     """
     Returns the module *2* back in the frame stack.  That means:
     code in module A calls code in module B, which asks calling_module()
@@ -37,7 +37,7 @@ def calling_module(stack_depth: int = 2) -> ModuleType:
 
     return calling_mod
 
-def escpape_openscad_identifier(identifier: str) -> str:
+def escpape_openscad_identifier(identifier):
     """
     Append an underscore to any python reserved word.
     Prepend an underscore to any OpenSCAD identifier starting with a digit.
@@ -51,7 +51,7 @@ def escpape_openscad_identifier(identifier: str) -> str:
 
     return identifier
 
-def unescape_openscad_identifier(identifier: str) -> str:
+def unescape_openscad_identifier(identifier):
     """
     Remove trailing underscore for already-subbed python reserved words.
     Remove prepending underscore if remaining identifier starts with a digit.
@@ -79,14 +79,10 @@ def resolve_scad_filename(scad_file):
 
     return None
 
-def openscad_library_paths() -> List[Path]:
+def openscad_library_paths():
     """
     Return system-dependent OpenSCAD library paths or paths defined in os.environ['OPENSCADPATH']
     """
-    import platform
-    import os
-    import re
-
     paths = [Path('.')]
 
     user_path = os.environ.get('OPENSCADPATH')
