@@ -1,6 +1,6 @@
 from ...core.object_base import ObjectBase
 from ...core.utils import indent
-from ...core.extension_base import default_extension_manager
+from ...core.extension_manager import default_extension_manager
 
 # the hole extension this enables to use
 #   hole()(.....) in python
