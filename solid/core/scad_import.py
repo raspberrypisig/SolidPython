@@ -1,7 +1,7 @@
 from types import SimpleNamespace
+import inspect
 
-from .helpers import calling_module, resolve_scad_filename,\
-                     escpape_openscad_identifier
+from .utils import resolve_scad_filename, escpape_openscad_identifier
 from .object_base import OpenSCADObject
 
 # ===========
@@ -14,22 +14,12 @@ def parse_scad_callables(filename):
 
     callables = []
     for c in modules + functions:
-        args = []
-        kwargs = []
-
-        #we need to consider all OpenSCAD parameters as optional because
-        #that's the way OpenSCAD itself treats them
-        for p in c.parameters:
-            kwargs.append(p.name)
-            #if p.optional:
-            #    kwargs.append(p.name)
-            #else:
-            #    args.append(p.name)
+        args = [p.name for p in c.parameters if not p.optional]
+        kwargs = [p.name for p in c.parameters if p.optional]
 
         callables.append({'name': c.name, 'args': args, 'kwargs': kwargs})
 
     return callables
-
 
 def check_signature(name, args_def, kwargs_def, *args, **kwargs):
     #check whether the args and kwargs fit a function signature definition
@@ -39,9 +29,7 @@ def check_signature(name, args_def, kwargs_def, *args, **kwargs):
     if len(args) + len(kwargs) > len(args_def) + len(kwargs_def):
         raise TypeError(f"too many arguments to {name}(...)")
 
-    full_defs = args_def + kwargs_def
-
-    full_args_tuples = list(zip(full_defs, args))
+    full_args_tuples = list(zip(args_def + kwargs_def, args))
     full_args_tuples += list(zip(kwargs.keys(), kwargs.values()))
 
     full_args_names = [x[0] for x in full_args_tuples]
@@ -59,7 +47,8 @@ def check_signature(name, args_def, kwargs_def, *args, **kwargs):
             kwargs_def_copy.remove(a)
 
         else:
-            raise TypeError(f"{name}(...) has no parameter {a} or it is already occupied by a positional argument")
+            raise TypeError(f"{name}(...) has no parameter {a} or it is " +\
+                            f"already occupied by a positional argument")
 
     #are there still unmatched parameters left?
     if full_args_names:
@@ -83,7 +72,6 @@ def create_openscad_wrapper_from_symbols(name, args, kwargs, include_str):
 
         #zip the args with the def dicts and update it with kwargs
         #to get a single complete kwargs list
-        #->OpenSCADObject Interface
         params = dict(zip(args_def + kwargs_def, args))
         params.update(kwargs)
 
@@ -96,9 +84,7 @@ def create_openscad_wrapper_from_symbols(name, args, kwargs, include_str):
     args_def = list(map(escpape_openscad_identifier, args))
     kwargs_def = list(map(escpape_openscad_identifier, kwargs))
 
-    #create the class and bind an "instance of" newclass_init_func -- wrapped
-    #in init_func -- to it's __init__ function
-
+    #create the class and bind an "instance of" _init_func it's __init__ function
     class_declaration = type(name, (OpenSCADObject,), {"__init__" : init_func})
 
     #add the function signature as __doc__ string, so ExpSolidNamespace can
@@ -112,7 +98,7 @@ def create_openscad_wrapper_from_symbols(name, args, kwargs, include_str):
 
 class ExpSolidNamespace(SimpleNamespace):
     """
-    we create our own namespace class for imported openscad module to be able
+    we create our own namespace class for imported openscad modules to be able
     to overwrite the __repr__ func. This enables in a python shell
 
         s = import_scad("...")
@@ -139,38 +125,35 @@ class ExpSolidNamespace(SimpleNamespace):
 # ===========================
 # = IMPORTING OPENSCAD CODE =
 # ===========================
-module_cache_by_name = {}
 module_cache_by_resolved_filename = {}
 
 def import_scad(scad_file_or_dir, dest_namespace = None):
     '''
     Recursively look in current directory & OpenSCAD library directories for
-        OpenSCAD files. Create Python mappings for all OpenSCAD modules & functions
+    OpenSCAD files. Create Python mappings for all OpenSCAD modules & functions
     Return a namespace or raise ValueError if no scad files found
     '''
-    global module_cache_by_name, module_cache_by_resolved_filename
-
-    if scad_file_or_dir in module_cache_by_name.keys():
-        return module_cache_by_name[scad_file_or_dir]
+    global module_cache_by_resolved_filename
 
     resolved_scad = resolve_scad_filename(scad_file_or_dir)
 
     if not resolved_scad:
-        raise ValueError(f'Could not find .scad files at or under {scad_file_or_dir}.')
+        raise ValueError(f'Could not find .scad files at or under ' + \
+                         f'{scad_file_or_dir}.')
 
     if resolved_scad in module_cache_by_resolved_filename.keys():
         return module_cache_by_resolved_filename[resolved_scad]
 
-    namespace = _import_scad(resolved_scad, dest_namespace)
+    namespace = load_package(resolved_scad, dest_namespace)
 
     if not namespace:
-        raise ValueError(f'Could not import .scad file {resolved_scad.as_posix()}.')
+        raise ValueError(f'Could not import .scad file ' + \
+                         f'{resolved_scad.as_posix()}.')
 
-    module_cache_by_name[scad_file_or_dir] = namespace
     module_cache_by_resolved_filename[resolved_scad] = namespace
     return namespace
 
-def _import_scad(scad, dest_namespace=None):
+def load_package(scad, dest_namespace=None):
     '''
     cases:
         single scad file:
@@ -186,8 +169,9 @@ def _import_scad(scad, dest_namespace=None):
 
     if dest_namespace == None:
         dest_namespace = ExpSolidNamespace(scad)
+
     if scad.is_file():
-        use(scad.absolute(), dest_namespace=dest_namespace)
+        use(scad.absolute(), dest_namespace_dict=dest_namespace.__dict__)
         return dest_namespace
 
     assert(scad.is_dir())
@@ -205,27 +189,31 @@ def _import_scad(scad, dest_namespace=None):
 
     return dest_namespace
 
-    assert(False)
-
-
 # use() & include() mimic OpenSCAD's use/include mechanics.
 # -- use() makes methods in scad_file_path.scad available to be called.
 # --include() makes those methods available AND executes all code in
 #   scad_file_path.scad, which may have side effects.
 #   Unless you have a specific need, call use().
-def include_str_from_filename(filename, use_not_include, builtins):
-    if not filename or builtins:
-        return None
-
-    include_file_path = resolve_scad_filename(filename)
-    use_str = 'use' if use_not_include else 'include'
-    return f'{use_str} <{include_file_path}>\n'
-
-def use(scad_file_path, use_not_include = True, dest_namespace=None, builtins=False):
+def use(scad_file_path, use_not_include = True,
+        dest_namespace_dict=None, builtins=False):
     """
     Opens scad_file_path, parses it for all usable calls,
     and adds them to caller's namespace.
     """
+    def include_str_from_filename(filename, use_not_include, builtins):
+        if not filename or builtins:
+            return None
+
+        include_file_path = resolve_scad_filename(filename)
+        use_str = 'use' if use_not_include else 'include'
+        return f'{use_str} <{include_file_path}>\n'
+
+    def get_callers_namespace_dict(depth=2):
+        frame = inspect.currentframe()
+        for i in range(depth):
+            frame = frame.f_back
+        return frame.f_locals
+
     #resolve filename
     scad_file_path = resolve_scad_filename(scad_file_path)
 
@@ -233,20 +221,24 @@ def use(scad_file_path, use_not_include = True, dest_namespace=None, builtins=Fa
     symbols_dicts = parse_scad_callables(scad_file_path)
 
     #set the dest_namespace to the module calling this function
-    if dest_namespace == None:
-        dest_namespace = calling_module(2)
+    if dest_namespace_dict == None:
+        dest_namespace_dict = get_callers_namespace_dict(2 if use_not_include else 3)
 
     #create a wrapper for each module and function in symbols
     for sd in symbols_dicts:
-        include_str = include_str_from_filename(scad_file_path, use_not_include, builtins)
+        include_str = include_str_from_filename(scad_file_path,
+                                                use_not_include,
+                                                builtins)
+
         c = create_openscad_wrapper_from_symbols(sd["name"],
                                                  sd["args"],
                                                  sd["kwargs"],
                                                  include_str)
 
         #add it to the dest_namespace
-        setattr(dest_namespace, escpape_openscad_identifier(sd["name"]), c)
+        #setattr(dest_namespace_dict, escpape_openscad_identifier(sd["name"]), c)
+        dest_namespace_dict[escpape_openscad_identifier(sd["name"])] = c
 
 def include(scad_file_path):
-    return use(scad_file_path, use_not_include=False, dest_namespace = calling_module(2))
+    return use(scad_file_path, use_not_include=False)
 
