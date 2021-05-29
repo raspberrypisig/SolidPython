@@ -66,6 +66,29 @@ def create_openscad_wrapper_from_symbols(name, args, kwargs, include_str):
     #this is the function we'll bind to the init function of the new class
     #that we'll create to represent the openscad function
     def init_func(self, *args, **kwargs):
+        def legacy_patch(kwargs):
+            # this function patches the kwargs to be backward compatible
+            import keyword
+            if "segments" in kwargs.keys():
+                kwargs["_fn"] = kwargs.pop("segments")
+            keys_to_replace = []
+
+            #replace keyword_ with _keyword
+            for k in kwargs.keys():
+                if k.endswith("_") and keyword.iskeyword(k[:-1]):
+                    keys_to_replace.append(k)
+            for k in keys_to_replace:
+                kwargs["_" + k[:-1]] = kwargs.pop(k)
+
+            #replace __[0-9]... with _[0-9]
+            keys_to_replace = []
+            for k in kwargs.keys():
+                if k.startswith("__") and k[2].isdigit():
+                    keys_to_replace.append(k)
+            for k in keys_to_replace:
+                kwargs["_" + k[2:]] = kwargs.pop(k)
+
+        legacy_patch(kwargs)
 
         #check whether the *args and **kwargs meet our parameter definitions
         check_signature(name, args_def, kwargs_def, *args, **kwargs)
