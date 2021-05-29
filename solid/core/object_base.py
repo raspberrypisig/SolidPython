@@ -40,9 +40,8 @@ class ObjectBase:
         return scad_render_to_file(self, filename, outdir, _fn=_fn)
 
 class OpenSCADObject(ObjectBase):
-    def __init__(self, name, params, include_string = None):
+    def __init__(self, name, params):
         super().__init__()
-        self.include_string = include_string
         self.name = name
         self.params = params
 

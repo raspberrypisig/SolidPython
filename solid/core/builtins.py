@@ -16,7 +16,7 @@ from .object_base import ObjectBase
 """
 _OPENSCAD_BUILTINS_FILE = Path(__file__).absolute().parent / "builtins.openscad"
 
-use(_OPENSCAD_BUILTINS_FILE, builtins=True)
+use(_OPENSCAD_BUILTINS_FILE)
 
 # =============
 # = modifiers =

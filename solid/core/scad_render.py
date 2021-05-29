@@ -2,18 +2,14 @@ from pathlib import Path
 
 from .utils import indent
 from .object_base import ObjectBase, OpenSCADObject
+from .scad_import import module_cache_by_resolved_filename
 
 # =========================================
 # = Rendering Python code to OpenSCAD code=
 # =========================================
 def scad_render(root, file_header = '', _fn=None):
-    # Scan the tree for all instances of
-    # OpenSCADObject, storing their strings
-    include_strings = get_include_strings(root)
-
-    # and render the string
-    includes = '\n'.join(include_strings)
-    includes += '\n' if includes else ''
+    #get a list of all used and included files
+    includes = get_include_string()
 
     #call extensions pre_render
     from .extension_manager import default_extension_manager
@@ -68,24 +64,20 @@ def _write_to_file(out_string, filename=None, outdir=''):
     outfile_path.write_text(out_string)
     return outfile_path.absolute().as_posix()
 
-def get_include_strings(obj):
-    if not isinstance(obj, ObjectBase):
-        return set()
+def get_include_string():
+    strings = []
+    for k, v in module_cache_by_resolved_filename.items():
+        #skip builtins file
+        if Path(k).name == "builtins.openscad":
+            continue
 
-    include_strings = set()
+        if v[1]:
+            strings.append(f"use <{k}>")
+        else:
+            strings.append(f"include <{k}>")
 
-    if isinstance(obj, OpenSCADObject):
-        include_strings.add(obj.include_string)
+    s = "\n".join(strings)
+    s += "\n\n" if s else ''
 
-        # We also accept OpenSCADObject instances as parameters to functions,
-        # so search in obj.params as well
-        for param in obj.params.values():
-            include_strings.update(get_include_strings(param))
-
-    for child in obj.children:
-        include_strings.update(get_include_strings(child))
-
-    include_strings.discard(None)
-
-    return include_strings
+    return s
 
