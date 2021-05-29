@@ -1,3 +1,91 @@
+ExpSolid
+--------
+
+This is an experimental SolidPython branch. It's a striped and
+refactored version of SolidPython. Since this branch will never make it back to
+SolidPython:master it's now kind of a "thing" of its own - an experimental
+SolidPython fork.
+
+It should be a pretty complete and backwards compatible drop in replacement for
+SolidPython. The backwards compatibility is not 100%. Somethings (and even
+interfaces) changed. I tried to stay as backward compatible as possible.
+The package should behave 90% the same as SolidPython. If you do some "deep
+access" that's by 99% chance not backward compatible (like modifying
+OpenSCADObjects or import internal modules).
+
+It is based on the following proposal:
+https://github.com/SolidCode/SolidPython/issues/169
+
+The goal was to
+
+* extract the "core" from SolidPython
+* make a solid package that only contains the fundamentals (+ a few convenience features) 
+* make it extendible
+* try to get complex libraries working properly (mcad, bosl, bosl2)
+* let's see what's next
+
+The interface changed in a few minor aspects:
+
+* OpenSCAD identifier escaping:
+        * all *illegal* python idetifiers are escape with a single prepending underscore
+        * special variables `$fn -> _fn` (*note*: `segments` still works)
+        * identifier starting with a digit `module 12ptStar() -> _12ptStar()` (*note*: `__12ptStar` still works)
+        * python keywords `module import() -> _import()` (*note*: `import\_`  still works)
+
+* import paths have changed (a lot)
+    * as long as you only import the root package it should be fine, otherwise probably not
+    
+    .. code:: python
+    
+            from solid import * #fine
+            from solid import objects #crash
+            from solid import solidpython #crash
+            from solid import splines #crash
+            from solid import utils #crash
+
+* all extensions have been (re)moved:
+    * solid.utils have been removed (for now)
+    * there are some example implementations of the part / hole feature and
+      bill of materials in `solid.extensions.legacy`. They seem to work but ar
+      not tested extensively. Take a look at `examples/xx_legacy*`.
+
+* OpenSCADObject internally changed a lot
+    If you access it directly
+    (e.g. mycube.set_modifier) this will not work. But if you import
+    solid.extensions.legacy some dummy methods will be monkey patched onto
+    OpenSCADObject so you should at least be able to run the code, but it
+    might render not correctly.
+
+* probably some more things I can't remember right now. Some function
+  signatures changed slightly.
+
+Some ideas for features this fork implements are based on ideas from the following *posts*
+  * use invert operator (~) as # in OpenSCAD
+    https://github.com/SolidCode/SolidPython/pull/167
+  * convenience function including to pass sizes as integer parameters (`translate(10, 20, 30)`)
+    https://github.com/SolidCode/SolidPython/pull/63#issuecomment-688171416
+  * *access-style* syntax: `cube(1).up(5).rotate(45, 0, 0)`
+    https://github.com/SolidCode/SolidPython/pull/66
+
+Take a look at the examples, they are pretty well documented and demonstrate the key features.
+
+One very nice feature especially to play around and debug it is that the __repr__ operator of each "OpenSCADObject" now calls scad_render. Withit the python shell becomes pretty good in debuging and playing around with solid code and the library itself:
+
+.. code:: python
+
+  >>> from solid import *
+  >>> c = cube(5)
+  >>> c.up(5)
+  translate(v = [0, 0, 5]) {
+          cube(size = 5);
+  };
+  >>> c.up(5).save_as_scad()
+  '/home/xxx/xxx/xxx/SolidPython/expsolid_out.scad'
+  >>>
+
+
+
+
 SolidPython
 -----------
 
