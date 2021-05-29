@@ -1,4 +1,3 @@
-from ..core.object_base import ObjectBase
 
 class ExtensionManager():
     def __init__(self):

@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-from .utils import escpape_openscad_identifier
 #don't do relative imports on the global scope to be able to import this file
 #from "everywhere"
 
@@ -88,6 +87,8 @@ class OpenSCADConstant():
     def __init__(self, name):
         super().__init__()
         self.name = name
+
+        from .utils import escpape_openscad_identifier
         self.__doc__ = escpape_openscad_identifier(name)
 
     def __repr__(self):

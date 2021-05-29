@@ -13,7 +13,8 @@ from solid import *
 # to hierarchically assemble them.
 # You can use python functions pretty much the same way as OpenSCAD modules
 # except the children stuff. This is not possible with SolidPython but you
-# can pass other OpenSCAD objects as parameters if neccessary.
+# should be albe to pass other OpenSCAD objects as parameters if neccessary.
+# I haven't tried it but it should work....
 #
 # This simple example assembles a car similar to the one from the OpenSCAD
 # tutorial:
