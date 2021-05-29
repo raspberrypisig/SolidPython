@@ -15,7 +15,7 @@ def scad_render(root, file_header = '', _fn=None):
     includes = '\n'.join(include_strings)
     includes += '\n' if includes else ''
 
-    #call libraries pre_render and let them wrap the root node
+    #call extensions pre_render
     from .extension_manager import default_extension_manager
     extensions_header_str = default_extension_manager.call_pre_render(root)
     extensions_header_str += "\n" if extensions_header_str else ''
@@ -25,6 +25,7 @@ def scad_render(root, file_header = '', _fn=None):
 
     scad_body = root._render()
 
+    #call extensions post_render
     extensions_footer_str = default_extension_manager.call_post_render(root)
     extensions_footer_str += "\n" if extensions_footer_str else ''
 

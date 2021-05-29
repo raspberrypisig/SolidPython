@@ -23,7 +23,7 @@ class ObjectBase:
         return s
 
     def __call__(self, *args):
-        #translate()(cube())
+        #translate(...)(cube())
         #this adds cube() to translate.children
         self.add(list(args))
         return self
@@ -31,14 +31,13 @@ class ObjectBase:
     def __repr__(self):
         return self.as_scad()
 
-    def as_scad(self):
+    def as_scad(self, _fn=None):
         from .scad_render import scad_render
-        return scad_render(self)[:-1]
+        return scad_render(self, _fn=_fn)[:-1]
 
-    def save_as_scad(self, filename='', outdir=''):
+    def save_as_scad(self, filename='', outdir='', _fn=None):
         from .scad_render import scad_render_to_file
-        return scad_render_to_file(self, filename, outdir)
-
+        return scad_render_to_file(self, filename, outdir, _fn=_fn)
 
 class OpenSCADObject(ObjectBase):
     def __init__(self, name, params, include_string = None):
