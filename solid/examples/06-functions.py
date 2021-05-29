@@ -1,6 +1,6 @@
-#==================================================
-#add relative path to the solid package to sys.path
-#==================================================
+# ======================================================
+# = add relative path to the solid package to sys.path =
+# ======================================================
 import sys
 from pathlib import Path
 solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
@@ -8,6 +8,15 @@ sys.path.append(solidPath)
 #==================================================
 
 from solid import *
+
+# as soon as the objects get more complicated it makes sense to use functions
+# to hierarchically assemble them.
+# You can use python functions pretty much the same way as OpenSCAD modules
+# except the children stuff. This is not possible with SolidPython but you
+# can pass other OpenSCAD objects as parameters if neccessary.
+#
+# This simple example assembles a car similar to the one from the OpenSCAD
+# tutorial:
 
 def wheel():
     return cylinder(r=35, h=15, center=True).rotate(0, 90, 0)
