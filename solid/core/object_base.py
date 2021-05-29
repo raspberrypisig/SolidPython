@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+from .utils import escpape_openscad_identifier
 #don't do relative imports on the global scope to be able to import this file
 #from "everywhere"
 
@@ -82,6 +83,18 @@ class OpenSCADObject(ObjectBase):
         param_str = ", ".join(param_strings)
 
         return f'{scad_identifier}({param_str})'
+
+class OpenSCADConstant():
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+        self.__doc__ = escpape_openscad_identifier(name)
+
+    def __repr__(self):
+        return self.name
+
+    def _render(self):
+        return self.name
 
 def py2openscad(o):
     if type(o) == bool:

@@ -1,25 +1,28 @@
 from types import SimpleNamespace
 import inspect
+from collections import namedtuple
 
 from .utils import resolve_scad_filename, escpape_openscad_identifier
-from .object_base import OpenSCADObject
+from .object_base import OpenSCADObject, OpenSCADConstant
 
 # ===========
 # = Parsing =
 # ===========
 def parse_scad_callables(filename):
     from ..libs.py_scadparser import scad_parser
+    callables_entry = namedtuple("callables_entry", ["name", "args", "kwargs"])
 
-    modules, functions, _ = scad_parser.parseFile(filename)
+    modules, functions, global_vars = scad_parser.parseFile(filename)
 
     callables = []
     for c in modules + functions:
-        args = [p.name for p in c.parameters if not p.optional]
-        kwargs = [p.name for p in c.parameters if p.optional]
+        #args = [p.name for p in c.parameters if not p.optional]
+        #kwargs = [p.name for p in c.parameters if p.optional]
+        kwargs = [p.name for p in c.parameters]
 
-        callables.append({'name': c.name, 'args': args, 'kwargs': kwargs})
+        callables.append(callables_entry(c.name, [], kwargs))
 
-    return callables
+    return callables, global_vars
 
 def check_signature(name, args_def, kwargs_def, *args, **kwargs):
     #check whether the args and kwargs fit a function signature definition
@@ -213,7 +216,15 @@ def get_callers_namespace_dict(depth=2):
     frame = inspect.currentframe()
     for i in range(depth):
         frame = frame.f_back
-    return frame.f_locals
+
+    if frame.f_code.co_name == "<module>":
+        return frame.f_locals
+    else:
+        raise Exception("use & include can not be used inside a function!\n" +\
+              "they would polute the modules namespace and only if executed. This\n" +\
+              "has strange side effects! Use them on module level.\n")
+
+        return frame.f_globals
 
 def use(scad_file_path, use_not_include = True,
         dest_namespace_dict=None):
@@ -246,16 +257,19 @@ def use(scad_file_path, use_not_include = True,
         return
 
     #get symbols from the parser
-    symbols_dicts = parse_scad_callables(resolved_scad)
+    callables, constants = parse_scad_callables(resolved_scad)
 
     #create a wrapper for each module and function in symbols
     new_namespace_dict = {}
-    for sd in symbols_dicts:
-        c = create_openscad_wrapper_from_symbols(sd["name"], sd["args"], sd["kwargs"])
+    for c in callables:
+        wrapper = create_openscad_wrapper_from_symbols(c.name, c.args, c.kwargs)
 
         #add it to the dest_namespace
-        #setattr(dest_namespace_dict, escpape_openscad_identifier(sd["name"]), c)
-        new_namespace_dict[escpape_openscad_identifier(sd["name"])] = c
+        #setattr(dest_namespace_dict, escpape_openscad_identifier(c.name), wrapper)
+        new_namespace_dict[escpape_openscad_identifier(c.name)] = wrapper
+
+    for c in constants:
+        new_namespace_dict[escpape_openscad_identifier(c.name)] = OpenSCADConstant(c.name)
 
     dest_namespace_dict.update(new_namespace_dict)
 
