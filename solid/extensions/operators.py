@@ -19,16 +19,16 @@ def _union_op(self, x):
     #add self or all its children to res
     if isinstance(self, builtins.union):
         for c in self.children:
-            res.children.append(c)
+            res.add(c)
     else:
-        res.children.append(self)
+        res.add(self)
 
     #add x or all its children to res
     if isinstance(x, builtins.union):
         for c in x.children:
-            res.children.append(c)
+            res.add(c)
     else:
-        res.children.append(x)
+        res.add(x)
 
     return res
 
@@ -41,11 +41,11 @@ def _difference_op(self, x):
 
     if isinstance(self, builtins.difference) and len(self.children):
         for c in self.children:
-            res.children.append(c)
+            res.add(c)
     else:
-        res.children.append(self)
+        res.add(self)
 
-    res.children.append(x)
+    res.add(x)
     return res
 
 def _intersection_op(self, x):
@@ -57,15 +57,15 @@ def _intersection_op(self, x):
 
     if isinstance(self, builtins.intersection) and len(self.children):
         for c in self.children:
-            res.children.append(c)
+            res.add(c)
     else:
-        res.children.append(self)
+        res.add(self)
 
     if isinstance(x, builtins.intersection):
         for c in x.children:
-            res.children.append(c)
+            res.add(c)
     else:
-        res.children.append(x)
+        res.add(x)
 
     return res
 
