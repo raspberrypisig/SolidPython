@@ -2,11 +2,11 @@
 import sys
 from pathlib import Path
 
-solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
+solidPath = Path(__file__).absolute().parent.parent.parent.parent.as_posix()
 sys.path.append(solidPath)
 
 from solid import scad_render_to_file
-from solid.builtins import cube, cylinder, rotate
+from solid.core.builtins import cube, cylinder, rotate
 from solid.extensions.legacy.part_hole import part, hole
 from solid.extensions.convenience import right, up
 
@@ -98,5 +98,5 @@ if __name__ == '__main__':
     b = up(40)(multipart_hole())
     a += b
 
-    file_out = scad_render_to_file(a, out_dir=out_dir, file_header=f'$fn = {SEGMENTS};', include_orig_code=True)
+    file_out = scad_render_to_file(a, out_dir=out_dir, _fn=SEGMENTS)
     print(f"{__file__}: SCAD file written to: \n{file_out}")
