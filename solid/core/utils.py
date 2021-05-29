@@ -15,31 +15,6 @@ def indent(s):
 
     return res
 
-def calling_module(stack_depth = 2):
-    """
-    Returns the module *2* back in the frame stack.  That means:
-    code in module A calls code in module B, which asks calling_module()
-    for module A.
-
-    This means that we have to know exactly how far back in the stack
-    our desired module is; if code in module B calls another function in 
-    module B, we have to increase the stack_depth argument to account for
-    this.
-
-    Got that?
-    """
-    frm = inspect.stack()[stack_depth]
-    calling_mod = inspect.getmodule(frm[0])
-
-    # If calling_mod is None, this is being called from an interactive session.
-    # Return that module.  (Note that __main__ doesn't have a __file__ attr,
-    # but that's caught elsewhere.)
-    if not calling_mod:
-        import __main__ as main_module
-        return main_module
-
-    return calling_mod
-
 def escpape_openscad_identifier(identifier):
     """
     Append an underscore to any python reserved word.

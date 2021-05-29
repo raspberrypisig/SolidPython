@@ -130,6 +130,7 @@ def up(z): return builtins.translate((0, 0, z))
 def down(z): return builtins.translate((0, 0, -z))
 def right(x): return builtins.translate((x, 0, 0))
 def left(x): return builtins.translate((-x, 0, 0))
-def fwd(y): return builtins.translate((0, y, 0))
+def forward(y): return builtins.translate((0, y, 0))
+def fwd(y): return forward(y)
 def back(y): return builtins.translate((0, -y, 0))
 

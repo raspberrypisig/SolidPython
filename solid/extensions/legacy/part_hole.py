@@ -1,6 +1,5 @@
 from ...core.object_base import ObjectBase
-from ...core.helpers import indent
-from ...core.scad_code_generation import generate_scad_node_head
+from ...core.utils import indent
 from ...core.extension_base import default_extension_manager
 
 # the hole extension this enables to use
@@ -72,7 +71,7 @@ def find_and_render_child_holes(childs):
                 #if in the child sub tree where holes
                 if child_holes_str != '':
                     #render "self" around the child
-                    holes_str += generate_scad_node_head(c.name, c.params) + "{" + indent(child_holes_str) + "\n}"
+                    holes_str += c.generate_scad_head() + "{" + indent(child_holes_str) + "\n}"
 
     return holes_str
 

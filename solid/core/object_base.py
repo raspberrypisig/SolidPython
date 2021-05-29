@@ -29,8 +29,16 @@ class ObjectBase:
         return self
 
     def __repr__(self):
+        return self.as_scad()
+
+    def as_scad(self):
         from .scad_render import scad_render
         return scad_render(self)[:-1]
+
+    def save_as_scad(self, filename='', outdir=''):
+        from .scad_render import scad_render_to_file
+        return scad_render_to_file(self, filename, outdir)
+
 
 class OpenSCADObject(ObjectBase):
     def __init__(self, name, params, include_string = None):
@@ -40,6 +48,62 @@ class OpenSCADObject(ObjectBase):
         self.params = params
 
     def _render(self):
-        from .scad_code_generation import generate_scad_node
-        return generate_scad_node(self.name, self.params, self.children)
+        """
+            returns the scad code for a given node tuple consiting of name, params
+            and children list.
+
+            -> translate(v = [1, 2, 3]) {children[0]; children[1]; ...};\n
+        """
+        from .utils import indent
+        s = self.generate_scad_head()
+
+        if self.children:
+            s += " {\n"
+            for child in self.children:
+                s += indent(child._render())
+            s += "}"
+
+        return s + ";\n"
+
+    def generate_scad_head(self):
+        """
+            for a given function name and dict of params it returns:
+                {name}(p1=v1, p2=v2,...)
+                -> translate(v = [1, 2, 3])
+        """
+        from .utils import unescape_openscad_identifier
+
+        param_strings = []
+        for p in sorted(self.params.keys()):
+            scad_value = py2openscad(self.params[p])
+            scad_identifier = unescape_openscad_identifier(p)
+
+            param_strings.append(f'{scad_identifier} = {scad_value}')
+
+        scad_identifier = unescape_openscad_identifier(self.name)
+        param_str = ", ".join(param_strings)
+
+        return f'{scad_identifier}({param_str})'
+
+def py2openscad(o):
+    if type(o) == bool:
+        return str(o).lower()
+    if type(o) == float:
+        return f"{o:.10f}"  # type: ignore
+    if type(o) == str:
+        return f'\"{o}\"'  # type: ignore
+    if type(o).__name__ == "ndarray":
+        import numpy  # type: ignore
+        return numpy.array2string(o, separator=",", threshold=1000000000)
+    if hasattr(o, "__iter__"):
+        s = "["
+        first = True
+        for i in o:  # type: ignore
+            if not first:
+                s += ", "
+            first = False
+            s += py2openscad(i)
+        s += "]"
+        return s
+    return str(o)
 

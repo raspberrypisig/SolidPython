@@ -1,6 +1,6 @@
 from ..core import builtins
 from . import convenience
-from ..core.helpers import escpape_openscad_identifier
+from ..core.utils import escpape_openscad_identifier
 from ..core.object_base import ObjectBase
 
 __nothing__ = None
@@ -44,6 +44,7 @@ ObjectBase.left = lambda self, x: convenience.left(x)(self)
 ObjectBase.right = lambda self, x: convenience.right(x)(self)
 ObjectBase.back = lambda self, x: convenience.back(x)(self)
 ObjectBase.fwd = lambda self, x: convenience.fwd(x)(self)
+ObjectBase.forward = lambda self, x: convenience.fwd(x)(self)
 
 #debug, background, root, disable and ~
 ObjectBase.debug = lambda self: builtins.debug()(self)
