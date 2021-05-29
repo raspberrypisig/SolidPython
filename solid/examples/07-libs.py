@@ -25,19 +25,4 @@ screw = bosl.metric_screws.metric_bolt(size=6, headtype='hex', l=20)
 
 screw.save_as_scad()
 
-#NOTE: BOSL2 is not working properly at the moment because it uses
-#      OpenSCAD features extensively that are not supported by the ExpSolid
-#      import mechanism at the moment.
-#      -> global variables
-#      -> you need multiple includes for a single module
-#
-#           include <BOSL2/std.scad> //has to be included to be able to use
-#           include <BOSL2/linear_bearings.scad>
-#
-#           To make this work the include mechanism needs to be refactored to
-#           simply include everything that was ever included and not just the
-#           "include_strings" attached to certain OpenSCADObjects.
-#
-#      -> recursiv use and include
-#           if bla.scad uses / includes blub.scad, the globals from blub.scad
-#           should be available if you import bla.scad
+#NOTE: BOSL2 see 07-libs-bosl2.py
