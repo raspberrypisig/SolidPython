@@ -91,10 +91,15 @@ def bosl2_bounding_box(obj):
     mutators = import_scad("BOSL2/mutators.scad")
     return ~mutators.bounding_box()(obj)
 
+def extrude_along_path():
+    paths = import_scad("BOSL2/paths.scad")
+    path = [ [0, 0, 0], [33, 33, 33], [66, 33, 40], [100, 0, 0], [150,0,0] ]
+    return paths.path_extrude(path)(circle(r=10, _fn=6))
+
 boslshit = bosl2_attachments_include() & sphere(20).left(5)
 bbox = bosl2_bounding_box(boslshit)
 
-assembly = boslshit + bbox + basic_bosl2_usage().left(30)
+assembly = boslshit + bbox + basic_bosl2_usage().left(30) + extrude_along_path().color("red")
 assembly.save_as_scad()
 
 #BOSL2 TODO:
