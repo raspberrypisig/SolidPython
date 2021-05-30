@@ -87,8 +87,14 @@ def bosl2_attachments_include():
 
     return boslshit
 
+def bosl2_bounding_box(obj):
+    mutators = import_scad("BOSL2/mutators.scad")
+    return ~mutators.bounding_box()(obj)
 
-assembly = bosl2_attachments_include() + basic_bosl2_usage().left(30)
+boslshit = bosl2_attachments_include() & sphere(20).left(5)
+bbox = bosl2_bounding_box(boslshit)
+
+assembly = boslshit + bbox + basic_bosl2_usage().left(30)
 assembly.save_as_scad()
 
 #BOSL2 TODO:

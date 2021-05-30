@@ -238,8 +238,7 @@ def use(scad_file_path, use_not_include = True,
     resolved_scad = resolve_scad_filename(scad_file_path)
 
     if not resolved_scad:
-        raise ValueError(f'Could not find .scad files at or under ' + \
-                         f'{scad_file_path}.')
+        raise ValueError(f'Could not find .scad file {scad_file_path}.')
 
     #set the dest_namespace to the module calling this function
     if dest_namespace_dict == None:
@@ -259,13 +258,9 @@ def use(scad_file_path, use_not_include = True,
     #get symbols from the parser
     callables, constants = parse_scad_callables(resolved_scad)
 
-    #create a wrapper for each module and function in symbols
     new_namespace_dict = {}
     for c in callables:
         wrapper = create_openscad_wrapper_from_symbols(c.name, c.args, c.kwargs)
-
-        #add it to the dest_namespace
-        #setattr(dest_namespace_dict, escpape_openscad_identifier(c.name), wrapper)
         new_namespace_dict[escpape_openscad_identifier(c.name)] = wrapper
 
     for c in constants:

@@ -107,6 +107,8 @@ def py2openscad(o):
     if type(o).__name__ == "ndarray":
         import numpy  # type: ignore
         return numpy.array2string(o, separator=",", threshold=1000000000)
+    if isinstance(o, ObjectBase):
+        return o._render()
     if hasattr(o, "__iter__"):
         s = "["
         first = True
