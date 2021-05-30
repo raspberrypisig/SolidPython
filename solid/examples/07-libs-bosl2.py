@@ -11,9 +11,8 @@ from solid import *
 
 # BOSL2 is a little bit tricky to import but we get there step by step.
 #
-# If the BOSL2 docs say you have to include certain files you unfortunately
-# have to explicitly include the files in the same order as mentioned.
-# Furthermore you have to include (and not use) them.
+# There's a little extension to make it more straight forward to work with bosl2
+# It's work in progress, it's just a first sketch yet
 
 from types import SimpleNamespace
 
@@ -32,7 +31,7 @@ def bosl2_attachments_full_namespace():
     #       attach(FRONT, BOTTOM, overlap=1.5) cyl(l=11.5, d1=10, d2=5);
     #   }
 
-    from solid.extensions.bosl2 import std, constants, shapes, attachments
+    from solid.extensions.bosl2 import constants, shapes, attachments
     return \
     shapes.spheroid(d=20)(
         attachments.attach(constants.TOP)(
@@ -49,7 +48,6 @@ def bosl2_attachments_full_namespace():
 
 #works great, but let's try it again wth global includes
 
-include("BOSL2/std.scad")
 include("BOSL2/constants.scad")
 include("BOSL2/shapes.scad")
 include("BOSL2/attachments.scad")
@@ -92,6 +90,7 @@ def bosl2_diff():
     #        attach(CENTER) cube([40,120,100], anchor=CENTER, $tags="neg");
     #    }
 
+    #the other modules are already in the global namespace =(
     from solid.extensions.bosl2 import primitives
     return \
     diff("neg", "pos", keep="axle") (
