@@ -39,21 +39,20 @@ def bosl2_attachments_full_namespace():
     #       attach(FRONT, BOTTOM, overlap=1.5) cyl(l=11.5, d1=10, d2=5);
     #   }
 
-    bosl2 = SimpleNamespace()
-    bosl2.std = import_scad("BOSL2/std.scad", use_not_include=False)
-    bosl2.constants = import_scad("BOSL2/constants.scad", use_not_include=False)
-    bosl2.shapes = import_scad("BOSL2/shapes.scad", use_not_include=False)
-    bosl2.attachments = import_scad("BOSL2/attachments.scad", use_not_include=False)
+    std = import_scad("BOSL2/std.scad", use_not_include=False)
+    constants = import_scad("BOSL2/constants.scad", use_not_include=False)
+    shapes = import_scad("BOSL2/shapes.scad", use_not_include=False)
+    attachments = import_scad("BOSL2/attachments.scad", use_not_include=False)
 
-    bosl2.shapes.spheroid(d=20)(
-        bosl2.attachments.attach(bosl2.constants.TOP)(
+    shapes.spheroid(d=20)(
+        attachments.attach(constants.TOP)(
             down(1.5)(
-                     bosl2.shapes.cyl(l=11.5, d1=10, d2=5, anchor = bosl2.constants.BOTTOM)
+                     shapes.cyl(l=11.5, d1=10, d2=5, anchor = constants.BOTTOM)
                 )
             ),
-        bosl2.attachments.attach(bosl2.constants.RIGHT, bosl2.constants.BOTTOM)(
+        attachments.attach(constants.RIGHT, constants.BOTTOM)(
             down(1.5)(
-                     bosl2.shapes.cyl(l=11.5, d1=10, d2=5, anchor = bosl2.constants.BOTTOM)
+                     shapes.cyl(l=11.5, d1=10, d2=5, anchor = constants.BOTTOM)
                 )
             )
         ).save_as_scad()
@@ -96,10 +95,31 @@ def extrude_along_path():
     path = [ [0, 0, 0], [33, 33, 33], [66, 33, 40], [100, 0, 0], [150,0,0] ]
     return paths.path_extrude(path)(circle(r=10, _fn=6))
 
+def bosl2_diff():
+    #diff("neg", "pos", keep="axle")
+    #    sphere(d=100, $tags="pos") {
+    #        attach(CENTER) xcyl(d=39, l=120, $tags="axle");
+    #        attach(CENTER) cube([40,120,100], anchor=CENTER, $tags="neg");
+    #    }
+
+    primitives = import_scad("BOSL2/primitives.scad", use_not_include=False)
+    return \
+    diff("neg", "pos", keep="axle") (
+            primitives.sphere(d=100, _tags="pos") (
+                attach(CENTER) (xcyl(d=39, l=120, _tags="axle")),
+                attach(CENTER) (primitives.cube([40, 120, 100], anchor=CENTER, _tags="neg"))
+            )
+    )
+
 boslshit = bosl2_attachments_include() & sphere(20).left(5)
 bbox = bosl2_bounding_box(boslshit)
 
-assembly = boslshit + bbox + basic_bosl2_usage().left(30) + extrude_along_path().color("red")
+assembly = boslshit +\
+           bbox +\
+           basic_bosl2_usage().left(30) +\
+           extrude_along_path().color("purple") +\
+           bosl2_diff().back(100)
+
 assembly.save_as_scad()
 
 #BOSL2 TODO:

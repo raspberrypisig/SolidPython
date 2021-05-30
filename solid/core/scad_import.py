@@ -29,11 +29,12 @@ def check_signature(name, args_def, kwargs_def, *args, **kwargs):
     #defined with args_def and kwargs_def. args_def and kwargs_def are lists
     #of all parameter names the function {name} accepts
 
-    if len(args) + len(kwargs) > len(args_def) + len(kwargs_def):
+    filtered_kwargs = {k: kwargs[k] for k in kwargs if not k.startswith("_")}
+    if len(args) + len(filtered_kwargs) > len(args_def) + len(kwargs_def):
         raise TypeError(f"too many arguments to {name}(...)")
 
     full_args_tuples = list(zip(args_def + kwargs_def, args))
-    full_args_tuples += list(zip(kwargs.keys(), kwargs.values()))
+    full_args_tuples += list(zip(filtered_kwargs.keys(), filtered_kwargs.values()))
 
     full_args_names = [x[0] for x in full_args_tuples]
 
