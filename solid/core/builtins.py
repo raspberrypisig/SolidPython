@@ -2,6 +2,7 @@ from pathlib import Path
 
 from .scad_import import use
 from .object_base import ObjectBase
+from ..config import config
 
 # ====================
 # = dynamic builtins =
@@ -14,9 +15,7 @@ from .object_base import ObjectBase
     .gitignore, but that would cause a lot of generated files to show up while
     developing...).
 """
-_OPENSCAD_BUILTINS_FILE = Path(__file__).absolute().parent / "builtins.openscad"
-
-use(_OPENSCAD_BUILTINS_FILE)
+use(config.builtins_file)
 
 # =============
 # = modifiers =

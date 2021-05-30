@@ -5,6 +5,8 @@ import inspect
 import keyword
 from pathlib import Path
 
+from ..config import config
+
 #don't do relative imports on the global scope to be able to import this file
 #from "everywhere"
 
@@ -51,36 +53,9 @@ def resolve_scad_filename(scad_file):
     if scad_path.is_absolute():
         return scad_path
 
-    for p in openscad_library_paths():
+    for p in config.openscad_library_paths:
         if (p / scad_path).exists():
             return p / scad_path
 
     return None
-
-def openscad_library_paths():
-    """
-    Return system-dependent OpenSCAD library paths or paths defined in
-    os.environ['OPENSCADPATH'] """
-    paths = [Path('.')]
-
-    user_path = os.environ.get('OPENSCADPATH')
-    if user_path:
-        for s in re.split(r'\s*[;:]\s*', user_path):
-            paths.append(Path(s))
-
-    #user wide path
-    default_paths = {
-        'Linux':   Path.home() / '.local/share/OpenSCAD/libraries',
-        'Darwin':  Path.home() / 'Documents/OpenSCAD/libraries',
-        'Windows': Path('My Documents\OpenSCAD\libraries')
-    }
-
-    paths.append(default_paths[platform.system()])
-
-    #system wide paths
-    if platform.system() == 'Linux':
-        #sorry, but I've no clue what the paths are on other operating systems
-        paths.append("/usr/share/openscad/libraries")
-
-    return paths
 

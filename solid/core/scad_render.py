@@ -3,6 +3,7 @@ from pathlib import Path
 from .utils import indent
 from .object_base import ObjectBase, OpenSCADObject
 from .scad_import import module_cache_by_resolved_filename
+from ..config import config
 
 # =========================================
 # = Rendering Python code to OpenSCAD code=
@@ -68,7 +69,7 @@ def get_include_string():
     strings = []
     for k, v in module_cache_by_resolved_filename.items():
         #skip builtins file
-        if Path(k).name == "builtins.openscad":
+        if Path(k) == config.builtins_file:
             continue
 
         if v[1]:
