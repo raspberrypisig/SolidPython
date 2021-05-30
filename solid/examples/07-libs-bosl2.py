@@ -18,17 +18,10 @@ from solid import *
 from types import SimpleNamespace
 
 def basic_bosl2_usage():
-    bosl2 = SimpleNamespace()
+    from solid.extensions.bosl2 import import_bosl2
+    metric_screws = import_bosl2("metric_screws")
 
-    #explicitly include std.scad (first!) and set the include flag
-    bosl2.std = import_scad("BOSL2/std.scad", use_not_include=False)
-    #explicitly include std.metrics_screws and set the include flag
-    bosl2.metric_screws = import_scad("BOSL2/metric_screws.scad", use_not_include=False)
-
-    #use it to generate a metric screw
-    screw = bosl2.metric_screws.metric_bolt(size=6, headtype='hex', l=20)
-
-    return screw
+    return metric_screws.metric_bolt(size=20, headtype='hex', l=40)
 
 def bosl2_attachments_full_namespace():
     #let's try this:
@@ -39,11 +32,8 @@ def bosl2_attachments_full_namespace():
     #       attach(FRONT, BOTTOM, overlap=1.5) cyl(l=11.5, d1=10, d2=5);
     #   }
 
-    std = import_scad("BOSL2/std.scad", use_not_include=False)
-    constants = import_scad("BOSL2/constants.scad", use_not_include=False)
-    shapes = import_scad("BOSL2/shapes.scad", use_not_include=False)
-    attachments = import_scad("BOSL2/attachments.scad", use_not_include=False)
-
+    from solid.extensions.bosl2 import std, constants, shapes, attachments
+    return \
     shapes.spheroid(d=20)(
         attachments.attach(constants.TOP)(
             down(1.5)(
@@ -55,9 +45,9 @@ def bosl2_attachments_full_namespace():
                      shapes.cyl(l=11.5, d1=10, d2=5, anchor = constants.BOTTOM)
                 )
             )
-        ).save_as_scad()
+        )
 
-#works great, but no one can read it let's try it again wth global includes
+#works great, but let's try it again wth global includes
 
 include("BOSL2/std.scad")
 include("BOSL2/constants.scad")
@@ -87,11 +77,11 @@ def bosl2_attachments_include():
     return boslshit
 
 def bosl2_bounding_box(obj):
-    mutators = import_scad("BOSL2/mutators.scad")
+    from solid.extensions.bosl2 import mutators
     return ~mutators.bounding_box()(obj)
 
 def extrude_along_path():
-    paths = import_scad("BOSL2/paths.scad")
+    from solid.extensions.bosl2 import paths
     path = [ [0, 0, 0], [33, 33, 33], [66, 33, 40], [100, 0, 0], [150,0,0] ]
     return paths.path_extrude(path)(circle(r=10, _fn=6))
 
@@ -102,7 +92,7 @@ def bosl2_diff():
     #        attach(CENTER) cube([40,120,100], anchor=CENTER, $tags="neg");
     #    }
 
-    primitives = import_scad("BOSL2/primitives.scad", use_not_include=False)
+    from solid.extensions.bosl2 import primitives
     return \
     diff("neg", "pos", keep="axle") (
             primitives.sphere(d=100, _tags="pos") (
@@ -111,7 +101,7 @@ def bosl2_diff():
             )
     )
 
-boslshit = bosl2_attachments_include() & sphere(20).left(5)
+boslshit = (bosl2_attachments_full_namespace() & sphere(20).left(5)).scale(3).up(100)
 bbox = bosl2_bounding_box(boslshit)
 
 assembly = boslshit +\
