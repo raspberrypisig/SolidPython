@@ -11,10 +11,7 @@ from solid import *
 
 c = cube([10, 20, 30])
 
-#the OpenSCAD syntax style use of debug
-s = debug()(
-        sphere(10)
-    )
+s = debug()(sphere(10))
 
 d = c - s
 

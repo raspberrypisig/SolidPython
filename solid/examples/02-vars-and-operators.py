@@ -27,8 +27,7 @@ d = c - s
 
 d.save_as_scad()
 
-# this is (almost, except ~/#) the same as 01-basics just using a more pythonic
-# way to express it.
+# this is the same as 01-basics just using a more pythonic way to express it.
 #
 # If you execute this file it will create examples/02-vars-and-operators.py with
 # the this content:
@@ -37,6 +36,6 @@ d.save_as_scad()
 #
 #    difference() {
 #            cube(size = [10, 20, 30]);
-#            #sphere(r = 10);
+#            sphere(r = 10);
 #    };
 

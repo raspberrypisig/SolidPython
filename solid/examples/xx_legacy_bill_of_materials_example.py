@@ -25,9 +25,9 @@ sys.path.append(solidPath)
 #       -ETJ 08 Mar 2011
 
 
-from solid import scad_render_to_file
-from solid.core.builtins import cube, color, cylinder, difference, translate, union
-from solid.extensions.legacy.bill_of_materials import *
+from solid import *
+from solid.extensions.legacy import *
+
 EPSILON = 0.01
 
 head_rad = 2.65

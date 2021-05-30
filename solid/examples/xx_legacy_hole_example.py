@@ -7,10 +7,8 @@ solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
 sys.path.append(solidPath)
 #==================================================
 
-from solid import scad_render_to_file
-from solid.core.builtins import cube, cylinder, rotate
-from solid.extensions.legacy.part_hole import part, hole
-from solid.extensions.convenience import right, up
+from solid import *
+from solid.extensions.legacy import *
 
 FORWARD_VEC = [0, 1, 0]
 

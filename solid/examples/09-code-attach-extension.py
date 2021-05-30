@@ -12,14 +12,11 @@ from solid import *
 # =============
 # = Extension =
 # =============
-# This is more or less the same as -- the regular SolidPython -- does when
-# rendering a "scene". It appends the python source to the end of the *.scad
-# file. In otherwords: the contents of this file we be appended as comment to
-# the generated *.scad file.
+# This is more or less the same as -- regular -- SolidPython does when it
+# writes a scad file. It appends the python source to the end of the *.scad
+# file.
 #
-# If you like this, you can simply but this extension (function including the
-# register call) into a python module and import it in your project that'll do
-# it.
+# If you like this, you can simply import this extension that should do it.
 #
 def attach_code_post_render(root):
     #find the "root" file
@@ -60,7 +57,7 @@ default_extension_manager.register_post_render(attach_code_post_render)
 
 # =============
 
-c = cube(10)
-
-c.save_as_scad()
+if __name__ == "__main__":
+    c = cube(10)
+    c.save_as_scad()
 
