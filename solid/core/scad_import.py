@@ -1,4 +1,5 @@
 from types import SimpleNamespace
+from pathlib import Path
 import inspect
 
 from .utils import resolve_scad_filename, escape_openscad_identifier
@@ -8,6 +9,7 @@ from .parse_scad import get_scad_file_as_dict
 # = IMPORTING OPENSCAD CODE =
 # ===========================
 module_cache_by_resolved_filename = {}
+registered_fonts = []
 
 def check_module_cache(resolved_scad, use_not_include):
     global module_cache_by_resolved_filename
@@ -96,6 +98,14 @@ def get_callers_namespace_dict(depth=2):
         return frame.f_globals
 
 def use(filename):
+    #is this a font to register?
+    p_file = Path(filename)
+    if p_file.suffix == ".ttf" or p_file.suffix == ".otf":
+        global registered_fonts
+        registered_fonts += [p_file]
+        return
+
+    #otherwise load the scad file
     load_scad_file_or_dir_into_dict(filename, get_callers_namespace_dict(), True)
 
 def include(filename):

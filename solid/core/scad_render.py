@@ -2,7 +2,7 @@ from pathlib import Path
 
 from .utils import indent
 from .object_base import ObjectBase, OpenSCADObject
-from .scad_import import module_cache_by_resolved_filename
+from .scad_import import module_cache_by_resolved_filename, registered_fonts
 from ..config import config
 
 # =========================================
@@ -76,6 +76,9 @@ def get_include_string():
             strings.append(f"use <{k}>")
         else:
             strings.append(f"include <{k}>")
+
+    for f in registered_fonts:
+        strings.append(f"use <{f}>")
 
     s = "\n".join(strings)
     s += "\n\n" if s else ''
