@@ -1,6 +1,6 @@
 from ..core import builtins
 from . import convenience
-from ..core.utils import escpape_openscad_identifier
+from ..core.utils import escape_openscad_identifier
 from ..core.object_base import ObjectBase
 
 __nothing__ = None
@@ -21,11 +21,11 @@ _cascading_builtins = ("union difference intersection intersection_for translate
 
 def add_builtin_to_object_base(name):
     #get the builtin
-    builtin = getattr(builtins, escpape_openscad_identifier(name))
+    builtin = getattr(builtins, escape_openscad_identifier(name))
 
     func = lambda self, *args, **kwargs : builtin(*args, **kwargs)(self)
 
-    setattr(ObjectBase, escpape_openscad_identifier(name), func)
+    setattr(ObjectBase, escape_openscad_identifier(name), func)
 
 for name in _cascading_builtins:
     add_builtin_to_object_base(name)

@@ -60,8 +60,10 @@ class OpenSCADObject(ObjectBase):
             for child in self.children:
                 s += indent(child._render())
             s += "}"
+        else:
+            s += ";"
 
-        return s + ";\n"
+        return s + "\n"
 
     def generate_scad_head(self):
         """
@@ -88,8 +90,8 @@ class OpenSCADConstant():
         super().__init__()
         self.name = name
 
-        from .utils import escpape_openscad_identifier
-        self.__doc__ = escpape_openscad_identifier(name)
+        from .utils import escape_openscad_identifier
+        self.__doc__ = escape_openscad_identifier(name)
 
     def __repr__(self):
         return self.name

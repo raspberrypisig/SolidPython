@@ -17,7 +17,7 @@ def indent(s):
 
     return res
 
-def escpape_openscad_identifier(identifier):
+def escape_openscad_identifier(identifier):
     """
     Append an underscore to any python reserved word.
     Prepend an underscore to any OpenSCAD identifier starting with a digit.

@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from .scad_import import use
 from .object_base import ObjectBase
 from ..config import config
