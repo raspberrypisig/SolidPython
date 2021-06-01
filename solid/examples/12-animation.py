@@ -9,13 +9,15 @@ sys.path.append(solidPath)
 
 from solid import *
 
-view_port_magic = ("""
-                       $vpt = [4, 3, 15];
-                       $vpr = [60, 0, 360 * $t];
-                       $vpd = 100;
-                   """)
+scad = ScadInterface()
 
-c = cube(scad_inline("$t*10"))
+scad.register_customizer_var("rotation_speed", 1.0)
 
-scad_render_to_file(c, file_header=view_port_magic)
+scad.set_global_var("$vpt", [4, 3, 15])
+scad.set_global_var("$vpr", "[60, 0, 360 * $t * rotation_speed]")
+scad.set_global_var("$vpd", 100)
+
+c = cube(scad.inline("$t * 10"))
+
+scad_render_to_file(c, scad_interface=scad)
 

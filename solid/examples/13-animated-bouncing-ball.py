@@ -29,18 +29,23 @@ def get_bouncing_ball_data(pos=np.array([0.0, 0.0, 0.0]), vel=np.array([5.0, 5.0
 
     return data
 
+scad = ScadInterface()
+scad.set_global_var("$vpt", [700, 900, 200])
+scad.set_global_var("$vpr", [80, 0, 20])
+scad.set_global_var("$vpd", 6000)
+
 #store pre computed data in global OpenSCAD variable
-ball_data = f'bouncing_ball_data = {get_bouncing_ball_data()};'
+scad.set_global_var("bouncing_ball_data", get_bouncing_ball_data())
 
 #get "dynamic ball position over time" from the data set
-ball_pos_over_time = scad_inline("bouncing_ball_data[$t * 1000]")
+ball_pos_over_time = scad.inline("bouncing_ball_data[$t * 1000]")
 
 #do some regular solid stuff with it
 ball = translate(ball_pos_over_time)(sphere(ball_radius))
 floor = background(cube([2000, 2000, 0.01]))
 
 #render it with the pre computed data stored in the header
-scad_render_to_file(ball + floor, file_header=ball_data)
+scad_render_to_file(ball + floor, scad_interface=scad)
 
 # I think if you really want to do something like this you could put the data
 # into a seprate .scad file and include it into the main .scad file. You should

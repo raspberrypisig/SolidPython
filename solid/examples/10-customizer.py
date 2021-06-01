@@ -9,14 +9,14 @@ sys.path.append(solidPath)
 
 from solid import *
 
-customizer = Customizer()
+scad = ScadInterface()
 
 #register all the custom variables you want to use
-customizer.register("objects", "4", "[2, 4, 6]")
-customizer.register("side", "4")
-customizer.register("cube_pos", "[5, 5, 5]")
-customizer.register("cube_size", "5")
-customizer.register("text", '"customize me!"' ,' ["customize me!", "Thank you!"]')
+scad.register_customizer_var("objects", "4", "[2, 4, 6]")
+scad.register_customizer_var("side", "4")
+scad.register_customizer_var("cube_pos", "[5, 5, 5]")
+scad.register_customizer_var("cube_size", "5")
+scad.register_customizer_var("text", '"customize me!"' ,' ["customize me!", "Thank you!"]')
 
 #use scad_inline to use them
 scene = scad_inline("""
@@ -29,13 +29,13 @@ scene = scad_inline("""
 
 #use the customizer.get function to use them as parameters
 py_factor = 2
-cube_size = customizer.get(f"cube_size - cube_pos[0] * {py_factor}")
+cube_size = scad.inline(f"cube_size - cube_pos[0] * {py_factor}")
 
-scene += translate(customizer.get("cube_pos")) (
+scene += translate(scad.inline("cube_pos")) (
             cube(cube_size))
 
 scene += translate([0, -20, 0]) (
-            text(customizer.get("text")))
+            text(scad.inline("text")))
 
-scad_render_to_file(scene, file_header = customizer.header)
+scad_render_to_file(scene, scad_interface=scad)
 

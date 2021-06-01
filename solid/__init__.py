@@ -5,5 +5,5 @@ from .core import *
 from .extensions.operators import __nothing__
 from .extensions.convenience import *
 from .extensions.access_syntax import __nothing__
-from .extensions.customizer import Customizer
+from .extensions.scad_interface import ScadInterface, scad_inline
 
