@@ -44,11 +44,10 @@ def heightfield_test():
 def bosl2_diff1():
     #let's try this:
     #diff("neg", "pos", keep="axle")
-    #   spheroid(d=20) {
-    #       attach(TOP) down(1.5) cyl(l=11.5, d1=10, d2=5, anchor=BOTTOM);
-    #       attach(RIGHT, BOTTOM) down(1.5) cyl(l=11.5, d1=10, d2=5);
-    #       attach(FRONT, BOTTOM, overlap=1.5) cyl(l=11.5, d1=10, d2=5);
-    #   }
+    #    sphere(d=100, $tags="pos") {
+    #        attach(CENTER) xcyl(d=40, l=120, $tags="axle");
+    #        attach(CENTER) cube([40,120,100], anchor=CENTER, $tags="neg");
+    #    }
     return \
     diff("neg", "pos", keep="axle") (
             sphere(d=100, _tags="pos") (
@@ -60,11 +59,10 @@ def bosl2_diff1():
 def bosl2_diff():
     #let's try this again in a pythonic manner:
     #diff("neg", "pos", keep="axle")
-    #   spheroid(d=20) {
-    #       attach(TOP) down(1.5) cyl(l=11.5, d1=10, d2=5, anchor=BOTTOM);
-    #       attach(RIGHT, BOTTOM) down(1.5) cyl(l=11.5, d1=10, d2=5);
-    #       attach(FRONT, BOTTOM, overlap=1.5) cyl(l=11.5, d1=10, d2=5);
-    #   }
+    #    sphere(d=100, $tags="pos") {
+    #        attach(CENTER) xcyl(d=40, l=120, $tags="axle");
+    #        attach(CENTER) cube([40,120,100], anchor=CENTER, $tags="neg");
+    #    }
 
     axle = xcyl(d=39, l=120, _tags="axle")
     neg = cube([40, 120, 100], anchor=CENTER, _tags="neg")
