@@ -6,3 +6,4 @@ from .scad_render import scad_render,\
 
 from .scad_import import import_scad, use, include
 
+from .object_base import scad_inline

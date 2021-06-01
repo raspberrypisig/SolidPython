@@ -6,25 +6,35 @@ from pathlib import Path
 solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
 sys.path.append(solidPath)
 #==================================================
+from math import sqrt,sin
 
-from solid.extensions.bosl2 import mutators, paths
-from solid.extensions.bosl2.metric_screws import metric_bolt
-from solid.extensions.bosl2.primitives import cube, sphere, circle
-from solid.extensions.bosl2.attachments import diff, attach
-from solid.extensions.bosl2.constants import CENTER, TOP
-from solid.extensions.bosl2.shapes import xcyl
+from solid import scad_inline
+from solid.extensions.bosl2.std import *
 
 #basic stuff
 def bolt():
+    from solid.extensions.bosl2.metric_screws import metric_bolt
     return metric_bolt(size=20, headtype='hex', l=40)
 
-def bounding_box(obj):
-    return ~mutators.bounding_box()(obj)
+def bounding_box_wrapper(obj):
+    return ~bounding_box()(obj)
 
 def extrude_along_path():
     path = [ [0, 0, 0], [33, 33, 33], [66, 33, 40], [100, 0, 0], [150,0,0] ]
-    return paths.path_extrude(path)(circle(r=10, _fn=6))
+    return path_extrude(path)(circle(r=10, _fn=6))
 
+def heightfield_test():
+    def get_data():
+        data = []
+        for y in range(50):
+            yrow = []
+            data.append(yrow)
+            for x in range(50):
+                yrow.append(sin(sqrt((y-25)**2+(x-25)**2)))
+
+        return data
+
+    return heightfield(size=[100,100], bottom=-1, data=get_data())
 
 #a little bit more complicated stuff
 def bosl2_diff1():
@@ -62,10 +72,11 @@ def bosl2_diff():
 
     return diff("neg", "pos", keep="axle")(s)
 
-assembly = bounding_box(bosl2_diff().back(100)) +\
+assembly = bounding_box_wrapper(bosl2_diff().back(100)) +\
            extrude_along_path().color("purple") +\
            bosl2_diff().back(100) +\
-           bolt().left(100)
+           bolt().left(100) +\
+           heightfield_test().fwd(100)
 
 assembly.save_as_scad()
 

@@ -99,6 +99,9 @@ class OpenSCADConstant():
     def _render(self):
         return self.name
 
+def scad_inline(code):
+    return OpenSCADConstant(code)
+
 def py2openscad(o):
     if type(o) == bool:
         return str(o).lower()
