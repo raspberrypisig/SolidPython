@@ -12,6 +12,5 @@ from solid import *
 scad = ScadInterface()
 scad.register_font("11-font/RichEatin.otf")
 
-t = text(font="Rich Eatin'", text="blablub")
-scad_render_to_file(t, scad_interface=scad)
+text(font="Rich Eatin'", text="blablub").save_as_scad(scad_interface=scad)
 
