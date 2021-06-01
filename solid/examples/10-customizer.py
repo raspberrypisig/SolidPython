@@ -28,8 +28,11 @@ scene = scad_inline("""
                     """)
 
 #use the customizer.get function to use them as parameters
+py_factor = 2
+cube_size = customizer.get(f"cube_size - cube_pos[0] * {py_factor}")
+
 scene += translate(customizer.get("cube_pos")) (
-            cube(customizer.get("cube_size")))
+            cube(cube_size))
 
 scene += translate([0, -20, 0]) (
             text(customizer.get("text")))
