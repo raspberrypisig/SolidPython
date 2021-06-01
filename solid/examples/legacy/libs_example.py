@@ -1,9 +1,11 @@
-
+# ======================================================
+# = add relative path to the solid package to sys.path =
+# ======================================================
 import sys
 from pathlib import Path
-
-solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
+solidPath = Path(__file__).absolute().parent.parent.parent.parent.as_posix()
 sys.path.append(solidPath)
+#==================================================
 
 from solid import import_scad, scad_render_to_file
 

@@ -17,16 +17,19 @@
 #
 #       -ETJ 08 Mar 2011
 
+# ======================================================
+# = add relative path to the solid package to sys.path =
+# ======================================================
 import sys
 from pathlib import Path
-
-solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
+solidPath = Path(__file__).absolute().parent.parent.parent.parent.as_posix()
 sys.path.append(solidPath)
+#==================================================
 
 from solid import scad_render_to_file
-from solid.builtins import cube, color, cylinder, difference, translate, union
-from solid.utils import EPSILON
-from solid.utils import bill_of_materials, bom_part, set_bom_headers
+from solid import cube, color, cylinder, difference, translate, union
+from solid.extensions.legacy.utils import EPSILON
+from solid.extensions.legacy.bill_of_materials import bill_of_materials, bom_part, set_bom_headers
 
 head_rad = 2.65
 head_height = 2.8

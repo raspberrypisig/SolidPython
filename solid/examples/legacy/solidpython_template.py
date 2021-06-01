@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 from solid import scad_render_to_file
-from solid.objects import union
+from solid import union
 
 SEGMENTS = 48
 

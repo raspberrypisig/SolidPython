@@ -1,12 +1,23 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
+
+# ======================================================
+# = add relative path to the solid package to sys.path =
+# ======================================================
+import sys
+from pathlib import Path
+solidPath = Path(__file__).absolute().parent.parent.parent.parent.as_posix()
+sys.path.append(solidPath)
+#==================================================
+
 import os
 import sys
-from solid import *
-from solid.utils import Red, right, forward, back
-
-from solid.splines import catmull_rom_points, catmull_rom_polygon, control_points
-from solid.splines import bezier_polygon, bezier_points
 from euclid3 import Vector2, Vector3, Point2, Point3
+
+from solid import *
+from solid.extensions.legacy.utils import Red, right, forward, back
+from solid.extensions.legacy.splines import catmull_rom_points, catmull_rom_polygon,\
+                                            control_points, bezier_polygon,\
+                                            bezier_points
 
 def assembly():
     # Catmull-Rom Splines
@@ -123,7 +134,7 @@ def bottle_shape(width: float, height: float, neck_width:float=None, neck_height
     
     # Make OpenSCAD polygons out of the shapes once all points are calculated
     a = polygon(cr_points) 
-    a += mirror(v=(1,0))(a)
+    a += mirror((1,0))(a)
 
     # Show control points. These aren't required for anything, but seeing them
     # makes refining a curve much easier

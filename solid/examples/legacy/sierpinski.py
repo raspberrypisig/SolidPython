@@ -1,11 +1,21 @@
 #! /usr/bin/env python3
+
+# ======================================================
+# = add relative path to the solid package to sys.path =
+# ======================================================
+import sys
+from pathlib import Path
+solidPath = Path(__file__).absolute().parent.parent.parent.parent.as_posix()
+sys.path.append(solidPath)
+#==================================================
+
 import math
 import random
 import sys
 from pathlib import Path
 
 from solid import scad_render_to_file
-from solid.objects import cube, polyhedron, translate, union
+from solid import cube, polyhedron, translate, union
 
 
 # =========================================================
@@ -100,6 +110,5 @@ if __name__ == '__main__':
         for p in tet.points:
             t.add(translate(p).add(cube(5, center=True)))
 
-    file_out = out_dir / f'gasket_{generations}_gen.scad'
-    file_out = scad_render_to_file(t, file_out)
+    file_out = scad_render_to_file(t)
     print(f"{__file__}: SCAD file written to: \n{file_out}")

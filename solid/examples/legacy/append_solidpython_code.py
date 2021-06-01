@@ -1,9 +1,19 @@
 #! /usr/bin/env python3
+
+# ======================================================
+# = add relative path to the solid package to sys.path =
+# ======================================================
+import sys
+from pathlib import Path
+solidPath = Path(__file__).absolute().parent.parent.parent.parent.as_posix()
+sys.path.append(solidPath)
+#==================================================
+
 import sys
 
 from solid import scad_render_to_file
-from solid.objects import cylinder
-from solid.utils import up
+from solid import cylinder
+from solid import up
 
 SEGMENTS = 48
 

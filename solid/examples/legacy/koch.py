@@ -1,12 +1,21 @@
 #! /usr/bin/env python3
+
+# ======================================================
+# = add relative path to the solid package to sys.path =
+# ======================================================
+import sys
+from pathlib import Path
+solidPath = Path(__file__).absolute().parent.parent.parent.parent.as_posix()
+sys.path.append(solidPath)
+#==================================================
+
 import sys
 from pathlib import Path
 
 from euclid3 import LineSegment2, LineSegment3, Point2, Point3
 
-from solid import scad_render_to_file
-from solid.objects import polygon, polyhedron, union
-from solid.utils import forward, up
+from solid import scad_render_to_file, polygon, polyhedron, union
+from solid.extensions.legacy.utils import forward, up
 
 ONE_THIRD = 1 / 3
 
@@ -85,7 +94,7 @@ def kochify(seg, height_ratio=0.33, left_loc=0.33, midpoint_loc=0.5, right_loc=0
             LineSegment2(r, b)]
 
 
-def main_3d(out_dir):
+def main_3d():
     gens = 4
 
     # Parameters
@@ -143,12 +152,11 @@ def main_3d(out_dir):
                 )
         )
 
-    file_out = Path(out_dir) / 'koch_3d.scad'
-    file_out = scad_render_to_file(all_polys, file_out, include_orig_code=True)
+    file_out = scad_render_to_file(all_polys, include_orig_code=True)
     print(f"{__file__}: SCAD file written to: {file_out}")
 
 
-def main(out_dir):
+def main():
     # Parameters
     height_ratio = 0.25
     left_loc = ONE_THIRD
@@ -189,11 +197,11 @@ def main(out_dir):
         edges = [list(range(len(points)))]
         all_polys.add(forward(h)(polygon(points=points, paths=edges)))
 
-    file_out = scad_render_to_file(all_polys, out_dir=out_dir, include_orig_code=True)
+    filename = Path(__file__).with_suffix(".2.scad")
+    file_out = scad_render_to_file(all_polys, filename=filename, include_orig_code=True)
     print(f"{__file__}: SCAD file written to: {file_out}")
 
 
 if __name__ == '__main__':
-    out_dir = sys.argv[1] if len(sys.argv) > 1 else None
-    main_3d(out_dir)
-    main(out_dir)
+    main_3d()
+    main()

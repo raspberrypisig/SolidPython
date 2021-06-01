@@ -1,4 +1,10 @@
 #! /usr/bin/env python3
+#
+# THIS IS NOT WORKING because it's obsolete.
+# See examples/12-animation.py
+# See examples/13-animated-bouncing-ball.py
+#
+
 import sys
 from math import cos, sin
 from typing import Optional

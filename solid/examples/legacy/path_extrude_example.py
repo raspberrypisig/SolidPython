@@ -1,18 +1,25 @@
 #! /usr/bin/env python3
-from solid.objects import linear_extrude
-from solid.solidpython import OpenSCADObject
+
+# ======================================================
+# = add relative path to the solid package to sys.path =
+# ======================================================
+import sys
+from pathlib import Path
+solidPath = Path(__file__).absolute().parent.parent.parent.parent.as_posix()
+sys.path.append(solidPath)
+#==================================================
+
 import sys
 from math import cos, radians, sin, pi, tau
 from pathlib import Path
-
 from euclid3 import Point2, Point3, Vector3
-
-from solid import scad_render_to_file, text, translate, cube, color, rotate
-from solid.utils import UP_VEC, Vector23, distribute_in_grid, extrude_along_path
-from solid.utils import down, right, frange, lerp
-
-
 from typing import Set, Sequence, List, Callable, Optional, Union, Iterable, Tuple
+
+from solid import linear_extrude
+from solid.core.object_base import OpenSCADObject
+from solid import scad_render_to_file, text, translate, cube, color, rotate
+from solid.extensions.legacy.utils import UP_VEC, Vector23, distribute_in_grid, extrude_along_path
+from solid.extensions.legacy.utils import down, right, frange, lerp
 
 SEGMENTS = 48
 PATH_RAD = 50 
