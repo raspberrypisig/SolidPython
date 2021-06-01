@@ -9,7 +9,9 @@ sys.path.append(solidPath)
 
 from solid import *
 
-use("11-font/RichEatin.otf")
+scad = ScadInterface()
+scad.register_font("11-font/RichEatin.otf")
 
-text(font="Rich Eatin'", text="blablub").save_as_scad()
+t = text(font="Rich Eatin'", text="blablub")
+scad_render_to_file(t, scad_interface=scad)
 

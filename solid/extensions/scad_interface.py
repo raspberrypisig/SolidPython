@@ -13,6 +13,9 @@ class ScadInterface:
     def get_header_str(self):
         return self.header
 
+    def register_font(self, filename):
+        self.header += f'use <{filename}>\n'
+
     @staticmethod
     def get(name):
         return self.inline(name)
