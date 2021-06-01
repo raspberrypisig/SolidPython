@@ -9,9 +9,15 @@ class ObjectBase:
 
     def add(self, c):
         if isinstance(c, list):
-            self.children += c
+            #self.children += c
+            #hmmmm we need this recursion for backward compatibility =(
+            #at least the legacy_splines_example calls add([[...]])
+            for cc in c:
+                self.add(cc)
         else:
             self.children += [c]
+
+        return self
 
     def copy(self):
         return deepcopy(self)

@@ -79,7 +79,7 @@ def mirror(v):
 
 @mirror.register(int)
 @mirror.register(float)
-def _translate(*args):
+def _mirror(*args):
     return builtins.mirror(args)
 
 # =========
