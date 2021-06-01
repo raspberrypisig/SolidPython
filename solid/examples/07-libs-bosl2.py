@@ -8,8 +8,12 @@ sys.path.append(solidPath)
 #==================================================
 from math import sqrt,sin
 
-from solid import scad_inline
-from solid.extensions.bosl2.std import *
+from solid.extensions.bosl2.std import path_extrude, bounding_box, heightfield,\
+                                       cube, sphere, circle, xcyl,\
+                                       diff, attach,\
+                                       CENTER, TOP
+
+from solid.extensions.bosl2.metric_screws import metric_bolt
 
 #basic stuff
 def bolt():
