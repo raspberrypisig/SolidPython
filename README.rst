@@ -25,7 +25,10 @@ The goal was to
 * let's see what's next
 
 The major difference to SolidPython is that the "scad interface" was improved so it is now capable of handling bosl2 properly (I think there might be a few details missing, but the majority seems to work pretty good). This seems to me like SolidPython++ because you can now use all the fancy stuff from the bosl2 library.
-Take a look at https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py to see what's possible. This is not possible with the regular SolidPython.
+
+Take a look at https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py to see what's possible.
+
+You need to install BOSL2 into your OpenSCAD libraries folder (`~/.local/share/OpenSCAD/libraries/`) for this to work. Grab it from https://github.com/revarbat/BOSL2.
 
 The interface changed in a few minor aspects:
 
