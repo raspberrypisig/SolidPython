@@ -2,6 +2,7 @@ from ..core import builtins
 from . import convenience
 from ..core.utils import escape_openscad_identifier
 from ..core.object_base import ObjectBase
+from ..config import config
 
 __nothing__ = None
 
@@ -15,9 +16,11 @@ __nothing__ = None
 """
 
 #builtin transformations
-_cascading_builtins = ("union difference intersection intersection_for translate " +\
-                      "scale rotate mirror resize color offset hull render " +\
-                      "linear_extrude rotate_extrude projection surface").split(" ")
+_cascading_builtins = ("union difference intersection translate " +\
+                      "scale rotate linear_extrude rotate_extrude").split(" ")
+if not config.use_implicit_builtins:
+    _cascading_builtins += ("intersection_for mirror resize color offset hull render " +\
+                            "projection surface").split(" ")
 
 def add_builtin_to_object_base(name):
     #get the builtin

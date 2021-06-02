@@ -48,14 +48,16 @@ def _write_to_file(out_string, filename=None, outdir=''):
     outfile = filename
 
     if not outfile:
+        suffix = ".scad" if not config.use_implicit_builtins else ".escad"
+
         #try to get the filename of the calling module
         import __main__
         if hasattr(__main__, "__file__"):
             #not called from a terminal
             calling_file = Path(__main__.__file__).absolute()
-            outfile = calling_file.with_suffix(".scad")
+            outfile = calling_file.with_suffix(suffix)
         else:
-            outfile = "expsolid_out.scad"
+            outfile = "expsolid_out" + suffix
 
     outpath = Path(outdir)
     if not outpath.exists():
@@ -74,9 +76,9 @@ def get_include_string():
             continue
 
         if v[1]:
-            strings.append(f"use <{k}>")
+            strings.append(f"use <{k}>;")
         else:
-            strings.append(f"include <{k}>")
+            strings.append(f"include <{k}>;")
 
     s = "\n".join(strings)
     s += "\n\n" if s else ''

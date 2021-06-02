@@ -2,10 +2,14 @@
 from pathlib import Path
 import os
 import platform
+import sys
 
 class Config:
     def __init__(self):
-        self.builtins_file = Path(__file__).absolute().parent / "core/builtins.openscad"
+        self.use_implicit_builtins = "--implicit" in sys.argv
+
+        builtins_suffix = ".openscad" if not self.use_implicit_builtins else ".implicit"
+        self.builtins_file = Path(__file__).absolute().parent / ("core/builtins" + builtins_suffix)
 
         self.enable_pickle_cache = True
         self.pickle_cache_dir = self.get_pickle_cache_dir()

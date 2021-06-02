@@ -1,3 +1,7 @@
+from ... import config
+if config.use_implicit_builtins:
+    raise Exception("ExpSolid: unfortunately ImplicitCAD can't handle bosl2...")
+
 #load the libs from std
 from . import std
 from . import constants
