@@ -82,22 +82,27 @@ class OpenSCADObject(ObjectBase):
                 -> translate(v = [1, 2, 3])
         """
         from .utils import unescape_openscad_identifier
+        from ..config import config
 
         param_strings = []
         for p in sorted(self.params.keys()):
-            scad_value = py2openscad(self.params[p])
-            scad_identifier = unescape_openscad_identifier(p)
+            if config.use_implicit_builtins and \
+                        isinstance(self.params[p], OpenSCADParameterFunction):
 
-            param_strings.append(f'{scad_identifier} = {scad_value}')
+                param_strings.append(self.params[p]._render())
+            else:
+                scad_value = py2openscad(self.params[p])
+                scad_identifier = unescape_openscad_identifier(p)
+
+                param_strings.append(f'{scad_identifier} = {scad_value}')
 
         scad_identifier = unescape_openscad_identifier(self.name)
         param_str = ", ".join(param_strings)
 
         return f'{scad_identifier}({param_str})'
 
-class OpenSCADConstant():
+class OpenSCADConstant:
     def __init__(self, name):
-        super().__init__()
         self.name = name
 
         from .utils import escape_openscad_identifier
@@ -108,6 +113,15 @@ class OpenSCADConstant():
 
     def _render(self):
         return dedent(self.name)
+
+def scad_inline(code):
+    return OpenSCADConstant(code)
+
+class OpenSCADParameterFunction(OpenSCADConstant):
+    pass
+
+def scad_inline_parameter_func(code):
+    return OpenSCADParameterFunction(code)
 
 def py2openscad(o):
     if type(o) == bool:

@@ -24,6 +24,3 @@ class ScadInterface:
     def inline(code):
         return scad_inline(code)
 
-def scad_inline(code):
-    return OpenSCADConstant(code)
-
