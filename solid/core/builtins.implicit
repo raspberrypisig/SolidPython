@@ -21,7 +21,7 @@ module linear_extrude(height=default,
                       translate=default,
                       r=default);
 
-module pack(size, sep=default);
+module pack(size, sep);
 module shell(w);
 
 module rotate_extrude(a=default,
