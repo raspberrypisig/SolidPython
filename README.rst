@@ -1,6 +1,8 @@
 ExpSolid
 --------
 
+**NOTE**: This is an experimental development branch! I'll try to keep it as stable as possible but this has only been tested in a nut shell! Let me know if you're having issue.
+
 What's this about?
 ==================
 
