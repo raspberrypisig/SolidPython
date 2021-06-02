@@ -1,17 +1,13 @@
 ExpSolid
 --------
 
-This is an experimental SolidPython branch. It's a striped and
-refactored version of SolidPython. Since this branch will never make it back to
+What's this about?
+==================
+
+This is an experimental SolidPython branch. It's a
+refactored version of SolidPython. Since -- I guess -- this branch will never make it back to
 SolidPython:master it's now kind of a "thing" of its own - an experimental
 SolidPython fork.
-
-It should be a pretty complete and backwards compatible drop in replacement for
-SolidPython. The backwards compatibility is not 100%. Somethings (and even
-interfaces) changed. I tried to stay as backward compatible as possible.
-The package should behave 90% the same as SolidPython. If you do some "deep
-access" that's by 99% chance not backward compatible (like modifying
-OpenSCADObjects or import internal modules).
 
 It is based on the following proposal:
 https://github.com/SolidCode/SolidPython/issues/169
@@ -22,60 +18,33 @@ The goal was to
 * make a solid package that only contains the fundamentals (+ a few convenience features) 
 * make it extendible
 * try to get complex libraries working properly (mcad, bosl, bosl2)
+* **KISS**: ``from solid import *`` -> imports only ~1000 lines of source code and has (almost?) all the feautres SolidPython:master has
+* be a drop in replacement for SolidPython:master -- as far as possible, see Backwards Compatibility Section
+* get all kinds of nice feature working (see Features section)
 * let's see what's next
 
-The major difference to SolidPython is that the "scad interface" was improved so it is now capable of handling bosl2 properly (I think there might be a few details missing, but the majority seems to work pretty good). This seems to me like SolidPython++ because you can now use all the fancy stuff from the bosl2 library.
+Features
+========
 
-Take a look at https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py to see what's possible.
+In difference to SolidPython:master this branch has support for the following features:
 
-You need to install BOSL2 into your OpenSCAD libraries folder (`~/.local/share/OpenSCAD/libraries/`) for this to work. Grab it from https://github.com/revarbat/BOSL2.
+* **bosl2** - the "scad interface" was improved so it is now capable of handling bosl2 properly. This seems to me like SolidPython++ because you can now use all the fancy stuff from the bosl2 library. `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_
+* native **OpenSCAD customizer** support `customizer example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/10-customizer.py>`_
+* native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/12-animation.py>`_ and `animation example2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/13-animated-bouncing-ball.py>`_
+* **custom fonts** `fonts example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/11-fonts.py>`_
+* supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/14-implicitCAD.py>`_
 
-The interface changed in a few minor aspects:
+Furthermore it has several minor improvements, like these which are based on ideas from *posts* from the SolidPython universe:
 
-* OpenSCAD identifier escaping:
-        * all *illegal* python idetifiers are escape with a single prepending underscore
-        * special variables `$fn -> _fn` (*note*: `segments` still works)
-        * identifier starting with a digit `module 12ptStar() -> _12ptStar()` (*note*: `__12ptStar` still works)
-        * python keywords `module import() -> _import()` (*note*: `import\_`  still works)
+* use invert operator (~) as # in OpenSCAD `#167 <https://github.com/SolidCode/SolidPython/pull/167>`_
+* convenience function including to pass sizes as integer parameters (``translate(10, 20, 30)``) `#63 <https://github.com/SolidCode/SolidPython/pull/63#issuecomment-688171416>`_
+* *access-style* syntax: ``cube(1).up(5).rotate(45, 0, 0)`` `#66 <https://github.com/SolidCode/SolidPython/pull/66>`_ This is additional! The OpenSCAD / SolidPython style syntax is still fully supported.
 
-* import paths have changed (a lot)
-    * as long as you only import the root package it should be fine, otherwise probably not
-    
-    .. code:: python
-    
-            from solid import * #fine
-            from solid import objects #crash
-            from solid import solidpython #crash
-            from solid import splines #crash
-            from solid import utils #crash
+Take a look at the `examples <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples>`_ to see what's possible.
 
-* all extensions have been (re)moved:
-    * solid.utils have been removed (for now)
-    * there are some example implementations of the part / hole feature and
-      bill of materials in `solid.extensions.legacy`. They seem to work but ar
-      not tested extensively. Take a look at `examples/xx_legacy*`.
+You need to install BOSL2 into your OpenSCAD libraries folder (`~/.local/share/OpenSCAD/libraries/`) for the bosl2 exteions to work. Grab it from `bosl2 github <https://github.com/revarbat/BOSL2>`_.
 
-* OpenSCADObject internally changed a lot
-    If you access it directly
-    (e.g. mycube.set_modifier) this will not work. But if you import
-    solid.extensions.legacy some dummy methods will be monkey patched onto
-    OpenSCADObject so you should at least be able to run the code, but it
-    might render not correctly.
-
-* probably some more things I can't remember right now. Some function
-  signatures changed slightly.
-
-Some ideas for features this fork implements are based on ideas from the following *posts*
-  * use invert operator (~) as # in OpenSCAD
-    https://github.com/SolidCode/SolidPython/pull/167
-  * convenience function including to pass sizes as integer parameters (`translate(10, 20, 30)`)
-    https://github.com/SolidCode/SolidPython/pull/63#issuecomment-688171416
-  * *access-style* syntax: `cube(1).up(5).rotate(45, 0, 0)`
-    https://github.com/SolidCode/SolidPython/pull/66
-
-Take a look at the examples, they are pretty well documented and demonstrate the key features.
-
-One very nice feature especially to play around and debug it is that the __repr__ operator of each "OpenSCADObject" now calls scad_render. Withit the python shell becomes pretty good in debuging and playing around with solid code and the library itself:
+Another nice little feature especially to play around and debug it is that the ``__repr__`` operator of each "OpenSCADObject" now calls ``scad_render``. With this the python shell becomes pretty good in debuging and playing around with solid code and the library itself:
 
 .. code:: python
 
@@ -89,6 +58,70 @@ One very nice feature especially to play around and debug it is that the __repr_
   '/home/xxx/xxx/xxx/SolidPython/expsolid_out.scad'
   >>>
 
+Backwards compatibility
+=======================
+
+It should be a pretty complete and backwards compatible drop in replacement for
+SolidPython. The backwards compatibility is not 100%. Somethings (and even
+interfaces) changed. I tried to stay as backward compatible as possible.
+The package should behave 98% the same as SolidPython unless you do some "deep
+access" -- that's by 99% chance not backward compatible (like modifying
+OpenSCADObjects or import internal modules).
+
+As long as you stick to:
+
+.. code:: python
+
+  from solid import *
+
+you shoul be fine.
+
+If you want "more backwards compatibility" (like solid.utils, holes feature, set_modifier dummies,....) import the legacy extension:
+
+.. code:: python
+
+  from solid.extensions.legacy import *
+
+I was able to get the examples from SolidPython:master running just by changing the imports and they all (except for the splines example which seems to have an internal issue) worked "out of the box".
+
+
+The interface changed in a few minor aspects:
+
+* OpenSCAD identifier escaping:
+        * all *illegal* python idetifiers are escape with a single prepending underscore
+        * special variables ``$fn -> _fn`` (*note*: ``segments`` still works)
+        * identifier starting with a digit ``module 12ptStar() -> _12ptStar()`` (*note*: ``__12ptStar`` still works)
+        * python keywords ``module import() -> _import()`` (*note*: ``import\_``  still works)
+
+* import paths have changed (a lot)
+    * as long as you only import the root package it should be fine, otherwise probably not
+    
+    .. code:: python
+    
+            from solid import * #fine
+            from solid import objects #crash
+            from solid import solidpython #crash
+            from solid import splines #crash
+            from solid import utils #crash
+
+* all extensions have been moved:
+    * solid.utils has been moved to ``solid.extensions.legacy``. If you want to use them import that extension
+    * there are some example implementations of the part / hole feature and
+      bill of materials in ``solid.extensions.legacy``. They seem to work but are
+      not tested extensively. Take a look at ``examples/xx_legacy*``.
+    * please take a look at the bosl2 example. BOSL2 provides many features which
+      might be alternatives.
+
+* OpenSCADObject internally changed a lot
+    If you access it directly
+    (e.g. mycube.set_modifier) this will not work. But if you import
+    ``solid.extensions.legacy`` some dummy methods will be monkey patched onto
+    OpenSCADObject so you should at least be able to run the code, but it
+    might render not correctly.
+
+* maybe some more things I can't remember right now. Some function
+  signatures changed slightly. But as long as as you stick to the
+  regular public interface everything should be fine.
 
 
 
