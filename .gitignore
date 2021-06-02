@@ -18,3 +18,5 @@ Doc/_build
 scratch/
 *.swp
 *.bak
+*.escad
+*.stl
