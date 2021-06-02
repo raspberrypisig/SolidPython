@@ -32,9 +32,9 @@ In difference to SolidPython:master this branch has support for the following fe
 
 * **bosl2** - the "scad interface" was improved so it is now capable of handling bosl2 properly. This seems to me like SolidPython++ because you can now use all the fancy stuff from the bosl2 library. `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_
 * native **OpenSCAD customizer** support `customizer example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/10-customizer.py>`_
-* native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/12-animation.py>`_ and `animation example2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/13-animated-bouncing-ball.py>`_
+* native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/12-animation.py>`_ and `animation example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/13-animated-bouncing-ball.py>`_
 * **custom fonts** `fonts example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/11-fonts.py>`_
-* supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/14-implicitCAD.py>`_
+* supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/14-implicitCAD.py>`_ `implicitCAD example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/15-implicitCAD2.py>`_
 
 Furthermore it has several minor improvements, like these which are based on ideas from *posts* from the SolidPython universe:
 
@@ -116,9 +116,9 @@ The interface changed in a few minor aspects:
 
 * OpenSCADObject internally changed a lot
     If you access it directly
-    (e.g. mycube.set_modifier) this will not work. But if you import
+    (e.g. mycube.set_modifier) this might not work. But if you import
     ``solid.extensions.legacy`` some dummy methods will be monkey patched onto
-    OpenSCADObject so you should at least be able to run the code, but it
+    OpenSCADObject so you might be able to at least run the code, but it
     might render not correctly.
 
 * maybe some more things I can't remember right now. Some function
