@@ -1,8 +1,8 @@
-from ..core.object_base import OpenSCADConstant
+from ..core.object_base import OpenSCADConstant, scad_inline
 
 class ScadInterface:
     def __init__(self):
-        self.header = ''
+        self.header = '\n'
 
     def register_customizer_var(self, name, value, options=''):
         self.header += f'{name} = {value}; //{options}\n'
@@ -16,9 +16,12 @@ class ScadInterface:
     def register_font(self, filename):
         self.header += f'use <{filename}>\n'
 
+    def additional_header_code(self, code):
+        self.header += code + '\n'
+
     @staticmethod
     def get(name):
-        return self.inline(name)
+        return ScadInterface.inline(name)
 
     @staticmethod
     def inline(code):

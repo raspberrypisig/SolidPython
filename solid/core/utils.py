@@ -3,6 +3,7 @@ import os
 import re
 import inspect
 import keyword
+import textwrap
 from pathlib import Path
 
 from ..config import config
@@ -11,11 +12,7 @@ from ..config import config
 #from "everywhere"
 
 def indent(s):
-    res = ''
-    for ns in s.splitlines(True):
-        res += f'\t{ns}'
-
-    return res
+    return textwrap.indent(s, "\t")
 
 def escape_openscad_identifier(identifier):
     """

@@ -24,6 +24,8 @@ def check_module_cache(resolved_scad, use_not_include):
 
         return cache_entry[0]
 
+    return None
+
 def update_module_cache(resolved_scad, new_namespace_dict, use_not_include):
     global module_cache_by_resolved_filename
     module_cache_by_resolved_filename[resolved_scad] = \
