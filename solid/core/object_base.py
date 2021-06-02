@@ -1,4 +1,5 @@
 from copy import deepcopy
+from textwrap import dedent
 
 #don't do relative imports on the global scope to be able to import this file
 #from "everywhere"
@@ -103,10 +104,10 @@ class OpenSCADConstant():
         self.__doc__ = escape_openscad_identifier(name)
 
     def __repr__(self):
-        return self.name
+        return self._render()
 
     def _render(self):
-        return self.name
+        return dedent(self.name)
 
 def py2openscad(o):
     if type(o) == bool:
