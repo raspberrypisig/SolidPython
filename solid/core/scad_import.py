@@ -1,5 +1,4 @@
 from types import SimpleNamespace
-from pathlib import Path
 import inspect
 
 from .utils import resolve_scad_filename, escape_openscad_identifier

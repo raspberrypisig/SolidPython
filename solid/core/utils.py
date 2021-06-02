@@ -1,7 +1,3 @@
-import platform
-import os
-import re
-import inspect
 import keyword
 import textwrap
 from pathlib import Path

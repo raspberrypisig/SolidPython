@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from .utils import indent
-from .object_base import ObjectBase, OpenSCADObject
 from .scad_import import module_cache_by_resolved_filename
 from ..config import config
 
