@@ -25,12 +25,14 @@ The goal was to
 * get all kinds of nice feature working (see Features section)
 * let's see what's next
 
+A nice demonstration what this is about is the `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/16-mazebox-bosl2.py>`_. It uses BOSL2 to reimplement the original mazebox and is done with ~30 lines of python code.
+
 Features
 ========
 
 In difference to SolidPython:master this branch has support for the following features:
 
-* **bosl2** - the "scad import stuff" was improved so it is now capable of handling bosl2 properly. This seems to me like SolidPython++ because you can now use all the fancy stuff from the bosl2 library. `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_
+* **bosl2** - the "scad import stuff" was improved so it is now capable of handling bosl2 properly. This seems to me like SolidPython++ because you can now use all the fancy stuff from the bosl2 library. `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_ `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/16-mazebox-bosl2.py>`_
 * native **OpenSCAD customizer** support `customizer example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/10-customizer.py>`_
 * native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/12-animation.py>`_ and `animation example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/13-animated-bouncing-ball.py>`_
 * **custom fonts** `fonts example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/11-fonts.py>`_
