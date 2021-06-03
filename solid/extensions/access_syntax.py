@@ -34,10 +34,10 @@ for name in _cascading_builtins:
     add_builtin_to_object_base(name)
 
 #replace basic transformations with wrappers from the convenience module
-ObjectBase.translate = lambda self, *args: convenience.translate(*args)(self)
-ObjectBase.mirror = lambda self, *args: convenience.mirror(*args)(self)
-ObjectBase.scale = lambda self, *args: convenience.scale(*args)(self)
-ObjectBase.resize = lambda self, *args: convenience.resize(*args)(self)
+ObjectBase.translate = lambda self, *args, **kwargs: convenience.translate(*args, **kwargs)(self)
+ObjectBase.mirror = lambda self, *args, **kwargs: convenience.mirror(*args, **kwargs)(self)
+ObjectBase.scale = lambda self, *args, **kwargs: convenience.scale(*args, **kwargs)(self)
+ObjectBase.resize = lambda self, *args, **kwargs: convenience.resize(*args, **kwargs)(self)
 ObjectBase.rotate = lambda self, *args, **kwargs: convenience.rotate(*args, **kwargs)(self)
 
 #translation wrappers

@@ -2,11 +2,14 @@ from functools import singledispatch
 
 from ..core import builtins
 
-def extract_size_list(*args, **kwargs):
+def extract_size_list(size_count, *args):
+    if len(args) <= 1:
+        return args
+
     size_list = []
     args_copy = list(args)
 
-    while args_copy:
+    while args_copy and len(size_list) < size_count:
         a = args_copy.pop(0)
         if type(a) == int or type(a) == float:
             size_list += [a]
@@ -14,10 +17,10 @@ def extract_size_list(*args, **kwargs):
             args_copy = [a] + args_copy
             break
 
-    if len(size_list) == 1:
-        size_list = size_list[0]
-
-    return size_list, args_copy, kwargs
+    if size_list:
+        return [size_list] + args_copy
+    else:
+        return args_copy
 
 # ==============================================
 # = overwrite translate, rotate, scale, mirror =
@@ -32,96 +35,33 @@ def extract_size_list(*args, **kwargs):
     rotate([1, 2, 3])   -> rotate(1, 2, 3)
 """
 
-# =============
-# = translate =
-# =============
-@singledispatch
-def translate(v):
-    return builtins.translate(v)
+def translate(*args, **kwargs):
+    args = extract_size_list(3, *args)
+    return builtins.translate(*args, **kwargs)
 
-@translate.register(int)
-@translate.register(float)
-def _translate(*args):
-    return builtins.translate(args)
+def scale(*args, **kwargs):
+    args = extract_size_list(3, *args)
+    return builtins.scale(*args, **kwargs)
 
-# =========
-# = scale =
-# =========
-@singledispatch
-def scale(v):
-    return builtins.scale(v)
-
-@scale.register(int)
-@scale.register(float)
-def _scale(*args):
-    if len(args) == 1:
-        return builtins.scale(args[0])
-    else:
-        return builtins.scale(args)
-
-# ==========
-# = resize =
-# ==========
 def resize(*args, **kwargs):
-    size_list, args, kwargs = extract_size_list(*args, **kwargs)
+    args = extract_size_list(3, *args)
+    return builtins.resize(*args, **kwargs)
 
-    if size_list:
-        return builtins.resize(size_list, *args, **kwargs)
-    else:
-        return builtins.resize(*args, **kwargs)
+def mirror(*args, **kwargs):
+    args = extract_size_list(3, *args)
+    return builtins.mirror(*args, **kwargs)
 
-# =============
-# = mirror =
-# =============
-@singledispatch
-def mirror(v):
-    return builtins.mirror(v)
-
-@mirror.register(int)
-@mirror.register(float)
-def _mirror(*args):
-    return builtins.mirror(args)
-
-# =========
-# = rotate =
-# =========
 def rotate(*args, **kwargs):
-    if kwargs:
-        return builtins.rotate(*args, **kwargs)
-    else:
-        if len(args) == 1:
-            return builtins.rotate(*args)
-        elif     (isinstance(args[0], int) or isinstance(args[0], float)) \
-             and (isinstance(args[1], list) or isinstance(args[1], tuple)):
-                return builtins.rotate(a=args[0], v=args[1:])
-        else:
-            return builtins.rotate(args)
+    args = extract_size_list(3, *args)
+    return builtins.rotate(*args, **kwargs)
 
-# =============================
-# = overwrite square and cube =
-# =============================
-"""
-    overwrite square and cube from builtins.
-    This allows to pass the size in as single integers:
-
-    cube([1, 2, 3])   -> cube(1, 2, 3)
-    square([1, 2])    -> square(1, 2)
-"""
 def square(*args, **kwargs):
-    size_list, args, kwargs = extract_size_list(*args, **kwargs)
-
-    if size_list:
-        return builtins.square(size_list, *args, **kwargs)
-    else:
-        return builtins.square(*args, **kwargs)
+    args = extract_size_list(2, *args)
+    return builtins.square(*args, **kwargs)
 
 def cube(*args, **kwargs):
-    size_list, args, kwargs = extract_size_list(*args, **kwargs)
-
-    if size_list:
-        return builtins.cube(size_list, *args, **kwargs)
-    else:
-        return builtins.cube(*args, **kwargs)
+    args = extract_size_list(3, *args)
+    return builtins.cube(*args, **kwargs)
 
 # ==============
 # = Directions =
