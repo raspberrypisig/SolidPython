@@ -39,6 +39,7 @@ ObjectBase.mirror = lambda self, *args, **kwargs: convenience.mirror(*args, **kw
 ObjectBase.scale = lambda self, *args, **kwargs: convenience.scale(*args, **kwargs)(self)
 ObjectBase.resize = lambda self, *args, **kwargs: convenience.resize(*args, **kwargs)(self)
 ObjectBase.rotate = lambda self, *args, **kwargs: convenience.rotate(*args, **kwargs)(self)
+ObjectBase.offset = lambda self, *args, **kwargs: builtins.offset(*args, **kwargs)(self)
 
 #translation wrappers
 ObjectBase.down = lambda self, x: convenience.down(x)(self)
