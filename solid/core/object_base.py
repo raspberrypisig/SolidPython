@@ -134,7 +134,8 @@ def py2openscad(o):
         import numpy  # type: ignore
         return numpy.array2string(o, separator=",", threshold=1000000000)
     if isinstance(o, ObjectBase):
-        return o._render()
+        #[:-1] removing traling ;\n
+        return o._render()[:-2]
     if hasattr(o, "__iter__"):
         s = "["
         first = True
