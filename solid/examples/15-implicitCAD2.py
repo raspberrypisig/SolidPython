@@ -4,7 +4,7 @@
 import sys
 from pathlib import Path
 solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
-sys.path.append(solidPath)
+sys.path.insert(0, solidPath)
 #==================================================
 
 import sys
