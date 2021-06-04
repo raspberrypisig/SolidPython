@@ -16,6 +16,7 @@ class ObjectBase:
             for cc in c:
                 self.add(cc)
         else:
+            assert(hasattr(c, "_render"))
             self.children += [c]
 
         return self
