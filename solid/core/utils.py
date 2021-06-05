@@ -48,7 +48,7 @@ def resolve_scad_filename(scad_file):
 
     for p in config.openscad_library_paths:
         if (p / scad_path).exists():
-            return p / scad_path
+            return (p / scad_path).absolute()
 
     return None
 

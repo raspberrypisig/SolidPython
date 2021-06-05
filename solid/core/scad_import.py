@@ -64,7 +64,7 @@ def load_scad_dir_into_dict(resolved_scad, dest_namespace_dict, use_not_include)
 def load_scad_file_or_dir_into_dict(filename, dest_namespace_dict, use_not_include):
     assert(dest_namespace_dict != None)
 
-    resolved_scad = resolve_scad_filename(filename).absolute()
+    resolved_scad = resolve_scad_filename(filename)
 
     if not resolved_scad or not resolved_scad.exists():
         raise ValueError(f'Could not find .scad file {filename}.')
