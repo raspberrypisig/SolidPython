@@ -20,3 +20,4 @@ scratch/
 *.bak
 *.escad
 *.stl
+*.draft.*
