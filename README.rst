@@ -25,7 +25,7 @@ The goal was to
 * get all kinds of nice feature working (see Features section)
 * let's see what's next
 
-A nice demonstration what this is about is the `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/16-mazebox-bosl2.py>`_. It uses BOSL2 to reimplement the original mazebox and is done with ~30 lines of python code.
+Take a look at the `example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/>`_ to get an impression what this library can do. The interesting stuff starts with the 7th example.
 
 Features
 ========
@@ -80,7 +80,8 @@ As long as you stick to:
 
 you shoul be fine.
 
-If you want "more backwards compatibility" (like solid.utils, holes feature, set_modifier dummies,....) import the legacy extension:
+If you want "more backwards compatibility" (like `solid.utils, holes feature, set_modifier, __radd__`....) there's the legacy extension which is supposed to create backwards compatibility as far as possible:
+If you need / want more of the SolidPython:master interface (like `solid.utils, holes feature, set_modifier, add_trait, add_param, __radd__`....) import `solid.extensions.legacy`. It tries to fill the gap as good as possible:
 
 .. code:: python
 
