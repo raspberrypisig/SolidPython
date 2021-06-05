@@ -31,7 +31,7 @@ class Config:
         default_paths = {
             'Linux':   Path.home() / '.local/share/OpenSCAD/libraries',
             'Darwin':  Path.home() / 'Documents/OpenSCAD/libraries',
-            'Windows': Path('My Documents\OpenSCAD\libraries')
+            'Windows': Path('My Documents/OpenSCAD/libraries')
         }
 
         paths.append(default_paths[platform.system()])
@@ -47,7 +47,7 @@ class Config:
         default_paths = {
             'Linux':   Path.home() / '.local/share/expSolidPython/pickle_cache',
             'Darwin':  Path.home() / 'Documents/expSolidPython/pickle_cache',
-            'Windows': Path('My Documents\expSolidPython\pickle_cache')
+            'Windows': Path('My Documents/expSolidPython/pickle_cache')
         }
         return default_paths[platform.system()]
 
