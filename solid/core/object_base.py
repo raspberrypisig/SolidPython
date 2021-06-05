@@ -9,15 +9,15 @@ class ObjectBase:
         self.children = []
 
     def add(self, c):
-        if isinstance(c, list):
-            #self.children += c
-            #hmmmm we need this recursion for backward compatibility =(
-            #at least the legacy_splines_example calls add([[...]])
-            for cc in c:
-                self.add(cc)
-        else:
+        def _add(c):
             assert(hasattr(c, "_render"))
             self.children += [c]
+
+        if isinstance(c, list):
+            for cc in c:
+                _add(cc)
+        else:
+            _add(c)
 
         return self
 
@@ -33,7 +33,8 @@ class ObjectBase:
     def __call__(self, *args):
         #translate(...)(cube())
         #this adds cube() to translate.children
-        self.add(list(args))
+        for a in args:
+            self.add(a)
         return self
 
     def __repr__(self):
