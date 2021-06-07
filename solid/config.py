@@ -3,6 +3,7 @@ from pathlib import Path
 import os
 import platform
 import sys
+import re
 
 class Config:
     def __init__(self):
