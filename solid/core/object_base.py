@@ -83,7 +83,7 @@ class OpenSCADObject(ObjectBase):
                 {name}(p1=v1, p2=v2,...)
                 -> translate(v = [1, 2, 3])
         """
-        from .utils import unescape_openscad_identifier
+        from .utils import unescape_openscad_identifier, py2openscad
         from ..config import config
 
         param_strings = []
@@ -124,29 +124,4 @@ class OpenSCADParameterFunction(OpenSCADConstant):
 
 def scad_inline_parameter_func(code):
     return OpenSCADParameterFunction(code)
-
-def py2openscad(o):
-    if type(o) == bool:
-        return str(o).lower()
-    if type(o) == float:
-        return f"{o:.10f}"  # type: ignore
-    if type(o) == str:
-        return f'\"{o}\"'  # type: ignore
-    if type(o).__name__ == "ndarray":
-        import numpy  # type: ignore
-        return numpy.array2string(o, separator=",", threshold=1000000000)
-    if isinstance(o, ObjectBase):
-        #[:-1] removing traling ;\n
-        return o._render()[:-2]
-    if hasattr(o, "__iter__"):
-        s = "["
-        first = True
-        for i in o:  # type: ignore
-            if not first:
-                s += ", "
-            first = False
-            s += py2openscad(i)
-        s += "]"
-        return s
-    return str(o)
 
