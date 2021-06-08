@@ -26,5 +26,5 @@ def set_global_viewport_distance(d):
 
 def get_scad_header():
     base_str = "\n\n".join(ScadVariable.registered_variables.values())
-    return f'//=== greedy scad interface start ===\n{base_str}\n//=== greedy scad interface end===\n'
+    return f'{base_str}\n'
 

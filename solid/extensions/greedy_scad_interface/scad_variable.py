@@ -1,4 +1,5 @@
 import math
+from ...core.utils import py2openscad
 
 sin = lambda x: ScadValue(f'sin({x})') if isinstance(x, ScadValue) else math.sin(x)
 cos = lambda x: ScadValue(f'cos({x})') if isinstance(x, ScadValue) else math.cos(x)
@@ -79,9 +80,7 @@ class ScadVariable(ScadValue):
         tab = tab and f'/* [{tab}] */\n'
         label = label and f'//{label}\n'
         options_str = options_str and f' //{options_str}'
-
-        if isinstance(default_value, str):
-            default_value = f'"{default_value}"'
+        default_value = py2openscad(default_value)
 
         return f'{tab}{label}{name} = {default_value};{options_str}'
 
