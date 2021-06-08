@@ -32,7 +32,7 @@ def check_pickle_cache(filename):
     if not config.enable_pickle_cache:
         return None, None, False
 
-    pickle_filename, filename_hash = get_pickle_filename(filename)
+    pickle_filename, _ = get_pickle_filename(filename)
 
     #create pickle_cache_dir if neccessary
     if not config.pickle_cache_dir.exists():
