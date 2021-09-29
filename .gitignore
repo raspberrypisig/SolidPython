@@ -3,6 +3,7 @@
 *.pyc
 *.pyo
 .installed.cfg
+dist
 bin
 develop-eggs
 *.egg-info
