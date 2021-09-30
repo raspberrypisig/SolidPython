@@ -7,20 +7,7 @@ SolidPython
     :target: http://solidpython.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-TODO: fix table of contents (isn't there a way to auto generate it?)
--  `SolidPython: OpenSCAD for
-   Python <#solidpython--openscad-for-python>`__
--  `Advantages <#advantages>`__
--  `Installing SolidPython <#installing-solidpython>`__
--  `Using SolidPython <#using-solidpython>`__
--  `Importing OpenSCAD Code <#importing-openscad-code>`__
--  `Example Code <#example-code>`__
--  `Extra syntactic sugar <#extra-syntactic-sugar>`__
-   -  `Basic operators <#basic-operators>`__
-
--  `Jupyter Renderer <#jupyter-renderer>`__
--  `Contact <#contact>`__
--  `License <#license>`__
+.. contents::
 
 SolidPython: OpenSCAD for Python
 ================================
@@ -100,6 +87,8 @@ As (maybe little uncommon) example, you could write a program that:
 This should be pretty straight forward with SolidPython but is impossible with
 pure OpenSCAD.
 
+
+Furhtermore SolidPython is designed to be extendible. As such you can extend SolidPython itself using python. With this extensions you can extend SolidPython itself TODO...... syntactic sugar, operators, bill of material, bosl2, holes,....
 
 Installing SolidPython
 ======================
