@@ -1,5 +1,3 @@
-SolidPython
------------
 
 .. image:: https://circleci.com/gh/SolidCode/SolidPython.svg?style=shield
     :target: https://circleci.com/gh/SolidCode/SolidPython
@@ -7,7 +5,7 @@ SolidPython
     :target: http://solidpython.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. contents::
+.. contents:: SolidPython
 
 SolidPython: OpenSCAD for Python
 ================================
@@ -26,7 +24,7 @@ This Python code:
         cube(10),
         sphere(15)
     )
-    print(scad_render(d))
+    d.as_scad()
 
 Generates this OpenSCAD code:
 
@@ -65,7 +63,7 @@ Advantages
 In contrast to OpenSCAD -- which is a constrained domain specific language --
 Python is a full blown modern programming language and as such supports
 pretty much all modern programming features. Furthermore a huge number of
-libraries are available.
+libraries is available.
 
 SolidPython lets you use all these fancy python features to generate your
 constructive solid geometry models.
@@ -79,16 +77,15 @@ libraries to generate your models.
 I would almost say this enables you to do what ever you want with ease.
 As (maybe little uncommon) example, you could write a program that:
 
-  - looks up the mail adress of your actuall president (base on your ip adress)
-  - writes a mail to him and asks for a portrait
+  - looks up the mail adress of your actuall president (based on your ip address)
+  - writes a mail to him or her and asks for a portrait
   - waits for a reply
   - generates a heightmap from the picture you received and maps it onto a vase
 
 This should be pretty straight forward with SolidPython but is impossible with
 pure OpenSCAD.
 
-
-Furhtermore SolidPython is designed to be extendible. As such you can extend SolidPython itself using python. With this extensions you can extend SolidPython itself TODO...... syntactic sugar, operators, bill of material, bosl2, holes,....
+Furhtermore SolidPython 2.x.x is designed to be extendible. As such you can extend SolidPython itself using python. Actually parts of SolidPython itself are implemented as extensions (everything but the core one-to-one mapping of OpenScad to Python), these include operators, access style syntax, convenience functions, scad_interface and bosl2 support. Furthermore some of the SolidPython 1.x.x solid.utils features are also implemented as extensions (bill of material & part-hole).
 
 Installing SolidPython
 ======================
@@ -146,7 +143,7 @@ Using SolidPython
 
 -  Call ``py_scad_obj.as_scad()`` to generate SCAD code. This returns
    a string of valid OpenSCAD code.
--  *or*: call ``py_scad_obj.save_as_scad(filepath.scad)`` to store
+-  *or*: call ``py_scad_obj.save_as_scad("filepath.scad")`` to store
    that code in a file.
 -  If ``filepath.scad`` is open in the OpenSCAD IDE and Design => 'Automatic
    Reload and Compile' is checked in the OpenSCAD IDE, running
@@ -241,8 +238,8 @@ Extra syntactic sugar
 Basic operators
 ===============
 
-Following Elmo Mäntynen's suggestion, SCAD objects override the basic
-operators + (union), - (difference), and \* (intersection). So
+SolidPython overrides the basic operators + and | (union), - (difference), \*
+and & (intersection) and ~ (debug). So
 
 .. code:: python
 
@@ -276,7 +273,33 @@ is the same as:
 Access Style Syntax
 ===================
 
-TODO: ...
+Since at least some people (including me) don't like the OpenSCAD Syntax, SolidPython 2.x.x introduces the support for the so called "Access-Style-Syntax". This enables you to call some of the SolidPython / OpenSCAD functions as member functions of any OpenSCADObject instead of wrapping it in an instance of it.
+
+In other words, e.g. code:
+
+.. code:: python
+
+  up(10)(cube(1))
+  #becomes
+  cube(1).up(10)
+
+The available member functions are the following:
+
+.. code:: python
+
+  union, difference, intersection, translate, scale, rotate, mirror, resize, color, offset, hull, render, projection, surface, linear_extrude,rotate_extrude, debug, background, root and disable
+
+Also the convenience functions are available:
+
+.. code:: python
+
+  up, down, left, right, forward, fwd and back
+
+Furthermore you can chain these functions, because they all return the transformed OpenSCADObject, e.g.:
+
+.. code:: python
+
+  cube(1).up(10).back(20).rotate(10, 0, 5).mirror(1, 0, 0).color("green").root()
 
 Convinience functions
 =====================
@@ -284,25 +307,23 @@ Convinience functions
 SolidPython includes a number of convinience functions. Currently these
 include:
 
-Directions: (up, down, left, right, forward, fwd, back) for arranging things:
+Directions for arranging things: up, down, left, right, forward, fwd, back
+Transformations per dimension: rotateX, rotateY, rotateZ and accodingly mirror, scale and resize
+
+Furthermore the operations translate, scale, resize, mirror, rotate, cube and square are overwritten in a way thatthey accept single integer or float values as first parameter. (translate(1, 2, 3) equals translate([1, 2, 3]))
 
 .. code:: python
 
-    up(10)(
-        cylinder()
-    )
+    cylinder().rotateY(90).up(10)
 
 seems a lot clearer to me than:
 
 .. code:: python
 
-    translate( [0,0,10])(
-        cylinder()
-    )
-
-| I took this from someone's SCAD work and have lost track of the
-  original author.
-| My apologies.
+    translate([0,0,10])(
+        rotate([0, 90, 0])(
+          cylinder()
+    ))
 
 Features
 --------
@@ -329,10 +350,10 @@ Render SolidPython or OpenSCAD code in Jupyter notebooks using `ViewSCAD <https:
 
 (Take a look at the `repo page <https://github.com/nickc92/ViewSCAD>`__, though, since there's a tiny bit more installation required)
 
-Version 2.0.0
+Version 2.x.x
 -------------
 
-TODO: change expSolid -> SolidPython 2.0.0
+TODO: change expSolid -> SolidPython 2.x.x
 
 This is an experimental SolidPython branch. It's a
 refactored version of SolidPython. Since -- I guess -- this branch will never make it back to
@@ -350,8 +371,7 @@ The goal was to
 * try to get complex libraries working properly (mcad, bosl, bosl2)
 * **KISS**: ``from solid import *`` -> imports only ~1000 lines of source code and has (almost?) all the feautres SolidPython:master has
 * be a drop in replacement for SolidPython:master -- as far as possible, see Backwards Compatibility Section
-* get all kinds of nice feature working (see Features section)
-* let's see what's next
+* get all kinds of nice features working (see Features section)
 
 Take a look at the `example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/>`_ to get an impression what this library can do. The interesting stuff starts with the 7th example.
 
@@ -460,12 +480,14 @@ The interface changed in a few minor aspects:
 Contact
 -------
 
-Enjoy, and please send any questions or bug reports to me at
-``evan_t_jones@mac.com``.
+Enjoy!
+
+If you have any questions or bug reports please report them to the SolidPython
+`GitHub page <https://github.com/SolidCode/SolidPython>`__!
+
+
 
 Cheers!
-
-Evan
 
 License
 -------
@@ -487,3 +509,13 @@ Some class docstrings are derived from the `OpenSCAD User Manual
 <https://en.wikibooks.org/wiki/OpenSCAD_User_Manual>`__, so 
 are available under the `Creative Commons Attribution-ShareAlike License
 <https://creativecommons.org/licenses/by-sa/3.0/>`__. 
+
+TODO
+----
+
+* third party extensions -> solidpython-ff
+
+To Discuss
+==========
+
+- extract the legacy extension into a ("third party") library? (at least I can't and also don't want to maintain it) Or mark it as deprecated? I would recommend to use bosl2 features instead.
