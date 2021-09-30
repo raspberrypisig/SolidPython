@@ -7,6 +7,7 @@ SolidPython
     :target: http://solidpython.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+TODO: fix table of contents (isn't there a way to auto generate it?)
 -  `SolidPython: OpenSCAD for
    Python <#solidpython--openscad-for-python>`__
 -  `Advantages <#advantages>`__
@@ -15,22 +16,8 @@ SolidPython
 -  `Importing OpenSCAD Code <#importing-openscad-code>`__
 -  `Example Code <#example-code>`__
 -  `Extra syntactic sugar <#extra-syntactic-sugar>`__
-
    -  `Basic operators <#basic-operators>`__
-   -  `First-class Negative Space
-      (Holes) <#first-class-negative-space-holes>`__
-   -  `Animation <#animation>`__
 
--  `solid.utils <#solidutils>`__
-
-   -  `Directions: (up, down, left, right, forward, back) for arranging
-      things: <#directions-up-down-left-right-forward-back-for-arranging-things>`__
-   -  `Arcs <#arcs>`__
-   -  `Extrude Along Path <#extrude_along_path>`__
-   -  `Bill Of Materials <#bill-of-materials>`__
-
--  `solid.screw\_thread <#solidscrew_thread>`__
--  `solid.splines <#solidsplines>`__
 -  `Jupyter Renderer <#jupyter-renderer>`__
 -  `Contact <#contact>`__
 -  `License <#license>`__
@@ -260,10 +247,10 @@ Or browse the example code on Github
 `here <https://github.com/SolidCode/SolidPython/tree/master/solid/examples>`__
 
 Extra syntactic sugar
-=====================
+---------------------
 
 Basic operators
----------------
+===============
 
 Following Elmo Mäntynen's suggestion, SCAD objects override the basic
 operators + (union), - (difference), and \* (intersection). So
@@ -298,12 +285,12 @@ is the same as:
     )
 
 Access Style Syntax
--------------------
+===================
 
 TODO: ...
 
 Convinience functions
----------------------
+=====================
 
 SolidPython includes a number of convinience functions. Currently these
 include:
@@ -329,15 +316,15 @@ seems a lot clearer to me than:
 | My apologies.
 
 Features
-========
+--------
 
 BOSL2
------
+=====
 
 TODO: should replace Holes & Parts, extrude_along_path, splines, screw_threads,...
 
 Animation, Customizer, custom Fonts, ImplicitCad
-------------------------------------------------
+================================================
 
 TODO:... SolidPython 2 supports all these features, take a look at the examples....
 
@@ -354,7 +341,7 @@ Render SolidPython or OpenSCAD code in Jupyter notebooks using `ViewSCAD <https:
 (Take a look at the `repo page <https://github.com/nickc92/ViewSCAD>`__, though, since there's a tiny bit more installation required)
 
 Version 2.0.0
-=============
+-------------
 
 TODO: change expSolid -> SolidPython 2.0.0
 
@@ -482,7 +469,7 @@ The interface changed in a few minor aspects:
 
 
 Contact
-=======
+-------
 
 Enjoy, and please send any questions or bug reports to me at
 ``evan_t_jones@mac.com``.
@@ -492,7 +479,7 @@ Cheers!
 Evan
 
 License
-=======
+-------
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
