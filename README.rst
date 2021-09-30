@@ -58,7 +58,7 @@ Generates this OpenSCAD code:
     }
 
 Advantages
-==========
+----------
 
 In contrast to OpenSCAD -- which is a constrained domain specific language --
 Python is a full blown modern programming language and as such supports
@@ -88,7 +88,7 @@ pure OpenSCAD.
 Furhtermore SolidPython 2.x.x is designed to be extendible. As such you can extend SolidPython itself using python. Actually parts of SolidPython itself are implemented as extensions (everything but the core one-to-one mapping of OpenScad to Python), these include operators, access style syntax, convenience functions, scad_interface and bosl2 support. Furthermore some of the SolidPython 1.x.x solid.utils features are also implemented as extensions (bill of material & part-hole).
 
 Installing SolidPython
-======================
+----------------------
 
 -  Install latest release via
    `PyPI <https://pypi.python.org/pypi/solidpython>`__:
@@ -109,7 +109,7 @@ Installing SolidPython
       pip install git+https://github.com/SolidCode/SolidPython.git
 
 Using SolidPython
-=================
+-----------------
 
 -  Include SolidPython at the top of your Python file:
 
@@ -153,7 +153,7 @@ Using SolidPython
    straight to STL.
 
 Importing OpenSCAD code
-=======================
+-----------------------
 
 - Use ``solid.import_scad(path)`` to import OpenSCAD code. Relative paths will 
 check the current location designated in `OpenSCAD library directories <https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Libraries>`__.
@@ -218,7 +218,7 @@ check the current location designated in `OpenSCAD library directories <https://
 
 
 Example Code
-============
+------------
 
 The best way to learn how SolidPython works is to look at the included
 example code. If you've installed SolidPython, the following line of
@@ -233,10 +233,10 @@ Or browse the example code on Github
 `here <https://github.com/SolidCode/SolidPython/tree/master/solid/examples>`__
 
 Extra syntactic sugar
----------------------
+=====================
 
 Basic operators
-===============
+---------------
 
 SolidPython overrides the basic operators + and | (union), - (difference), \*
 and & (intersection) and ~ (debug). So
@@ -271,7 +271,7 @@ is the same as:
     )
 
 Access Style Syntax
-===================
+-------------------
 
 Since at least some people (including me) don't like the OpenSCAD Syntax, SolidPython 2.x.x introduces the support for the so called "Access-Style-Syntax". This enables you to call some of the SolidPython / OpenSCAD functions as member functions of any OpenSCADObject instead of wrapping it in an instance of it.
 
@@ -302,7 +302,7 @@ Furthermore you can chain these functions, because they all return the transform
   cube(1).up(10).back(20).rotate(10, 0, 5).mirror(1, 0, 0).color("green").root()
 
 Convinience functions
-=====================
+---------------------
 
 SolidPython includes a number of convinience functions. Currently these
 include:
@@ -326,21 +326,21 @@ seems a lot clearer to me than:
     ))
 
 Features
---------
+========
 
 BOSL2
-=====
+-----
 
 TODO: should replace Holes & Parts, extrude_along_path, splines, screw_threads,...
 
 Animation, Customizer, custom Fonts, ImplicitCad
-================================================
+------------------------------------------------
 
 TODO:... SolidPython 2 supports all these features, take a look at the examples....
 
 
 Jupyter Renderer
-----------------
+================
 
 Render SolidPython or OpenSCAD code in Jupyter notebooks using `ViewSCAD <https://github.com/nickc92/ViewSCAD>`__, or install directly via:
 
@@ -351,7 +351,7 @@ Render SolidPython or OpenSCAD code in Jupyter notebooks using `ViewSCAD <https:
 (Take a look at the `repo page <https://github.com/nickc92/ViewSCAD>`__, though, since there's a tiny bit more installation required)
 
 Version 2.x.x
--------------
+=============
 
 TODO: change expSolid -> SolidPython 2.x.x
 
@@ -376,7 +376,7 @@ The goal was to
 Take a look at the `example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/>`_ to get an impression what this library can do. The interesting stuff starts with the 7th example.
 
 Features
-========
+--------
 
 In difference to SolidPython:master this branch has support for the following features:
 
@@ -411,7 +411,7 @@ Another nice little feature especially to play around and debug it is that the `
   >>>
 
 Backwards compatibility
-=======================
+-----------------------
 
 It should be a pretty complete and backwards compatible drop in replacement for
 SolidPython. The backwards compatibility is not 100%. Somethings (and even
@@ -478,7 +478,7 @@ The interface changed in a few minor aspects:
 
 
 Contact
--------
+=======
 
 Enjoy!
 
@@ -490,7 +490,7 @@ If you have any questions or bug reports please report them to the SolidPython
 Cheers!
 
 License
--------
+=======
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
@@ -511,11 +511,11 @@ are available under the `Creative Commons Attribution-ShareAlike License
 <https://creativecommons.org/licenses/by-sa/3.0/>`__. 
 
 TODO
-----
+====
 
 * third party extensions -> solidpython-ff
 
 To Discuss
-==========
+----------
 
 - extract the legacy extension into a ("third party") library? (at least I can't and also don't want to maintain it) Or mark it as deprecated? I would recommend to use bosl2 features instead.
