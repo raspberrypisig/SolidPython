@@ -74,3 +74,19 @@ def forward(y): return builtins.translate((0, y, 0))
 def fwd(y): return forward(y)
 def back(y): return builtins.translate((0, -y, 0))
 
+def rotateX(x): return rotate(x, 0, 0)
+def rorateY(y): return rotate(0, y, 0)
+def rotateZ(z): return rotate(0, 0, z)
+
+def mirrorX(): return mirror(1, 0, 0)
+def mirrorY(): return mirror(0, 1, 0)
+def mirrorZ(): return mirror(0, 0, 1)
+
+def scaleX(x): return scale(x, 0, 0)
+def scaleY(y): return scale(0, y, 0)
+def scaleZ(z): return scale(0, 0, z)
+
+def resizeX(x): return resize(x, 0, 0)
+def resizeY(y): return resize(0, y, 0)
+def resizeZ(z): return resize(0, 0, z)
+

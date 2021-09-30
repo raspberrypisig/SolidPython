@@ -41,7 +41,7 @@ ObjectBase.resize = lambda self, *args, **kwargs: convenience.resize(*args, **kw
 ObjectBase.rotate = lambda self, *args, **kwargs: convenience.rotate(*args, **kwargs)(self)
 ObjectBase.offset = lambda self, *args, **kwargs: builtins.offset(*args, **kwargs)(self)
 
-#translation wrappers
+#translation, mirror, scale, rotate and resize convenience wrappers
 ObjectBase.down = lambda self, x: convenience.down(x)(self)
 ObjectBase.up = lambda self, x: convenience.up(x)(self)
 ObjectBase.left = lambda self, x: convenience.left(x)(self)
@@ -49,6 +49,18 @@ ObjectBase.right = lambda self, x: convenience.right(x)(self)
 ObjectBase.back = lambda self, x: convenience.back(x)(self)
 ObjectBase.fwd = lambda self, x: convenience.fwd(x)(self)
 ObjectBase.forward = lambda self, x: convenience.fwd(x)(self)
+ObjectBase.mirrorX = lambda self: convenience.mirrorX()(self)
+ObjectBase.mirrorY = lambda self: convenience.mirrorY()(self)
+ObjectBase.mirrorZ = lambda self: convenience.mirrorZ()(self)
+ObjectBase.scaleX = lambda self, x: convenience.scaleX(x)(self)
+ObjectBase.scaleY = lambda self, y: convenience.scaleY(y)(self)
+ObjectBase.scaleZ = lambda self, z: convenience.scaleZ(z)(self)
+ObjectBase.rotateX = lambda self, x: convenience.rotateX(x)(self)
+ObjectBase.rotateY = lambda self, y: convenience.rotateX(y)(self)
+ObjectBase.rotateZ = lambda self, z: convenience.rotateX(z)(self)
+ObjectBase.resizeX = lambda self, x: convenience.resizeX(x)(self)
+ObjectBase.resizeY = lambda self, y: convenience.resizeY(y)(self)
+ObjectBase.resizeZ = lambda self, z: convenience.resizeZ(z)(self)
 
 #debug, background, root, disable and ~
 ObjectBase.debug = lambda self: builtins.debug()(self)
