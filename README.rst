@@ -303,16 +303,24 @@ Furthermore you can chain these functions, because they all return the transform
 
   cube(1).up(10).back(20).rotate(10, 0, 5).mirror(1, 0, 0).color("green").root()
 
-Convinience functions
+Convenience functions
 ---------------------
 
-SolidPython includes a number of convinience functions. Currently these
+SolidPython includes a number of convenience functions. Currently these
 include:
 
-Directions for arranging things: up, down, left, right, forward, fwd, back
-Transformations per dimension: rotateX, rotateY, rotateZ and accodingly mirror, scale and resize
+Directions for arranging things:
+.. code:: python
 
-Furthermore the operations `translate, scale, resize, mirror, rotate, cube and square` are overwritten in a way thatthey accept single integer or float values as first parameter. (`translate(1, 2, 3)` equals `translate([1, 2, 3])`)
+  up, down, left, right, forward, fwd, back
+
+Transformations per dimension:
+.. code:: python
+
+  rotateX, rotateY, rotateZ, mirrorX, mirrorY, mirrorZ,
+  resizeX, resizeY, resizeZ, scaleX, scaleY, scaleZ
+
+Furthermore the operations `translate, scale, resize, mirror, rotate, cube and square` are overwritten in a way that they accept single integer or float values as first parameter. (`translate(1, 2, 3)` equals `translate([1, 2, 3])`)
 
 .. code:: python
 
@@ -389,11 +397,11 @@ Features
 
 SolidPython 2.x.x has support for the following new features:
 
-* **bosl2** - SolidPython is now able to handle bosl2 pretty well (don't know whether everything works, but quite a lot). `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_ `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/16-mazebox-bosl2.py>`_
-* native **OpenSCAD customizer** support `customizer example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/10-customizer.py>`_ `greedy scad interface example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/17-greedy-scad-interface.py>`_
+* **bosl2** - SolidPython is now able to handle bosl2 pretty well (don't know whether everything works, but quite a lot). `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_ and `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/16-mazebox-bosl2.py>`_
+* native **OpenSCAD customizer** support `customizer example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/10-customizer.py>`_ and `greedy scad interface example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/17-greedy-scad-interface.py>`_
 * native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/12-animation.py>`_ and `animation example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/13-animated-bouncing-ball.py>`_
 * **custom fonts** `fonts example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/11-fonts.py>`_
-* supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/14-implicitCAD.py>`_ `implicitCAD example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/15-implicitCAD2.py>`_
+* supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/14-implicitCAD.py>`_ and `implicitCAD example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/15-implicitCAD2.py>`_
 
 Furthermore it has several minor improvements, like these which are based on ideas from *posts* from the SolidPython universe:
 
@@ -436,7 +444,7 @@ you shoul be fine.
 
 **solid.utils**
 
-*this is my (jeff) personal opinion and the base for design decisions for the actual SolidPytho 2.x.x beta design. I'd like to have a discussion about it!*
+*this is my (jeff) personal opinion and the base for design decisions for the current SolidPytho 2.x.x beta design. I'd like to have a discussion about it!*
 
 ``solid.utils`` consists of convenience functions and "modelling extensions" (kind of a small third party library like `mcad, bosl, bosl2`).
 The convenience functions are now -- or the missing ones are supposed to be -- part of `solid.extensions.convenience` and are automatically importet with the main package.
@@ -444,7 +452,7 @@ The convenience functions are now -- or the missing ones are supposed to be -- p
 Concerning the "modelling extensions" I would actually like to get rid of them as part of the SolidPython 2.x.x package. The resons are the following:
 
 * these modelling extensions (like `extrude_along_path, splines, screw_threads, part_hole,...`) don't align with the (core) purpose of SolidPython as I understand it (I think SolidPython is supposed to be a python "wrapper" / interface for OpenSCAD)
-* these modelling extensions are "yet another implementation" of common modelling task that needs to be maintained. I would prefere a SolidPython design where these features are outsourced into a third party library
+* these modelling extensions are "yet another implementation" of common modelling task that need to be maintained. I would prefere a SolidPython design where these features are outsourced into a third party library
 * SolidPython 2.x.x has a pretty good **bosl2** support and bosl2 has all (?) the features provided by `solid.utils`:
 
   * extrude_along_path: https://github.com/revarbat/BOSL2/wiki/mutators.scad#module-path_extrude
@@ -461,7 +469,7 @@ And a looooot more.....
 
 I don't see why SolidPython should implement and maintain its own set of these features. Furthermore I assume a third party library (like `bosl2`) is probably able to provide more sophisticated implementations than we will ever be able to provide.
 
-Please take a look at the `bosl2` implementations. I did some very basic tests in ``examples/07-libs-bosl2.py`` and -- at least -- was able to create basic examples for the mentioned `solid.utils` features using bosl2.
+Please take a look at the `bosl2` implementations. I did some very basic tests in ``examples/07-libs-bosl2.py`` and -- at least -- was able to create basic examples for the core `solid.utils` features using bosl2.
 
 I would also be fine with a python third party library that implements these features, but I would like to seperate it from SolidPython itself. The reason is to achieve a SolidPython module which is independent from it (development, bugs, maintainance) with the goal to get an as solid and stable as possible SolidPython (core) package.
 
