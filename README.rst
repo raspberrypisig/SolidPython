@@ -350,7 +350,7 @@ SolidPython supports the following features
 * native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/12-animation.py>`_ and `animation example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/13-animated-bouncing-ball.py>`_
 * **custom fonts** `fonts example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/11-fonts.py>`_
 * supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/14-implicitCAD.py>`_ `implicitCAD example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/15-implicitCAD2.py>`_
-* SolidPython is extendible `extensions example 1 <>`_  `extension example 2 <>`_
+* SolidPython is extendible `extensions example 1 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/08-extensions.py>`_  `extension example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/09-code-attach-extension.py>`_
 
 Jupyter Renderer
 ================
@@ -436,15 +436,15 @@ you shoul be fine.
 
 **solid.utils**
 
-*this is my (jeff) personal opinion and the base for design decision for the actual SolidPytho 2.x.x beta design. I'd like to have a discussion about it!*
+*this is my (jeff) personal opinion and the base for design decisions for the actual SolidPytho 2.x.x beta design. I'd like to have a discussion about it!*
 
 ``solid.utils`` consists of convenience functions and "modelling extensions" (kind of a small third party library like `mcad, bosl, bosl2`).
-The convenience functions are now -- or the missing are supposed to be -- part of `solid.extensions.convenience` and are automatically importet with the main package.
+The convenience functions are now -- or the missing ones are supposed to be -- part of `solid.extensions.convenience` and are automatically importet with the main package.
 
-Concerning the "modelling extensions" I would actually like to get rid of them as part of SolidPython 2.x.x package. The resons are the following:
+Concerning the "modelling extensions" I would actually like to get rid of them as part of the SolidPython 2.x.x package. The resons are the following:
 
-* these modelling extensions (like `extrude_along_path, splines, screw_threads, part_hole,...`) don't align with the (core) purpose of SolidPython as I understand them (I think SolidPython is supposed to be a python "wrapper" / interface for OpenSCAD)
-* these modelling extensions are "yet another implementation" for common modelling task that needs to be maintained. I would prefere a SolidPython design where these features are outsourced into a third party library
+* these modelling extensions (like `extrude_along_path, splines, screw_threads, part_hole,...`) don't align with the (core) purpose of SolidPython as I understand it (I think SolidPython is supposed to be a python "wrapper" / interface for OpenSCAD)
+* these modelling extensions are "yet another implementation" of common modelling task that needs to be maintained. I would prefere a SolidPython design where these features are outsourced into a third party library
 * SolidPython 2.x.x has a pretty good **bosl2** support and bosl2 has all (?) the features provided by `solid.utils`:
 
   * extrude_along_path: https://github.com/revarbat/BOSL2/wiki/mutators.scad#module-path_extrude
@@ -469,9 +469,9 @@ BUT, since I assume quite a few people out there are using `solid.utils` up unti
 
 **solid.extensions.legacy**
 
-The `solid.extensions.legacy` extension is basicly everything that used to be `solid.utils`. Furhtermore it tries to "mimic" the SolidPython 1.x.x interface. This is the try to become as backward compatible as possible. This might for example be useful when trying to get existing SolidPython 1.x.x code running.
+The `solid.extensions.legacy` extension is basicly everything that used to be `solid.utils`. Furhtermore it tries to "mimic" the SolidPython 1.x.x interface. This is the effort to become as backward compatible as possible. This might for example be useful when trying to get existing SolidPython 1.x.x code running.
 
-If you really want to use those features try to import the extension and take a look at it.
+If you want to use those features import the extension and take a look at it.
 
 .. code:: python
 
@@ -554,12 +554,3 @@ Some class docstrings are derived from the `OpenSCAD User Manual
 are available under the `Creative Commons Attribution-ShareAlike License
 <https://creativecommons.org/licenses/by-sa/3.0/>`__. 
 
-TODO
-====
-
-* third party extensions -> solidpython-ff
-
-To Discuss
-----------
-
-- extract the legacy extension into a ("third party") library? (at least I can't and also don't want to maintain it) Or mark it as deprecated? I would recommend to use bosl2 features instead.
