@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 # run extopenscad with -r 2 to get proper results:
-#       extopenscad -r 2 examples/14-implicitCAD.scad
+#       extopenscad -r 2 examples/14-implicitCAD.escad
 
 # this is the same example as 06-functions.py but with nice smooth implicitCAD
 # roundings....
