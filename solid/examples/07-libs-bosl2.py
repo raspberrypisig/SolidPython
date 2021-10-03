@@ -1,11 +1,5 @@
-# ======================================================
-# = add relative path to the solid package to sys.path =
-# ======================================================
-import sys
-from pathlib import Path
-solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
-sys.path.insert(0, solidPath)
-#==================================================
+#! /usr/bin/env python
+
 from math import sqrt,sin
 
 from solid.extensions.bosl2.std import path_extrude, bounding_box, heightfield,\

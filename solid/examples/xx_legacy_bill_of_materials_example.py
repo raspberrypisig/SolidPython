@@ -1,11 +1,4 @@
-# ======================================================
-# = add relative path to the solid package to sys.path =
-# ======================================================
-import sys
-from pathlib import Path
-solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
-sys.path.append(solidPath)
-#==================================================
+#! /usr/bin/env python
 
 # Basic shape with several repeated parts, demonstrating the use of
 # solid.utils.bill_of_materials()

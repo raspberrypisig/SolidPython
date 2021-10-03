@@ -1,11 +1,5 @@
-# ======================================================
-# = add relative path to the solid package to sys.path =
-# ======================================================
-import sys
-from pathlib import Path
-solidPath = Path(__file__).absolute().parent.parent.parent.as_posix()
-sys.path.insert(0, solidPath)
-#==================================================
+#! /usr/bin/env python
+
 import numpy as np
 
 from solid import *
