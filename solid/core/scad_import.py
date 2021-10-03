@@ -80,9 +80,9 @@ def load_scad_file_or_dir_into_dict(filename, dest_namespace_dict, use_not_inclu
 
 # use() & include() mimic OpenSCAD's use/include mechanics.
 # -- use() makes methods in scad_file_path.scad available to be called.
-# --include() makes those methods available AND executes all code in
-#   scad_file_path.scad, which may have side effects.
-#   Unless you have a specific need, call use().
+# -- include() makes those methods available AND executes all code in
+#    scad_file_path.scad, which may have side effects.
+#    Unless you have a specific need, call use().
 def get_callers_namespace_dict(depth=2):
     frame = inspect.currentframe()
     for i in range(depth):
