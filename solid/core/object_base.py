@@ -88,6 +88,9 @@ class OpenSCADObject(ObjectBase):
 
         param_strings = []
         for p in sorted(self.params.keys()):
+            if self.params[p] is None:
+                continue
+
             if config.use_implicit_builtins and \
                         isinstance(self.params[p], OpenSCADParameterFunction):
 
