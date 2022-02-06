@@ -75,7 +75,7 @@ def fwd(y): return forward(y)
 def back(y): return builtins.translate((0, -y, 0))
 
 def rotateX(x): return rotate(x, 0, 0)
-def rorateY(y): return rotate(0, y, 0)
+def rotateY(y): return rotate(0, y, 0)
 def rotateZ(z): return rotate(0, 0, z)
 
 def mirrorX(): return mirror(1, 0, 0)
