@@ -5,13 +5,16 @@
     :target: http://solidpython.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-If you switch from the regular SolidPython:master branch to this branch, have a
-look at `Version 2.x.x`_.
+**If you switch from the regular SolidPython:master branch to this branch, have a
+look at `Version 2.x.x`_.**
 
-.. contents:: SolidPython
+SolidPython
+===========
 
-SolidPython: OpenSCAD for Python
-================================
+.. contents::
+
+OpenSCAD for Python
+-------------------
 
 SolidPython is a generalization of Phillip Tiefenbacher's openscad
 module, found on `Thingiverse <http://www.thingiverse.com/thing:1481>`__. It
