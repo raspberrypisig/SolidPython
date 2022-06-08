@@ -5,6 +5,9 @@
     :target: http://solidpython.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+If you switch from the regular SolidPython:master branch to this branch, have a
+look at `Version 2.x.x_`.
+
 .. contents:: SolidPython
 
 SolidPython: OpenSCAD for Python
@@ -294,8 +297,9 @@ Also the convenience functions are available:
 
 .. code:: python
 
-  up, down, left, right, forward, fwd, back, rotateX, rotateY, rotateZ,
-  mirrorX, mirrorY, mirrorZ, scaleX, scaleY, scaleZ, resizeX, resizeY, resizeZ
+  up, down, left, right, forward, fwd, back, translateX, translateY, translateZ,
+  rotateX, rotateY, rotateZ, mirrorX, mirrorY, mirrorZ, scaleX, scaleY, scaleZ,
+  resizeX, resizeY, resizeZ
 
 Furthermore you can chain these functions, because they all return the transformed OpenSCADObject, e.g.:
 
@@ -310,15 +314,17 @@ SolidPython includes a number of convenience functions. Currently these
 include:
 
 Directions for arranging things:
+
 .. code:: python
 
   up, down, left, right, forward, fwd, back
 
 Transformations per dimension:
+
 .. code:: python
 
-  rotateX, rotateY, rotateZ, mirrorX, mirrorY, mirrorZ,
-  resizeX, resizeY, resizeZ, scaleX, scaleY, scaleZ
+  translateX, translateY, translateZ, rotateX, rotateY, rotateZ, mirrorX,
+  mirrorY, mirrorZ, resizeX, resizeY, resizeZ, scaleX, scaleY, scaleZ
 
 Furthermore the operations `translate, scale, resize, mirror, rotate, cube and square` are overwritten in a way that they accept single integer or float values as first parameter. (`translate(1, 2, 3)` equals `translate([1, 2, 3])`)
 
