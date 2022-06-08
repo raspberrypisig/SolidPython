@@ -6,7 +6,7 @@
     :alt: Documentation Status
 
 If you switch from the regular SolidPython:master branch to this branch, have a
-look at `Version 2.x.x_`.
+look at `Version 2.x.x`_.
 
 .. contents:: SolidPython
 
@@ -356,7 +356,7 @@ Take a look at their `Wiki <https://github.com/revarbat/BOSL2/wiki>`_ to get an 
 
 
 Animation, Customizer, custom Fonts, ImplicitCad, Extensions
-------------------------------------------------
+------------------------------------------------------------
 
 SolidPython supports the following features
 
