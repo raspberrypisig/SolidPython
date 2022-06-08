@@ -6,7 +6,7 @@
     :alt: Documentation Status
 
 **If you switch from the regular SolidPython:master branch to this branch, have a
-look at `Version 2.x.x`_.**
+look at [this section](#version-2-x-x) .**
 
 SolidPython
 ===========
