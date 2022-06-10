@@ -33,6 +33,6 @@ for f in bosl2_dir.iterdir():
 
 #TODO: extend this with all kinds of bosl2 features
 from ..core.object_base import ObjectBase
-ObjectBase.tag = tag
-ObjectBase.attach = attach
+ObjectBase.tag = lambda self, *args, **kwargs: tag(*args, **kwargs)(self)
+ObjectBase.attach = lambda self, *args, **kwargs: attach(*args, **kwargs)(self)
 
