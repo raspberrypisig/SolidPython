@@ -43,9 +43,24 @@ def bosl_diff():
         )
     )
 
+def bosl_diff2():
+    #openscad example from bosl2 wiki:
+    #diff()
+    #    cuboid(50) {
+    #        tag("remove") attach(TOP) sphere(d=40);
+    #        tag("keep") attach(CTR) cylinder(h=40, d=10);
+    #    }
+    return \
+    diff() (
+        cuboid(50) (
+            sphere(d=40).attach(TOP).tag("remove"),
+            cylinder(h=40, d=10).attach(CTR).tag("keep")
+        )
+    )
+
 assembly = bounding_box_wrapper(extrude_along_path()) +\
            extrude_along_path().color("purple") +\
-           bosl_diff().back(100) +\
+           bosl_diff2().back(100) +\
            bolt().left(100) +\
            heightfield_test().fwd(100)
 

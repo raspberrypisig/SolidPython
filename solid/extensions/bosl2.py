@@ -31,3 +31,8 @@ for f in bosl2_dir.iterdir():
     frame = inspect.currentframe()
     frame.f_locals[name] = import_scad(bosl2_dir / f, use_not_include=False)
 
+#TODO: extend this with all kinds of bosl2 features
+from ..core.object_base import ObjectBase
+ObjectBase.tag = tag
+ObjectBase.attach = attach
+
