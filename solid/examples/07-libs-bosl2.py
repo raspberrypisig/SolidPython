@@ -1,18 +1,10 @@
 #! /usr/bin/env python
 
-from math import sqrt,sin
-
-from solid.extensions.bosl2.std import path_extrude, bounding_box, heightfield,\
-                                       cube, sphere, circle, xcyl,\
-                                       diff, attach,\
-                                       CENTER, TOP
-
-from solid.extensions.bosl2.metric_screws import metric_bolt
+from solid.extensions.bosl2 import *
 
 #basic stuff
 def bolt():
-    from solid.extensions.bosl2.metric_screws import metric_bolt
-    return metric_bolt(size=20, headtype='hex', l=40)
+    return metric_screws.metric_bolt(size=20, headtype='hex', l=40)
 
 def bounding_box_wrapper(obj):
     return ~bounding_box()(obj)
@@ -23,6 +15,7 @@ def extrude_along_path():
 
 def heightfield_test():
     def get_data():
+        from math import sqrt,sin
         data = []
         for y in range(50):
             yrow = []

@@ -3,32 +3,7 @@ if config.use_implicit_builtins:
     raise Exception("ExpSolid: unfortunately ImplicitCAD can't handle bosl2...")
 
 #load the libs from std
-from . import std
-from . import constants
-from . import transforms
-from . import distributors
-from . import mutators
-from . import attachments
-from . import primitives
-from . import shapes
-from . import shapes2d
-from . import masks
-from . import paths
-from . import edges
-from . import arrays
-from . import math
-from . import vectors
-from . import quaternions
-from . import affine
-from . import coords
-from . import geometry
-from . import hull
-from . import regions
-from . import strings
-from . import skin
-from . import vnf
-from . import common
-from . import debug
+from .std import *
 
 #all the other libs
 from . import beziers
