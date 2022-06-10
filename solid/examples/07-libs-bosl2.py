@@ -28,42 +28,24 @@ def heightfield_test():
     return heightfield(size=[100,100], bottom=-1, data=get_data())
 
 #a little bit more complicated stuff
-def bosl2_diff1():
-    #let's try this:
-    #diff("neg", "pos", keep="axle")
-    #    sphere(d=100, $tags="pos") {
-    #        attach(CENTER) xcyl(d=40, l=120, $tags="axle");
-    #        attach(CENTER) cube([40,120,100], anchor=CENTER, $tags="neg");
+def bosl_diff():
+    #openscad example from bosl2 wiki:
+    #diff()
+    #    cuboid(50) {
+    #        tag("remove") attach(TOP) sphere(d=40);
+    #        tag("keep") attach(CTR) cylinder(h=40, d=10);
     #    }
     return \
-    diff("neg", "pos", keep="axle") (
-            sphere(d=100, _tags="pos") (
-                attach(CENTER) (xcyl(d=39, l=120, _tags="axle")),
-                attach(CENTER) (cube([40, 120, 100], anchor=CENTER, _tags="neg"))
-            )
+    diff() (
+        cuboid(50) (
+            tag("remove") (attach(TOP) (sphere(d=40))),
+            tag("keep") (attach(CTR) (cylinder(h=40, d=10)))
+        )
     )
 
-def bosl2_diff():
-    #let's try this again in a pythonic manner:
-    #diff("neg", "pos", keep="axle")
-    #    sphere(d=100, $tags="pos") {
-    #        attach(CENTER) xcyl(d=40, l=120, $tags="axle");
-    #        attach(CENTER) cube([40,120,100], anchor=CENTER, $tags="neg");
-    #    }
-
-    axle = xcyl(d=39, l=120, _tags="axle")
-    neg = cube([40, 120, 100], anchor=CENTER, _tags="neg")
-
-    s = sphere(d=100, _tags="pos")
-
-    s.add(attach(CENTER)(axle))
-    s.add(attach(CENTER)(neg))
-
-    return diff("neg", "pos", keep="axle")(s)
-
-assembly = bounding_box_wrapper(bosl2_diff().back(100)) +\
+assembly = bounding_box_wrapper(extrude_along_path()) +\
            extrude_along_path().color("purple") +\
-           bosl2_diff().back(100) +\
+           bosl_diff().back(100) +\
            bolt().left(100) +\
            heightfield_test().fwd(100)
 

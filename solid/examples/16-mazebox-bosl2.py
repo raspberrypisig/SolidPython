@@ -5,7 +5,7 @@
 
 from math import pi, cos
 from solid import *
-from solid.extensions.bosl2.std import cylindrical_extrude, zcyl, zrot, tube
+from solid.extensions.bosl2 import cylindrical_extrude, zcyl, zrot, tube
 
 def mazebox():
     #the maze is 64x90 pixel
