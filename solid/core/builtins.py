@@ -15,7 +15,7 @@ from ..config import config
 """
 import sys
 if "--implicit" in sys.argv:
-    use(config.builtins_file)
+    use(config.builtins_file, skip_render=True)
 else:
     from .builtin_primitives import *
 

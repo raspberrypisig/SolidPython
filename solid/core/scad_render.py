@@ -70,7 +70,7 @@ def get_include_string():
     strings = []
     for k, v in module_cache_by_resolved_filename.items():
         #skip builtins file
-        if Path(k) == config.builtins_file:
+        if v[2]: #skip_render flag
             continue
 
         if v[1]:
