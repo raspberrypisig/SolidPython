@@ -1,5 +1,3 @@
-from functools import singledispatch
-
 from ..core import builtins
 
 def extract_size_list(size_count, *args):
