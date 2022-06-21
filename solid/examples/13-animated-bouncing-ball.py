@@ -3,6 +3,7 @@
 import numpy as np
 
 from solid import *
+from solid.extensions.greedy_scad_interface import *
 
 #set steps in OpenSCAD to 1000
 
@@ -23,16 +24,15 @@ def get_bouncing_ball_data(pos=np.array([0.0, 0.0, 0.0]), vel=np.array([5.0, 5.0
 
     return data
 
-scad = ScadInterface()
-scad.set_global_var("$vpt", [700, 900, 200])
-scad.set_global_var("$vpr", [80, 0, 20])
-scad.set_global_var("$vpd", 6000)
+set_global_viewport_translation([700, 900, 200])
+set_global_viewport_rotation([80, 0, 20])
+set_global_viewport_distance(6000)
 
 #store pre computed data in global OpenSCAD variable
-scad.set_global_var("bouncing_ball_data", get_bouncing_ball_data())
+set_global_variable("bouncing_ball_data", get_bouncing_ball_data())
 
 #get "dynamic ball position over time" from the data set
-ball_pos_over_time = scad.inline("bouncing_ball_data[$t * 1000]")
+ball_pos_over_time = scad_inline("bouncing_ball_data[$t * 1000]")
 
 #do some regular solid stuff with it
 ball = translate(ball_pos_over_time)(sphere(ball_radius))

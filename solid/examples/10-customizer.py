@@ -1,15 +1,15 @@
 #! /usr/bin/env python
 
 from solid import *
-
-scad = ScadInterface()
+from solid.extensions.greedy_scad_interface import *
 
 #register all the custom variables you want to use
-scad.register_customizer_var("objects", "4", "[2, 4, 6]")
-scad.register_customizer_var("side", "4")
-scad.register_customizer_var("cube_pos", "[5, 5, 5]")
-scad.register_customizer_var("cube_size", "5")
-scad.register_customizer_var("text", '"customize me!"' ,' ["customize me!", "Thank you!"]')
+objects = CustomizerDropdownVariable("objects", 4, [2, 4, 6])
+side = CustomizerSliderVariable("side", 4)
+cube_pos = CustomizerSliderVariable("cube_pos", [5, 5, 5])
+cube_size = CustomizerSliderVariable("cube_size", 5)
+customizedText = CustomizerDropdownVariable("text", "customize me!",
+                                            ["customize me!", "Thank you!"])
 
 #use scad_inline to use them
 scene = scad_inline("""
@@ -20,15 +20,11 @@ scene = scad_inline("""
                     }
                     """)
 
-#use the customizer.get function to use them as parameters
-py_factor = 2
-cube_size = scad.inline(f"cube_size * {py_factor}")
-
-scene += translate(scad.inline("cube_pos")) (
-            cube(cube_size))
+scene += translate(cube_pos) (
+            cube(cube_size * 2))
 
 scene += translate([0, -20, 0]) (
-            text(scad.inline("text")))
+            text(customizedText))
 
 scad_render_to_file(scene)
 

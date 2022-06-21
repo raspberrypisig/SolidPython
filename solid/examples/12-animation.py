@@ -1,16 +1,15 @@
 #! /usr/bin/env python
 
 from solid import *
+from solid.extensions.greedy_scad_interface import *
 
-scad = ScadInterface()
+rotation_speed = CustomizerSliderVariable("rotation_speed", 1.0)
 
-scad.register_customizer_var("rotation_speed", 1.0)
+set_global_viewport_translation([4, 3, 15])
+set_global_viewport_rotation([60, 0, rotation_speed * get_animation_time() * 360])
+set_global_viewport_distance(100)
 
-scad.set_global_var("$vpt", [4, 3, 15])
-scad.set_global_var("$vpr", "[60, 0, 360 * $t * rotation_speed]")
-scad.set_global_var("$vpd", 100)
-
-c = cube(scad.inline("$t * 10"))
+c = cube(get_animation_time() * 10)
 
 scad_render_to_file(c)
 
