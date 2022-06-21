@@ -6,8 +6,6 @@
 Welcome to SolidPython's documentation!
 =======================================
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
 
@@ -16,15 +14,11 @@ Contents:
 Library Reference
 =================
 
-.. automodule:: solid.solidpython
-    :members:
 .. automodule:: solid
+    :imported-members:
+    :undoc-members:
+    :exclude-members: Path, ObjectBase, ModifierBase, OpenSCADObject, singledispatch
     :members:
-.. automodule:: solid.screw_thread
-    :members:
-.. automodule:: solid.utils
-    :members:
-
 
 Indices and tables
 ==================
