@@ -60,9 +60,6 @@ def py2openscad(o):
         return f"{o:.10f}"  # type: ignore
     if type(o) == str:
         return f'\"{o}\"'  # type: ignore
-    if type(o).__name__ == "ndarray":
-        import numpy  # type: ignore
-        return numpy.array2string(o, separator=",", threshold=1000000000)
     if isinstance(o, ObjectBase):
         #[:-1] removing traling ;\n
         return o._render()[:-2]

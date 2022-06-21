@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 
-import numpy as np
-
 from solid import *
 from solid.extensions.greedy_scad_interface import *
 
@@ -9,16 +7,35 @@ from solid.extensions.greedy_scad_interface import *
 
 ball_radius = 100
 
+class Vector3:
+    def __init__(self, x=0, y=0, z=0):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def __add__(self, other):
+        return Vector3(self.x + other.x,
+                       self.y + other.y,
+                       self.z + other.z)
+
+    def __mul__(self, factor):
+        return Vector3(self.x * factor,
+                       self.y * factor,
+                       self.z * factor)
+
+    def tolist(self):
+        return [self.x, self.y, self.z]
+
 #this is our little physics engine
-def get_bouncing_ball_data(pos=np.array([0.0, 0.0, 0.0]), vel=np.array([5.0, 5.0, 200.0])):
+def get_bouncing_ball_data(pos=Vector3(), vel=Vector3(5.0, 5.0, 200.0)):
     data = []
-    gravity = np.array([0.0, 0.0, -8.0])
+    gravity = Vector3(0.0, 0.0, -8.0)
     for t in range(1000):
         vel = (vel + gravity) * 0.995
         pos += vel
-        if pos[2] < ball_radius:
-            vel[2] = vel[2] * -1
-            pos[2] = ball_radius
+        if pos.z < ball_radius:
+            vel.z = vel.z * -1
+            pos.z = ball_radius
 
         data.append(pos.tolist())
 
