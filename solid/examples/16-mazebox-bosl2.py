@@ -9,7 +9,7 @@ from solid.extensions.bosl2 import cylindrical_extrude, zcyl, zrot, tube
 
 def mazebox():
     #the maze is 64x90 pixel
-    maze_surface = surface(file="legacy/mazebox/maze7.png", center=True, invert=True)
+    maze_surface = surface(file="maze7.png", center=True, invert=True)
     maze_projection = projection(cut=True) (maze_surface.up(10))
 
     #make the radius of the cylinder 3 times the maze width
