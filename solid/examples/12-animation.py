@@ -12,5 +12,5 @@ scad.set_global_var("$vpd", 100)
 
 c = cube(scad.inline("$t * 10"))
 
-scad_render_to_file(c, scad_interface=scad)
+scad_render_to_file(c)
 

@@ -40,16 +40,15 @@ class ObjectBase:
     def __repr__(self):
         return self.as_scad()
 
-    def as_scad(self, scad_interface=None):
+    def as_scad(self):
         from .scad_render import scad_render
-        return scad_render(self, scad_interface=scad_interface)[:-1]
+        return scad_render(self)[:-1]
 
-    def save_as_scad(self, filename='', outdir='', scad_interface=None):
+    def save_as_scad(self, filename='', outdir=''):
         from .scad_render import scad_render_to_file
         return scad_render_to_file(self,
                                    filename,
-                                   outdir,
-                                   scad_interface=scad_interface)
+                                   outdir)
 
 class OpenSCADObject(ObjectBase):
     def __init__(self, name, params):

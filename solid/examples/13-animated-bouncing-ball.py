@@ -39,7 +39,7 @@ ball = translate(ball_pos_over_time)(sphere(ball_radius))
 floor = background(cube([2000, 2000, 0.01]))
 
 #render it with the pre computed data stored in the header
-scad_render_to_file(ball + floor, scad_interface=scad)
+scad_render_to_file(ball + floor)
 
 # I think if you really want to do something like this you could put the data
 # into a seprate .scad file and include it into the main .scad file. You should

@@ -22,7 +22,7 @@ scene = scad_inline("""
 
 #use the customizer.get function to use them as parameters
 py_factor = 2
-cube_size = scad.inline(f"cube_size - cube_pos[0] * {py_factor}")
+cube_size = scad.inline(f"cube_size * {py_factor}")
 
 scene += translate(scad.inline("cube_pos")) (
             cube(cube_size))
@@ -30,5 +30,5 @@ scene += translate(scad.inline("cube_pos")) (
 scene += translate([0, -20, 0]) (
             text(scad.inline("text")))
 
-scad_render_to_file(scene, scad_interface=scad)
+scad_render_to_file(scene)
 

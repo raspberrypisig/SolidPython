@@ -4,6 +4,10 @@ class ScadInterface:
     def __init__(self):
         self.header = '\n'
 
+        # register this ScadInterface / extension
+        from ..core.extension_manager import default_extension_manager
+        default_extension_manager.register_pre_render(lambda root : self.get_header_str())
+
     def register_customizer_var(self, name, value, options=''):
         self.header += f'{name} = {value}; //{options}\n'
 
