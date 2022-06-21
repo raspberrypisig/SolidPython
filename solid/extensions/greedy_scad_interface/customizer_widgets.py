@@ -12,7 +12,7 @@ class CustomizerDropdownVariable(ScadVariable):
         super().__init__(name, default_value, options_str, label=label, tab=tab)
 
 class CustomizerSliderVariable(ScadVariable):
-    def __init__(self, name, default_value, min_, max_, step='', label='', tab=''):
+    def __init__(self, name, default_value, min_='', max_='', step='', label='', tab=''):
         options_str = '['
         options_str += min_ and str(min_) + ':'
         options_str += step and str(step) + ':'

@@ -1,4 +1,10 @@
 from .scad_variable import *
+from ...core.object_base import scad_inline
+
+fonts = []
+
+def register_font(filename):
+    fonts.append(filename)
 
 def get_animation_time():
     return ScadValue("$t")
@@ -24,7 +30,13 @@ def set_global_viewport_fov(fov):
 def set_global_viewport_distance(d):
     ScadVariable("$vpd", d)
 
+def set_global_variable(var_name, value):
+    ScadVariable(var_name, value)
+
 def get_scad_header():
-    base_str = "\n\n".join(ScadVariable.registered_variables.values())
-    return f'{base_str}\n'
+    base_str = "\n".join([f"use <{f}>" for f in fonts])
+    base_str += "\n\n"
+    base_str += "\n".join(ScadVariable.registered_variables.values())
+
+    return base_str + "\n"
 
