@@ -348,9 +348,7 @@ Features
 BOSL2
 -----
 
-SolidPython supports -- at least -- quite a lot of the **bosl2** library. You can use it by importing the `solid.extensions.bosl2`. Take a look at `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_ `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/16-mazebox-bosl2.py>`_ to get an idea how to use it and what's possible.
-
-You need to install BOSL2 into your OpenSCAD libraries folder (`~/.local/share/OpenSCAD/libraries/`) for the bosl2 exteions to work. Grab it from `bosl2 github <https://github.com/revarbat/BOSL2>`_.
+SolidPython supports -- at least -- quite a lot of the **bosl2** library. You can use it by importing the ``solid.extensions.bosl2``. Take a look at `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_ and `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/16-mazebox-bosl2.py>`_ to get an idea how to use it and what's possible.
 
 I would suggest to use it as kind of a standard library for SolidPython.
 Take a look at their `Wiki <https://github.com/revarbat/BOSL2/wiki>`_ to get an idea about it's features.
