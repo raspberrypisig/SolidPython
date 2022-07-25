@@ -6,6 +6,18 @@ from ..config import config
 # =========================================
 # = Rendering Python code to OpenSCAD code=
 # =========================================
+def render_to_stl_file(root, filename):
+    scad_render_to_file(root, Path(filename).with_suffix(".stl.scad"))
+
+    import subprocess
+    args = ["openscad", "-o", filename, Path(filename).with_suffix(".stl.scad")]
+    cp = subprocess.run(args, stdout=subprocess.PIPE)
+
+    if cp.returncode == 0:
+        return Path(filename).absolute().as_posix()
+
+    return None
+
 def scad_render(root, file_header = ''):
     #get a list of all used and included files
     includes = get_include_string()

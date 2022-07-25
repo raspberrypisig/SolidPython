@@ -46,9 +46,11 @@ class ObjectBase:
 
     def save_as_scad(self, filename='', outdir=''):
         from .scad_render import scad_render_to_file
-        return scad_render_to_file(self,
-                                   filename,
-                                   outdir)
+        return scad_render_to_file(self, filename, outdir)
+
+    def save_as_stl(self, filename='', outdir=''):
+        from .scad_render import render_to_stl_file
+        return render_to_stl_file(self, filename)
 
 class OpenSCADObject(ObjectBase):
     def __init__(self, name, params):
