@@ -2,11 +2,11 @@
 name = "solidpython2"
 version = "2.0.0-beta-01"
 description = "Python interface to the OpenSCAD declarative geometry language"
-authors = ["Evan Jones <evan_t_jones@mac.com>"]
-homepage = "https://github.com/SolidCode/SolidPython"
-repository = "https://github.com/SolidCode/SolidPython"
-documentation = "https://solidpython.readthedocs.io/en/latest/"
+authors = ["jeff"]
+homepage = "https://github.com/jeff-dh/SolidPython"
+repository = "https://github.com/jeff-dh/SolidPython"
 license = "LGPL-2.1"
+readme = "README.rst"
 keywords = [
     "3D", 
     "CAD", 
