@@ -29,7 +29,7 @@ classifiers=[
     "Topic :: Scientific/Engineering :: Mathematics",
 ]
 packages=[
-    { include = "solid"}
+    { include = "solid2"}
 ]
 
 [tool.poetry.dependencies]
