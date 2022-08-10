@@ -478,7 +478,7 @@ I would also be fine with a python third party library that implements these fea
 
 BUT, since I assume quite a few people out there are using `solid.utils` up until now and simply getting rid of it might cause some brouhaha, my suggestion for a compromise is the `solid_legay` extension.
 
-**solid.extensions.legacy**
+**solid2_legacy**
 
 The `solid2_legacy` extension is basicly everything that used to be `solid.utils`. Furhtermore it tries to "mimic" the SolidPython 1.x.x interface. This is the effort to become as backward compatible as possible. This might for example be useful when trying to get existing SolidPython 1.x.x code running.
 
