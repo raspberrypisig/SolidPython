@@ -16,7 +16,7 @@
 import sys
 sys.argv.append("--implicit")
 
-from solid import *
+from solid2 import *
 
 def wheel():
     return cylinder(r=35, h=15, center=True).rotate(0, 90, 0)

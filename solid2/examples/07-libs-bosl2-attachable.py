@@ -1,4 +1,4 @@
-from solid.extensions.bosl2 import *
+from solid2.extensions.bosl2 import *
 
 def cubic_barbell(s=100, anchor=CENTER, spin=0, orient=UP):
     return attachable(anchor,spin,orient, size=[s*3,s,s]) (
@@ -14,9 +14,10 @@ def cubic_barbell(s=100, anchor=CENTER, spin=0, orient=UP):
 #    )
 
 cc = cubic_barbell(100)(
-        cube(50).attach(TOP),
+        cube(50, center=True).attach(TOP),
         sphere(50).attach(LEFT),
         show_anchors(30)
     )
 
-print(cc)
+cc.save_as_scad()
+

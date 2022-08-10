@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid import *
+from solid2 import *
 
 # you can store any "openscad" object in a regular variable. No matter whether
 # it's just a primitive or a complete assembly

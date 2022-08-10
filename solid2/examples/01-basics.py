@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid import *
+from solid2 import *
 
 difference()(
     cube([10, 20, 30]),

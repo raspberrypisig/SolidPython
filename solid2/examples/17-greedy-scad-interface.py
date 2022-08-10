@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 
-from solid import *
+from solid2 import *
 #we must import the greedy_scad_interface AFTER math because it overwrites sin, cos,....
-from solid.extensions.greedy_scad_interface import *
+from solid2.extensions.greedy_scad_interface import *
 
 set_global_fn(32)
 set_global_viewport_distance(abs(sin(get_animation_time() * 360)) * 10 + 5)

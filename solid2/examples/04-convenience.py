@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid import *
+from solid2 import *
 
 # the convenience extension defines some convenience functions and "overloads"
 # some transformations and primitives to get a more convient access to it.

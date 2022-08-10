@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from solid import *
+from solid2 import *
 
 # =============
 # = Extension =
@@ -47,7 +47,7 @@ def attach_code_post_render(root):
 # register the post_render extension. This hooks it into the "_render" routine.
 # It will be called after the root gets rendered. It's return string will be
 # appended to the rendered string.
-from solid.core.extension_manager import default_extension_manager
+from solid2.core.extension_manager import default_extension_manager
 default_extension_manager.register_post_render(attach_code_post_render)
 
 # =============

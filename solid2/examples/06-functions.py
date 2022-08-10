@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid import *
+from solid2 import *
 
 # as soon as the objects get more complicated it makes sense to use functions
 # to hierarchically assemble them.

@@ -3,7 +3,7 @@
 import sys
 sys.argv.append("--implicit")
 
-from solid import *
+from solid2 import *
 
 #these are the Implicit examples from https://www.implicitcad.org/examples
 

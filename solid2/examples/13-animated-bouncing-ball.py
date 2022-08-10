@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
-from solid import *
-from solid.extensions.greedy_scad_interface import *
+from solid2 import *
+from solid2.extensions.greedy_scad_interface import *
 
 #set steps in OpenSCAD to 1000
 

@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid import *
+from solid2 import *
 
 c = cube([10, 20, 30])
 

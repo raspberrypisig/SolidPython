@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid import *
+from solid2 import *
 
 # Since I don't like the OpenSCAD syntax I added the "access-style" syntax
 # extension. This allows you to call all OpenSCAD builtin transformations, the

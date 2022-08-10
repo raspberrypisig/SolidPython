@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
-from solid import *
-from solid.core.object_base import OpenSCADObject, ObjectBase
+from solid2 import *
+from solid2.core.object_base import OpenSCADObject, ObjectBase
 
 # ==============
 # = Extensions =
@@ -45,7 +45,7 @@ def non_sense_pre_render(root):
     return f"//the root tree contains {count} non sense comment(s)\n"
 
 # register the pre render extension.
-from solid.core.extension_manager import default_extension_manager
+from solid2.core.extension_manager import default_extension_manager
 default_extension_manager.register_pre_render(non_sense_pre_render)
 # ==============
 
