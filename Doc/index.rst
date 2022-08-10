@@ -14,7 +14,7 @@ Welcome to SolidPython's documentation!
 Library Reference
 =================
 
-.. automodule:: solid
+.. automodule:: solid2
     :imported-members:
     :undoc-members:
     :exclude-members: Path, ObjectBase, ModifierBase, OpenSCADObject, singledispatch

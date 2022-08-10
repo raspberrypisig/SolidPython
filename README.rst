@@ -1,6 +1,6 @@
 
-.. image:: https://readthedocs.org/projects/solidpython/badge/?version=latest
-    :target: http://solidpython.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/solidpython2/badge/?version=latest
+    :target: http://solidpython2.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
 **If you switch from the regular SolidPython:master branch to this branch, have a
@@ -23,7 +23,7 @@ This Python code:
 
 .. code:: python
 
-    from solid import *
+    from solid2 import *
     d = difference()(
         cube(10),
         sphere(15)
@@ -44,7 +44,7 @@ lot shorter (and I think clearer) than the SCAD code it compiles to:
 
 .. code:: python
 
-    from solid import *
+    from solid2 import *
     d = cube(5) + right(5)(sphere(5)) - cylinder(r=2, h=6)
 
 Generates this OpenSCAD code:
@@ -95,13 +95,13 @@ Installing SolidPython
 ----------------------
 
 -  Install latest release via
-   `PyPI <https://pypi.python.org/pypi/solidpython>`__:
+   `PyPI <https://pypi.python.org/pypi/solidpython2>`__:
 
    .. code:: bash
 
-       pip install solidpython
+       pip install solidpython2
 
-   (You may need to use ``sudo pip install solidpython``, depending on
+   (You may need to use ``sudo pip install solidpython2``, depending on
    your environment. This is commonly discouraged though. You'll be happiest 
    working in a `virtual environment <https://docs.python.org/3/tutorial/venv.html>`__ 
    where you can easily control dependencies for a given project)
@@ -110,7 +110,7 @@ Installing SolidPython
 
   .. code:: bash
 
-      pip install git+https://github.com/SolidCode/SolidPython.git
+      pip install git+https://github.com/jeff-dh/SolidPython
 
 Using SolidPython
 -----------------
@@ -119,7 +119,7 @@ Using SolidPython
 
    .. code:: python
 
-       from solid import *
+       from solid2 import *
 
    (See `this issue <https://github.com/SolidCode/SolidPython/issues/114>`__ for 
    a discussion of other import styles)
@@ -159,7 +159,7 @@ Using SolidPython
 Importing OpenSCAD code
 -----------------------
 
-- Use ``solid.import_scad(path)`` to import OpenSCAD code. Relative paths will check the current location designated in `OpenSCAD library directories <https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Libraries>`__.
+- Use ``solid2.import_scad(path)`` to import OpenSCAD code. Relative paths will check the current location designated in `OpenSCAD library directories <https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Libraries>`__.
 
 **Ex:** 
 
@@ -175,7 +175,7 @@ Importing OpenSCAD code
 
 .. code:: python
 
-    from solid import *
+    from solid2 import *
 
     scadfile = import_scad('/path/to/scadfile.scad') 
     b = scadfile.box(2,4,6)
@@ -185,7 +185,7 @@ Importing OpenSCAD code
 
 .. code:: python
 
-    from solid import *
+    from solid2 import *
 
     # MCAD is OpenSCAD's most common utility library: https://github.com/openscad/MCAD
     # If it's installed for OpenSCAD (on MacOS, at: ``$HOME/Documents/OpenSCAD/libraries``)
@@ -212,7 +212,7 @@ Importing OpenSCAD code
 
 .. code:: python
 
-    from solid import *
+    from solid2 import *
 
     # use() puts the module `box()` into the global namespace
     use('/path/to/scadfile.scad') 
@@ -229,11 +229,11 @@ Python will print (the location of) the examples directory:
 
 .. code:: python
 
-    import os, solid; print(os.path.dirname(solid.__file__) + '/examples')
+    import os, solid2; print(os.path.dirname(solid2.__file__) + '/examples')
         
 
 Or browse the example code on Github
-`here <https://github.com/SolidCode/SolidPython/tree/master/solid/examples>`__
+`here <https://github.com/jeff-dh/SolidPython/tree/exp_solid/solid2/examples>`__
 
 Extra syntactic sugar
 =====================
@@ -348,7 +348,7 @@ Features
 BOSL2
 -----
 
-SolidPython supports -- at least -- quite a lot of the **bosl2** library. You can use it by importing the ``solid.extensions.bosl2``. Take a look at `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_ and `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/16-mazebox-bosl2.py>`_ to get an idea how to use it and what's possible.
+SolidPython supports -- at least -- quite a lot of the **bosl2** library. You can use it by importing the ``solid2.extensions.bosl2``. Take a look at `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/07-libs-bosl2.py>`_ and `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/16-mazebox-bosl2.py>`_ to get an idea how to use it and what's possible.
 
 I would suggest to use it as kind of a standard library for SolidPython.
 Take a look at their `Wiki <https://github.com/revarbat/BOSL2/wiki>`_ to get an idea about it's features.
@@ -359,11 +359,11 @@ Animation, Customizer, custom Fonts, ImplicitCad, Extensions
 
 SolidPython supports the following features
 
-* native **OpenSCAD customizer** support `customizer example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/10-customizer.py>`_ `greedy scad interface example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/17-greedy-scad-interface.py>`_
-* native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/12-animation.py>`_ and `animation example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/13-animated-bouncing-ball.py>`_
-* **custom fonts** `fonts example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/11-fonts.py>`_
-* supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/14-implicitCAD.py>`_ `implicitCAD example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/15-implicitCAD2.py>`_
-* SolidPython is extendible `extensions example 1 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/08-extensions.py>`_  `extension example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/09-code-attach-extension.py>`_
+* native **OpenSCAD customizer** support `customizer example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/10-customizer.py>`_ `greedy scad interface example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/17-greedy-scad-interface.py>`_
+* native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/12-animation.py>`_ and `animation example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/13-animated-bouncing-ball.py>`_
+* **custom fonts** `fonts example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/11-fonts.py>`_
+* supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/14-implicitCAD.py>`_ `implicitCAD example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/15-implicitCAD2.py>`_
+* SolidPython is extendible `extensions example 1 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/08-extensions.py>`_  `extension example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/09-code-attach-extension.py>`_
 
 Jupyter Renderer
 ================
@@ -389,24 +389,24 @@ The goal was to
 * make a solid package that only contains the fundamentals (+ a few convenience features) 
 * make it extendible
 * try to get complex libraries working properly (mcad, bosl, bosl2)
-* **KISS**: ``from solid import *`` -> imports only ~1000 lines of source code and has (almost?) all the feautres SolidPython 1.x.x has
+* **KISS**: ``from solid2 import *`` -> imports only ~1000 lines of source code and has (almost?) all the feautres SolidPython 1.x.x has
 * be a drop in replacement for SolidPython 1.x.x -- as far as possible, see Backwards Compatibility Section
 * get all kinds of nice features working (see Features section)
 
 The result is a refactored and in some parts rewritten version of SolidPython we would like to release as SolidPython 2.x.x. The major improvement is a code base that should be better maintainable and extendible.
 
-Besies these benefits SolidPython 2.x.x implemented quite a few nice new features (cf. Features section).
+Besides these benefits SolidPython 2.x.x implemented quite a few nice new features (cf. Features section).
 
 Features
 --------
 
 SolidPython 2.x.x has support for the following new features:
 
-* **bosl2** - SolidPython is now able to handle bosl2 pretty well (don't know whether everything works, but quite a lot). `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/07-libs-bosl2.py>`_ and `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/16-mazebox-bosl2.py>`_
-* native **OpenSCAD customizer** support `customizer example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/10-customizer.py>`_ and `greedy scad interface example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/17-greedy-scad-interface.py>`_
-* native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/12-animation.py>`_ and `animation example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/13-animated-bouncing-ball.py>`_
-* **custom fonts** `fonts example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/11-fonts.py>`_
-* supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/14-implicitCAD.py>`_ and `implicitCAD example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid/examples/15-implicitCAD2.py>`_
+* **bosl2** - SolidPython is now able to handle bosl2 pretty well (don't know whether everything works, but quite a lot). `bosl2 example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/07-libs-bosl2.py>`_ and `mazebox example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/16-mazebox-bosl2.py>`_
+* native **OpenSCAD customizer** support `customizer example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/10-customizer.py>`_ and `greedy scad interface example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/17-greedy-scad-interface.py>`_
+* native **OpenSCAD animation** support `animation example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/12-animation.py>`_ and `animation example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/13-animated-bouncing-ball.py>`_
+* **custom fonts** `fonts example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/11-fonts.py>`_
+* supports **ImplicitCAD** `implicitCAD example <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/14-implicitCAD.py>`_ and `implicitCAD example 2 <https://github.com/jeff-dh/SolidPython/blob/exp_solid/solid2/examples/15-implicitCAD2.py>`_
 
 Furthermore it has several minor improvements, like these which are based on ideas from *posts* from the SolidPython universe:
 
@@ -418,7 +418,7 @@ Another nice little feature especially to play around and debug it is that the `
 
 .. code:: python
 
-  >>> from solid import *
+  >>> from solid2 import *
   >>> c = cube(5)
   >>> c.up(5)
   translate(v = [0, 0, 5]) {
@@ -443,16 +443,14 @@ As long as you stick to:
 
 .. code:: python
 
-  from solid import *
+  from solid2 import *
 
 you shoul be fine.
 
 **solid.utils**
 
-*this is my (jeff) personal opinion and the base for design decisions for the current SolidPytho 2.x.x beta design. I'd like to have a discussion about it!*
-
-``solid.utils`` consists of convenience functions and "modelling extensions" (kind of a small third party library like `mcad, bosl, bosl2`).
-The convenience functions are now -- or the missing ones are supposed to be -- part of `solid.extensions.convenience` and are automatically importet with the main package.
+``solid.utils`` consisted of convenience functions and "modelling extensions" (kind of a small third party library like `mcad, bosl, bosl2`).
+The convenience functions are now -- or the missing ones are supposed to be -- part of `solid2.extensions.convenience` and are automatically importet with the main package.
 
 Concerning the "modelling extensions" I would actually like to get rid of them as part of the SolidPython 2.x.x package. The resons are the following:
 
@@ -478,17 +476,19 @@ Please take a look at the `bosl2` implementations. I did some very basic tests i
 
 I would also be fine with a python third party library that implements these features, but I would like to seperate it from SolidPython itself. The reason is to achieve a SolidPython module which is independent from it (development, bugs, maintainance) with the goal to get an as solid and stable as possible SolidPython (core) package.
 
-BUT, since I assume quite a few people out there are using `solid.utils` up until now and simply getting rid of it might cause some brouhaha, my suggestion for a compromise is the `solid.extensions.legay` extension.
+BUT, since I assume quite a few people out there are using `solid.utils` up until now and simply getting rid of it might cause some brouhaha, my suggestion for a compromise is the `solid_legay` extension.
 
 **solid.extensions.legacy**
 
-The `solid.extensions.legacy` extension is basicly everything that used to be `solid.utils`. Furhtermore it tries to "mimic" the SolidPython 1.x.x interface. This is the effort to become as backward compatible as possible. This might for example be useful when trying to get existing SolidPython 1.x.x code running.
+The `solid2_legacy` extension is basicly everything that used to be `solid.utils`. Furhtermore it tries to "mimic" the SolidPython 1.x.x interface. This is the effort to become as backward compatible as possible. This might for example be useful when trying to get existing SolidPython 1.x.x code running.
+
+The `solid2_legacy` extension got extracted into a seperate repo (and pip package). You should be able to just import the package if it is installed or somewhere in your import path.
 
 If you want to use those features import the extension and take a look at it.
 
 .. code:: python
 
-  from solid.extensions.legacy import *
+  from solid2_legacy import *
 
 Anyway SolidPython 1.x.x `imports` do not work with SolidPython 2.x.x! (see Interface changes - imoprt paths have changed)
 
@@ -508,16 +508,16 @@ I was able to get the SolidPython 1.x.x examples running just by changing the im
     
     .. code:: python
     
-            from solid import * #fine
-            from solid import objects #crash
-            from solid import solidpython #crash
-            from solid import splines #crash
-            from solid import utils #crash
+            from solid2 import * #fine
+            from solid2 import objects #crash
+            from solid2 import solidpython #crash
+            from solid2 import splines #crash
+            from solid2 import utils #crash
 
 * all extensions have been moved:
-    * solid.utils has been moved to ``solid.extensions.legacy``. If you want to use them import that extension
+    * solid.utils has been moved to ``solid2_legacy``. If you want to use them import that extension
     * there are some example implementations of the part / hole feature and
-      bill of materials in ``solid.extensions.legacy``. They seem to work but are
+      bill of materials in ``solid2_legacy``. They seem to work but are
       not tested extensively. Take a look at ``examples/xx_legacy*``.
     * please take a look at the bosl2 example. BOSL2 provides many features which
       might be alternatives.
@@ -525,7 +525,7 @@ I was able to get the SolidPython 1.x.x examples running just by changing the im
 * OpenSCADObject internally changed a lot
     If you access it directly
     (e.g. mycube.set_modifier) this might not work. But if you import
-    ``solid.extensions.legacy`` some dummy methods will be monkey patched onto
+    ``solid2_legacy`` some dummy methods will be monkey patched onto
     OpenSCADObject so you might be able to at least run the code, but it
     might render not correctly.
 
@@ -540,7 +540,7 @@ Contact
 Enjoy!
 
 If you have any questions or bug reports please report them to the SolidPython
-`GitHub page <https://github.com/SolidCode/SolidPython>`__!
+`GitHub page <https://github.com/jeff-dh/SolidPython>`__!
 
 
 

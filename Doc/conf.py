@@ -49,7 +49,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'SolidPython'
+project = 'SolidPython2'
 copyright = '2014, Evan Jones'
 
 # The version info for the project you're documenting, acts as replacement for
