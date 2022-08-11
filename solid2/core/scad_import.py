@@ -77,7 +77,8 @@ def load_scad_file_or_dir_into_dict(filename, dest_namespace_dict, use_not_inclu
     elif resolved_scad.is_dir():
         load_scad_dir_into_dict(resolved_scad,
                                 dest_namespace_dict,
-                                use_not_include)
+                                use_not_include,
+                                skip_render)
 
 # use() & include() mimic OpenSCAD's use/include mechanics.
 # -- use() makes methods in scad_file_path.scad available to be called.
