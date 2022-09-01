@@ -1,41 +1,12 @@
-from copy import deepcopy
-from textwrap import dedent
+from .accessSyntaxBase import AccessSyntaxBase
+from .operatorBase import OperatorBase
 
 #don't do relative imports on the global scope to be able to import this file
 #from "everywhere"
 
-class ObjectBase:
-    def __init__(self):
-        self.children = []
-
-    def add(self, c):
-        def _add(c):
-            assert(hasattr(c, "_render"))
-            self.children += [c]
-
-        if isinstance(c, list):
-            for cc in c:
-                _add(cc)
-        else:
-            _add(c)
-
-        return self
-
-    def copy(self):
-        return deepcopy(self)
-
+class ObjectBaseInterface(AccessSyntaxBase, OperatorBase):
     def _render(self):
-        s = ''
-        for c in self.children:
-            s += c._render()
-        return s
-
-    def __call__(self, *args):
-        #translate(...)(cube())
-        #this adds cube() to translate.children
-        for a in args:
-            self.add(a)
-        return self
+        return ""
 
     def __repr__(self):
         return self.as_scad()
@@ -52,6 +23,36 @@ class ObjectBase:
         from .scad_render import render_to_stl_file
         return render_to_stl_file(self, filename)
 
+class ObjectBase(ObjectBaseInterface):
+    def __init__(self):
+        self.children = []
+
+    def add(self, c):
+        def _add(c):
+            assert(hasattr(c, "_render"))
+            self.children += [c]
+
+        if isinstance(c, list):
+            for cc in c:
+                _add(cc)
+        else:
+            _add(c)
+
+        return self
+
+    def _render(self):
+        s = ''
+        for c in self.children:
+            s += c._render()
+        return s
+
+    def __call__(self, *args):
+        #translate(...)(cube())
+        #this adds cube() to translate.children
+        for a in args:
+            self.add(a)
+        return self
+
 class OpenSCADObject(ObjectBase):
     def __init__(self, name, params):
         super().__init__()
@@ -60,8 +61,8 @@ class OpenSCADObject(ObjectBase):
 
     def _render(self):
         """
-            returns the scad code for a given node tuple consiting of name, params
-            and children list.
+            returns the scad code for a given node tuple consiting of name,
+            params and children list.
 
             -> translate(v = [1, 2, 3]) {children[0]; children[1]; ...};\n
         """
@@ -107,17 +108,15 @@ class OpenSCADObject(ObjectBase):
 
         return f'{scad_identifier}({param_str})'
 
-class OpenSCADConstant:
+class OpenSCADConstant(ObjectBaseInterface):
     def __init__(self, name):
         self.name = name
 
         from .utils import escape_openscad_identifier
         self.__doc__ = escape_openscad_identifier(name)
 
-    def __repr__(self):
-        return self._render()
-
     def _render(self):
+        from textwrap import dedent
         return dedent(self.name)
 
 def scad_inline(code):
