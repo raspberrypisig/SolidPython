@@ -1,4 +1,3 @@
-from .accessSyntaxBase import getBuiltin
 
 class OperatorBase:
     def union_op(self, x):
@@ -70,5 +69,5 @@ class OperatorBase:
     def __sub__(self, x): return self.difference_op(x)
     def __mul__(self, x): return self.intersection_op(x)
     def __and__(self, x): return self.intersection_op(x)
-    def __invert__(self): return getBuiltin("debug")()(self)
+    def __invert__(self): from . import builtins; return builtins.debug()(self)
 
