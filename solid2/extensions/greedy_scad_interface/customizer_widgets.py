@@ -20,6 +20,12 @@ class CustomizerSliderVariable(ScadVariable):
 
         super().__init__(name, default_value, options_str, label=label, tab=tab)
 
+class CustomizerSpinnerVariable(ScadVariable):
+    def __init__(self, name, default_value, step='', label='', tab=''):
+        options_str = step and str(step)
+
+        super().__init__(name, default_value, options_str, label=label, tab=tab)
+
 class CustomizerCheckboxVariable(ScadVariable):
     def __init__(self, name, default_value, label='', tab=''):
         super().__init__(name, default_value, label=label, tab=tab)

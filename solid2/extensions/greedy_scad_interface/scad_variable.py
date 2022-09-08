@@ -20,6 +20,9 @@ class ScadValue:
     def __operator_base__(self, op, other):
         return ScadValue(f'({self} {op} {other})')
 
+    def __roperator_base__(self, op, other):
+        return ScadValue(f'({other} {op} {self})')
+
     def __unary_operator_base__(self, op):
         return ScadValue(f'({op}{self})')
 
@@ -37,12 +40,12 @@ class ScadValue:
     def __pow__(self, other): return self.__operator_base__("^", other)
     def __truediv__(self, other): return self.__operator_base__("/", other)
 
-    def __radd__(self, other): return self.__operator_base__("+", other)
-    def __rsub__(self, other): return self.__operator_base__("-", other)
-    def __rmul__(self, other): return self.__operator_base__("*", other)
-    def __rmod__(self, other): return self.__operator_base__("%", other)
-    def __rpow__(self, other): return self.__operator_base__("^", other)
-    def __rtruediv__(self, other): return self.__operator_base__("/", other)
+    def __radd__(self, other): return self.__roperator_base__("+", other)
+    def __rsub__(self, other): return self.__roperator_base__("-", other)
+    def __rmul__(self, other): return self.__roperator_base__("*", other)
+    def __rmod__(self, other): return self.__roperator_base__("%", other)
+    def __rpow__(self, other): return self.__roperator_base__("^", other)
+    def __rtruediv__(self, other): return self.__roperator_base__("/", other)
 
     #unary operators
     def __neg__(self): return self.__unary_operator_base__("-")
