@@ -13,8 +13,7 @@ from ..config import config
     .gitignore, but that would cause a lot of generated files to show up while
     developing...).
 """
-import sys
-if "--implicit" in sys.argv:
+if config.use_implicit_builtins:
     use(config.builtins_file, skip_render=True)
 else:
     from .builtin_primitives import *

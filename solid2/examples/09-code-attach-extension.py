@@ -22,9 +22,7 @@ def attach_code_post_render(root):
     if hasattr(__main__, "__file__"):
         # extract filename and replace suffix
         calling_file = Path(__main__.__file__).absolute()
-        outfile = calling_file.with_suffix(".scad")
-
-    if not calling_file:
+    else:
         return '' # no code available. Called from withing a python shell
 
     assert(calling_file.exists())
