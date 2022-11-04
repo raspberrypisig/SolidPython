@@ -6,15 +6,19 @@ def builtins():
 
 class AccessSyntaxBase:
     if not config.use_implicit_builtins:
-        def intersection_for(self, *args, **kwargs): return builtins().intersection_for(*args, **kwargs)(self)
-        def color(self, *args, **kwargs):            return builtins().color(*args, **kwargs)(self)
-        def hull(self, *args, **kwargs):             return builtins().hull(*args, **kwargs)(self)
-        def render(self, *args, **kwargs):           return builtins().render(*args, **kwargs)(self)
-        def projection(self, *args, **kwargs):       return builtins().projection(*args, **kwargs)(self)
-        def surface(self, *args, **kwargs):          return builtins().surface(*args, **kwargs)(self)
-        def offset(self, *args, **kwargs):           return builtins().offset(*args, **kwargs)(self)
-        def mirror(self, *args, **kwargs):           return builtins().mirror(*args, **kwargs)(self)
-        def resize(self, *args, **kwargs):           return builtins().resize(*args, **kwargs)(self)
+        def intersection_for(self, n):     return builtins().intersection_for(n)(self)
+        def color(self, color, alpha=1.0): return builtins().color(color, alpha)(self)
+        def hull(self):                    return builtins().hull()(self)
+        def render(self, convexity=None):  return builtins().render(convexity)(self)
+        def projection(self, cut=None):    return builtins().projection(cut=None)(self)
+
+        def surface(self, file, center=None, convexity=None, invert=None):
+            return builtins().surface(file, center, convexity, invert)(self)
+        def offset(self, r=None, delta=None, chamfer=None, _fn=None):
+            return builtins().offset(r, delta, chamfer, _fn)(self)
+
+        def mirror(self, *args, **kwargs): return builtins().mirror(*args, **kwargs)(self)
+        def resize(self, *args, **kwargs): return builtins().resize(*args, **kwargs)(self)
 
         def mirrorX(self, x): return builtins().mirrorX(x)(self)
         def mirrorY(self, y): return builtins().mirrorY(y)(self)
@@ -24,11 +28,16 @@ class AccessSyntaxBase:
         def resizeY(self, y): return builtins().resizeY(y)(self)
         def resizeZ(self, z): return builtins().resizeZ(z)(self)
 
-    def union(self, *args, **kwargs):          return builtins().union(*args, **kwargs)(self)
-    def difference(self, *args, **kwargs):     return builtins().difference(*args, **kwargs)(self)
-    def intersection(self, *args, **kwargs):   return builtins().intersection(*args, **kwargs)(self)
-    def linear_extrude(self, *args, **kwargs): return builtins().linear_extrude(*args, **kwargs)(self)
-    def rotate_extrude(self, *args, **kwargs): return builtins().rotate_extrude(*args, **kwargs)(self)
+    def union(self):          return builtins().union()(self)
+    def difference(self):     return builtins().difference()(self)
+    def intersection(self):   return builtins().intersection()(self)
+
+
+    def rotate_extrude(self, angle=None, convexity=None, _fn=None):
+        return builtins().rotate_extrude(*args, **kwargs)(self)
+    def linear_extrude(self, height=None, center=None, convexity=None, \
+                       twist=None, slices=None, scale=None):
+        return builtins().linear_extrude(height, center, convexity, twist, slices, scale)(self)
 
     def translate(self, *args, **kwargs): return builtins().translate(*args, **kwargs)(self)
     def scale(self, *args, **kwargs):     return builtins().scale(*args, **kwargs)(self)
