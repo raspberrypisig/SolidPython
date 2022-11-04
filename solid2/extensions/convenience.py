@@ -15,10 +15,10 @@ def extract_size_list(size_count, *args):
             args_copy = [a] + args_copy
             break
 
-    if size_list:
+    if len(size_list) == size_count:
         return [size_list] + args_copy
     else:
-        return args_copy
+        return size_list + args_copy
 
 # ==============================================
 # = overwrite translate, rotate, scale, mirror =
