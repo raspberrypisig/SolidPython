@@ -368,13 +368,7 @@ SolidPython supports the following features
 Jupyter Renderer
 ================
 
-Render SolidPython or OpenSCAD code in Jupyter notebooks using `ViewSCAD <https://github.com/nickc92/ViewSCAD>`__, or install directly via:
-
-.. code:: bash
-
-    pip install viewscad
-
-(Take a look at the `repo page <https://github.com/nickc92/ViewSCAD>`__, though, since there's a tiny bit more installation required)
+SolidPython can be rendered inside a Jupyter Notebook using ViewScad. Unfortunately the pypi version of ``viewscad`` seems to be not compatible with ``solid2``. @jreiberkyle created `this viewscad fork <https://github.com/jreiberkyle/ViewSCAD>`__ and made it work with `solid2` (`#7 <https://github.com/jeff-dh/SolidPython/issues/7>`__)
 
 Version 2.x.x
 =============
