@@ -73,7 +73,8 @@ class ScadVariable(ScadValue):
     def __init__(self, name, default_value, options_str='', label='', tab=''):
         super().__init__(name)
 
-        if name in self.registered_variables.keys():
+        builtinVars = ["$fn", "$fa", "$fs", "$vpt", "$vpr", "$vpf", "$vpd"]
+        if name not in builtinVars and name in self.registered_variables.keys():
             raise ValueError("Multiple instances of ScadVariable with the same name.")
 
         def_str = self.get_definition(name, default_value, options_str, label, tab)
