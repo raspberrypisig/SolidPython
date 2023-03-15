@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 
 from solid2 import *
-from solid2.extensions.greedy_scad_interface import *
 
 rotation_speed = CustomizerSliderVariable("rotation_speed", 1.0)
 

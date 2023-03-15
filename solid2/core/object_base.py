@@ -108,16 +108,79 @@ class OpenSCADObject(ObjectBase):
 
         return f'{scad_identifier}({param_str})'
 
-class OpenSCADConstant(ObjectBaseInterface):
-    def __init__(self, name):
-        self.name = name
+class OpenSCADConstant:
+    def __init__(self, value):
+        self.value = value
 
         from .utils import escape_openscad_identifier
-        self.__doc__ = escape_openscad_identifier(name)
+        self.__doc__ = escape_openscad_identifier(value)
+
+    def __repr__(self):
+        return f'{self.value}'
+
+    def __operator_base__(self, op, other):
+        return OpenSCADConstant(f'({self} {op} {other})')
+
+    def __roperator_base__(self, op, other):
+        return OpenSCADConstant(f'({other} {op} {self})')
+
+    def __unary_operator_base__(self, op):
+        return OpenSCADConstant(f'({op}{self})')
+
+    def __illegal_operator__(self):
+       raise Exception("You can't compare a OpenSCADConstant with something else, " +\
+                       "because we don't know the customized value at " +\
+                       "SolidPythons runtime because it might get customized " +\
+                       "at OpenSCAD runtime.")
+
+    #basic operators +, -, *, /, %, **
+    def __add__(self, other): return self.__operator_base__("+", other)
+    def __sub__(self, other): return self.__operator_base__("-", other)
+    def __mul__(self, other): return self.__operator_base__("*", other)
+    def __mod__(self, other): return self.__operator_base__("%", other)
+    def __pow__(self, other): return self.__operator_base__("^", other)
+    def __truediv__(self, other): return self.__operator_base__("/", other)
+
+    def __radd__(self, other): return self.__roperator_base__("+", other)
+    def __rsub__(self, other): return self.__roperator_base__("-", other)
+    def __rmul__(self, other): return self.__roperator_base__("*", other)
+    def __rmod__(self, other): return self.__roperator_base__("%", other)
+    def __rpow__(self, other): return self.__roperator_base__("^", other)
+    def __rtruediv__(self, other): return self.__roperator_base__("/", other)
+
+    #unary operators
+    def __neg__(self): return self.__unary_operator_base__("-")
+
+    #other operators
+    def __abs__(self): return OpenSCADConstant(f'abs({self})')
+
+    #"illegal" operators
+    def __eq__(self, _): return self.__illegal_operator__()
+    def __ne__(self, _): return self.__illegal_operator__()
+    def __le__(self, _): return self.__illegal_operator__()
+    def __ge__(self, _): return self.__illegal_operator__()
+    def __lt__(self, _): return self.__illegal_operator__()
+    def __gt__(self, _): return self.__illegal_operator__()
+
+    #do not allow to evaluate to bool
+    def __bool__(self):
+        raise Exception("You can't use scad variables as truth statement because " +\
+                        "we don't know the value of a customized variable at " +\
+                        "SolidPython runtime.")
 
     def _render(self):
         from textwrap import dedent
-        return dedent(self.name)
+        return dedent(self.value)
+
+import math
+sin = lambda x: OpenSCADConstant(f'sin({x})') if isinstance(x, OpenSCADConstant) else math.sin(x)
+cos = lambda x: OpenSCADConstant(f'cos({x})') if isinstance(x, OpenSCADConstant) else math.cos(x)
+tan = lambda x: OpenSCADConstant(f'tan({x})') if isinstance(x, OpenSCADConstant) else math.tan(x)
+asin = lambda x: OpenSCADConstant(f'asin({x})') if isinstance(x, OpenSCADConstant) else math.asin(x)
+acos = lambda x: OpenSCADConstant(f'acos({x})') if isinstance(x, OpenSCADConstant) else math.acos(x)
+atan = lambda x: OpenSCADConstant(f'atan({x})') if isinstance(x, OpenSCADConstant) else math.atan(x)
+sqrt = lambda x: OpenSCADConstant(f'sqrt({x})') if isinstance(x, OpenSCADConstant) else math.sqrt(x)
+not_ = lambda x: OpenSCADConstant(f'!{x}')
 
 def scad_inline(code):
     return OpenSCADConstant(code)

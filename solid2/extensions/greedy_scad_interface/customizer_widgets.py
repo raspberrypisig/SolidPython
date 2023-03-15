@@ -2,6 +2,7 @@ from .scad_variable import ScadVariable
 
 class CustomizerDropdownVariable(ScadVariable):
     def __init__(self, name, default_value, options='', label='', tab=''):
+        options_str = options
         if isinstance(options, list):
             options_str = '[' + ", ".join(map(str, options)) + ']'
 

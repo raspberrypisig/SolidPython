@@ -7,4 +7,5 @@ from .scad_render import scad_render,\
 
 from .scad_import import import_scad, use, include
 
-from .object_base import scad_inline, scad_inline_parameter_func
+from .object_base import scad_inline, scad_inline_parameter_func, sin, cos,\
+                         tan, asin, acos, atan, sqrt, not_

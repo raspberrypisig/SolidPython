@@ -1,5 +1,4 @@
 from .scad_variable import *
-from ...core.object_base import scad_inline
 
 fonts = []
 
