@@ -1,29 +1,10 @@
-from .accessSyntaxBase import AccessSyntaxBase
-from .operatorBase import OperatorBase
+from copy import deepcopy
+from textwrap import dedent
 
 #don't do relative imports on the global scope to be able to import this file
 #from "everywhere"
 
-class ObjectBaseInterface(AccessSyntaxBase, OperatorBase):
-    def _render(self):
-        return ""
-
-    def __repr__(self):
-        return self.as_scad()
-
-    def as_scad(self):
-        from .scad_render import scad_render
-        return scad_render(self)[:-1]
-
-    def save_as_scad(self, filename='', outdir=''):
-        from .scad_render import scad_render_to_file
-        return scad_render_to_file(self, filename, outdir)
-
-    def save_as_stl(self, filename='', outdir=''):
-        from .scad_render import render_to_stl_file
-        return render_to_stl_file(self, filename)
-
-class ObjectBase(ObjectBaseInterface):
+class ObjectBase:
     def __init__(self):
         self.children = []
 
@@ -40,6 +21,9 @@ class ObjectBase(ObjectBaseInterface):
 
         return self
 
+    def copy(self):
+        return deepcopy(self)
+
     def _render(self):
         s = ''
         for c in self.children:
@@ -53,6 +37,21 @@ class ObjectBase(ObjectBaseInterface):
             self.add(a)
         return self
 
+    def __repr__(self):
+        return self.as_scad()
+
+    def as_scad(self):
+        from .scad_render import scad_render
+        return scad_render(self)[:-1]
+
+    def save_as_scad(self, filename='', outdir=''):
+        from .scad_render import scad_render_to_file
+        return scad_render_to_file(self, filename, outdir)
+
+    def save_as_stl(self, filename='', outdir=''):
+        from .scad_render import render_to_stl_file
+        return render_to_stl_file(self, filename)
+
 class OpenSCADObject(ObjectBase):
     def __init__(self, name, params):
         super().__init__()
@@ -61,8 +60,8 @@ class OpenSCADObject(ObjectBase):
 
     def _render(self):
         """
-            returns the scad code for a given node tuple consiting of name,
-            params and children list.
+            returns the scad code for a given node tuple consiting of name, params
+            and children list.
 
             -> translate(v = [1, 2, 3]) {children[0]; children[1]; ...};\n
         """
@@ -155,12 +154,12 @@ class OpenSCADConstant:
     def __abs__(self): return OpenSCADConstant(f'abs({self})')
 
     #"illegal" operators
-    def __eq__(self, _): return self.__illegal_operator__()
-    def __ne__(self, _): return self.__illegal_operator__()
-    def __le__(self, _): return self.__illegal_operator__()
-    def __ge__(self, _): return self.__illegal_operator__()
-    def __lt__(self, _): return self.__illegal_operator__()
-    def __gt__(self, _): return self.__illegal_operator__()
+    def __eq__(self, other): return self.__illegal_operator__()
+    def __ne__(self, other): return self.__illegal_operator__()
+    def __le__(self, other): return self.__illegal_operator__()
+    def __ge__(self, other): return self.__illegal_operator__()
+    def __lt__(self, other): return self.__illegal_operator__()
+    def __gt__(self, other): return self.__illegal_operator__()
 
     #do not allow to evaluate to bool
     def __bool__(self):
@@ -169,7 +168,6 @@ class OpenSCADConstant:
                         "SolidPython runtime.")
 
     def _render(self):
-        from textwrap import dedent
         return dedent(self.value)
 
 import math
@@ -181,6 +179,7 @@ acos = lambda x: OpenSCADConstant(f'acos({x})') if isinstance(x, OpenSCADConstan
 atan = lambda x: OpenSCADConstant(f'atan({x})') if isinstance(x, OpenSCADConstant) else math.atan(x)
 sqrt = lambda x: OpenSCADConstant(f'sqrt({x})') if isinstance(x, OpenSCADConstant) else math.sqrt(x)
 not_ = lambda x: OpenSCADConstant(f'!{x}')
+
 
 def scad_inline(code):
     return OpenSCADConstant(code)
