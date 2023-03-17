@@ -2,8 +2,9 @@ from ...core.object_base import OpenSCADObject, OpenSCADConstant
 from ... import import_scad
 from pathlib import Path
 
-importFile = Path(__file__).absolute().parent.parent.parent / 'libs' / 'BOSL2' / 'constants.scad'
-_ = import_scad(f'{importFile}', use_not_include=False)
+baseDir = Path(__file__).absolute().parent.parent.parent
+importFile = baseDir / "libs" / "BOSL2" / "constants.scad"
+_ = import_scad(f"{importFile}", use_not_include=False)
 
 _UNDEF = OpenSCADConstant('_UNDEF')
 INCH = OpenSCADConstant('INCH')
@@ -25,8 +26,7 @@ SEGMENT = OpenSCADConstant('SEGMENT')
 RAY = OpenSCADConstant('RAY')
 LINE = OpenSCADConstant('LINE')
 IDENT = OpenSCADConstant('IDENT')
-
 class get_slop(OpenSCADObject):
     def __init__(self, **kwargs):
-       super().__init__("get_slop" ,{**kwargs})
+       super().__init__("get_slop", {**kwargs})
 
