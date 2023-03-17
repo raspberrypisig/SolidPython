@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from .scad_import import module_cache_by_resolved_filename
+from .scad_import import module_cache_by_resolved_filename, extra_scad_includes
 from ..config import config
 
 # =========================================
@@ -75,6 +75,12 @@ def _write_to_file(out_string, filename=None, outdir=''):
 
 def get_include_string():
     strings = []
+    for file, use_not_include in extra_scad_includes:
+        if use_not_include:
+            strings.append(f"use <{file}>;")
+        else:
+            strings.append(f"include <{file}>;")
+
     for k, v in module_cache_by_resolved_filename.items():
         #skip builtins file
         if v[2]: #skip_render flag

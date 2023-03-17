@@ -8,6 +8,7 @@ from .parse_scad import get_scad_file_as_dict
 # = IMPORTING OPENSCAD CODE =
 # ===========================
 module_cache_by_resolved_filename = {}
+extra_scad_includes = []
 
 def check_module_cache(resolved_scad, use_not_include):
     global module_cache_by_resolved_filename
@@ -112,6 +113,10 @@ def import_scad(filename, dest_namespace=None, use_not_include=True, skip_render
     load_scad_file_or_dir_into_dict(filename, dest_namespace.__dict__, use_not_include, skip_render)
 
     return dest_namespace
+
+def extra_scad_include(filename, use_not_include=True):
+    global extra_scad_includes
+    extra_scad_includes.append((filename, use_not_include))
 
 # ========================
 # = our helper namespace =
