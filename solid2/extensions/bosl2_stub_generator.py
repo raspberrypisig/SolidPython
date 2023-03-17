@@ -2,26 +2,41 @@
 
 from pathlib import Path
 
-from solid2.core.utils import escape_openscad_identifier
+from solid2.core.utils import escape_openscad_identifier as escape
 from solid2.libs.py_scadparser import scad_parser
+
+stubHeader = """\
+from ...core.object_base import OpenSCADObject, OpenSCADConstant
+from ... import import_scad
+from pathlib import Path
+
+baseDir = Path(__file__).absolute().parent.parent.parent
+importFile = baseDir / "libs" / "BOSL2" / "{scadFile.name}"
+_ = import_scad(f"{{importFile}}", use_not_include=False)
+
+"""
+
+constantTemplate = """\
+{name} = OpenSCADConstant("{name}")
+"""
+
+callableTemplate = """\
+class {escape(c.name)}(OpenSCADObject):
+    def __init__({paramStr}):
+"""
 
 def generateStub(scadFile, outputDir):
     modules, functions, global_vars = scad_parser.parseFile(scadFile)
-    escape = escape_openscad_identifier
 
     stubFile = Path(__file__).absolute().parent / outputDir / scadFile.name
     stubFile = stubFile.with_suffix(".py")
     with open(stubFile, "w") as f:
-        f.write("from ...core.object_base import OpenSCADObject, OpenSCADConstant\n")
-        f.write("from ... import import_scad\n")
-        f.write("from pathlib import Path\n\n")
-        f.write(f"importFile = Path(__file__).absolute().parent.parent.parent / 'libs' / 'BOSL2' / '{scadFile.name}'\n")
-        f.write("_ = import_scad(f'{importFile}', use_not_include=False)\n\n")
-        stub = ""
-        for c in global_vars:
-            f.write(f"{escape(c.name)} = OpenSCADConstant('{escape(c.name)}')\n")
-        f.write("\n")
+        f.write(stubHeader.format(__file__=__file__, scadFile=scadFile))
 
+        for c in global_vars:
+            f.write(constantTemplate.format(name=escape(c.name)) + "\n")
+
+        stub = ""
         for c in modules + functions:
             stub = f"class {escape(c.name)}(OpenSCADObject):\n    def __init__(self"
 
@@ -44,6 +59,7 @@ def generateStd(bosl2_dir, outputDir):
     stubFile = Path(__file__).absolute().parent / outputDir / "all.py"
 
     with open(stubFile, "w") as std_f:
+        stdlibs = []
         with open(bosl2_dir / "std.scad") as f:
             for l in f.readlines():
                 l = l.strip()
@@ -51,9 +67,10 @@ def generateStd(bosl2_dir, outputDir):
                     continue
                 l = l.replace("include <", "").replace(">", "")
                 std_f.write(f"from .{Path(l).stem} import *\n")
+                stdlibs.append(l)
 
             for f in bosl2_dir.iterdir():
-                if not f.suffix == ".scad":
+                if not f.suffix == ".scad" or f.name in stdlibs:
                     continue
                 if f.name in ["std.scad", "builtins.scad", "bosl1compat.scad"]:
                     continue
