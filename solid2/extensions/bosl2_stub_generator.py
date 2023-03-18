@@ -6,13 +6,13 @@ from solid2.core.utils import escape_openscad_identifier as escape
 from solid2.libs.py_scadparser import scad_parser
 
 headerTemplate = """\
-from ...core.object_base import OpenSCADObject, OpenSCADConstant
-from ... import import_scad
+from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include
 from pathlib import Path
 
 baseDir = Path(__file__).absolute().parent.parent.parent
 importFile = baseDir / "libs" / "BOSL2" / "{scadFile.name}"
-_ = import_scad(f"{{importFile}}", use_not_include=False)
+extra_scad_include(f"{{importFile}}", use_not_include=False)
 
 """
 
@@ -76,7 +76,7 @@ def generateBoslStd(bosl2_dir):
                 continue
 
             name = f.name.replace(".scad","")
-            std_f.write(f"import solid2.extensions.bosl2.{name} as {name}\n")
+            std_f.write(f"from . import {name}\n")
 
 
 bosl2_dir = Path(__file__).absolute().parent.parent / "libs/BOSL2"
