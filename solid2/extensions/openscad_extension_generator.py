@@ -46,7 +46,8 @@ def generateStub(scadFile, outputDir, use_not_include):
 
     modules, functions, global_vars = scad_parser.parseFile(scadFile)
 
-    with open(outputDir / scadFile.with_suffix(".py").name, "w") as f:
+    escaped_filename = escape(scadFile.stem) + ".py"
+    with open(outputDir / escaped_filename, "w") as f:
         f.write(generateHeader())
 
         for c in global_vars:
@@ -69,7 +70,7 @@ def generateInit(inDir, outputDir, packageName):
             if not f.suffix == ".scad":
                 continue
 
-            std_f.write(f"from . import {Path(f.name).stem}\n")
+            std_f.write(f"from . import {escape(Path(f.name).stem)}\n")
 
 
 if __name__ == "__main__":
