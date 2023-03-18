@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "solidpython2"
-version = "2.0.0-beta-02"
+version = "2.0.0-beta-03"
 description = "Python interface to the OpenSCAD declarative geometry language"
 authors = ["jeff"]
 homepage = "https://github.com/jeff-dh/SolidPython"
@@ -8,13 +8,13 @@ repository = "https://github.com/jeff-dh/SolidPython"
 license = "LGPL-2.1"
 readme = "README.rst"
 keywords = [
-    "3D", 
-    "CAD", 
-    "CSG", 
+    "3D",
+    "CAD",
+    "CSG",
     "constructive solid geometry",
     "geometry",
-    "modeling", 
-    "OpenSCAD", 
+    "modeling",
+    "OpenSCAD",
 ]
 
 classifiers=[
