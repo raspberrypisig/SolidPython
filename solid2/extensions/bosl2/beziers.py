@@ -1,10 +1,8 @@
-from ...core.object_base import OpenSCADObject, OpenSCADConstant
-from ... import import_scad
+from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include
 from pathlib import Path
 
-baseDir = Path(__file__).absolute().parent.parent.parent
-importFile = baseDir / "libs" / "BOSL2" / "beziers.scad"
-_ = import_scad(f"{importFile}", use_not_include=False)
+extra_scad_include(f"{Path(__file__).parent.parent / '../libs/BOSL2/beziers.scad'}", use_not_include=False)
 
 _bezier_matrix_table = OpenSCADConstant('_bezier_matrix_table')
 class debug_bezier(OpenSCADObject):

@@ -1,10 +1,8 @@
-from ...core.object_base import OpenSCADObject, OpenSCADConstant
-from ... import import_scad
+from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include
 from pathlib import Path
 
-baseDir = Path(__file__).absolute().parent.parent.parent
-importFile = baseDir / "libs" / "BOSL2" / "modular_hose.scad"
-_ = import_scad(f"{importFile}", use_not_include=False)
+extra_scad_include(f"{Path(__file__).parent.parent / '../libs/BOSL2/modular_hose.scad'}", use_not_include=False)
 
 _small_end = OpenSCADConstant('_small_end')
 _big_end = OpenSCADConstant('_big_end')

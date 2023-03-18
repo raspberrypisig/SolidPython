@@ -1,10 +1,8 @@
-from ...core.object_base import OpenSCADObject, OpenSCADConstant
-from ... import import_scad
+from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include
 from pathlib import Path
 
-baseDir = Path(__file__).absolute().parent.parent.parent
-importFile = baseDir / "libs" / "BOSL2" / "turtle3d.scad"
-_ = import_scad(f"{importFile}", use_not_include=False)
+extra_scad_include(f"{Path(__file__).parent.parent / '../libs/BOSL2/turtle3d.scad'}", use_not_include=False)
 
 class turtle3d(OpenSCADObject):
     def __init__(self, commands=None, state=None, transforms=None, full_state=None, repeat=None, **kwargs):

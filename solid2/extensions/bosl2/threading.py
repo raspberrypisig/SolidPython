@@ -1,10 +1,8 @@
-from ...core.object_base import OpenSCADObject, OpenSCADConstant
-from ... import import_scad
+from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include
 from pathlib import Path
 
-baseDir = Path(__file__).absolute().parent.parent.parent
-importFile = baseDir / "libs" / "BOSL2" / "threading.scad"
-_ = import_scad(f"{importFile}", use_not_include=False)
+extra_scad_include(f"{Path(__file__).parent.parent / '../libs/BOSL2/threading.scad'}", use_not_include=False)
 
 class threaded_rod(OpenSCADObject):
     def __init__(self, d=None, l=None, pitch=None, left_handed=None, bevel=None, bevel1=None, bevel2=None, starts=None, internal=None, d1=None, d2=None, higbee=None, higbee1=None, higbee2=None, anchor=None, spin=None, orient=None, **kwargs):
