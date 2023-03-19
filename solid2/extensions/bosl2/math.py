@@ -1,307 +1,307 @@
-from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
-from solid2.core.scad_import import extra_scad_include
-from pathlib import Path
-from .bosl2_mixin import Bosl2Mixin
+from solid2.core.object_base import OpenSCADObject as _OpenSCADObject,                                    OpenSCADConstant as _OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include as _extra_scad_include
+from pathlib import Path as _Path
+from .bosl2_mixin import Bosl2Mixin as _Bosl2Mixin
 
-extra_scad_include(f"{Path(__file__).parent.parent / '../libs/BOSL2/math.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / '../libs/BOSL2/math.scad'}", use_not_include=False)
 
-PHI = OpenSCADConstant('PHI')
-EPSILON = OpenSCADConstant('EPSILON')
-INF = OpenSCADConstant('INF')
-NAN = OpenSCADConstant('NAN')
-class count(OpenSCADObject, Bosl2Mixin):
+PHI = _OpenSCADConstant('PHI')
+EPSILON = _OpenSCADConstant('EPSILON')
+INF = _OpenSCADConstant('INF')
+NAN = _OpenSCADConstant('NAN')
+class count(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, s=None, step=None, reverse=None, **kwargs):
        super().__init__("count", {"n" : n, "s" : s, "step" : step, "reverse" : reverse, **kwargs})
 
-class lerp(OpenSCADObject, Bosl2Mixin):
+class lerp(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, a=None, b=None, u=None, **kwargs):
        super().__init__("lerp", {"a" : a, "b" : b, "u" : u, **kwargs})
 
-class lerpn(OpenSCADObject, Bosl2Mixin):
+class lerpn(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, a=None, b=None, n=None, endpoint=None, **kwargs):
        super().__init__("lerpn", {"a" : a, "b" : b, "n" : n, "endpoint" : endpoint, **kwargs})
 
-class sqr(OpenSCADObject, Bosl2Mixin):
+class sqr(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("sqr", {"x" : x, **kwargs})
 
-class log2(OpenSCADObject, Bosl2Mixin):
+class log2(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("log2", {"x" : x, **kwargs})
 
-class hypot(OpenSCADObject, Bosl2Mixin):
+class hypot(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, y=None, z=None, **kwargs):
        super().__init__("hypot", {"x" : x, "y" : y, "z" : z, **kwargs})
 
-class factorial(OpenSCADObject, Bosl2Mixin):
+class factorial(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, d=None, **kwargs):
        super().__init__("factorial", {"n" : n, "d" : d, **kwargs})
 
-class binomial(OpenSCADObject, Bosl2Mixin):
+class binomial(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, **kwargs):
        super().__init__("binomial", {"n" : n, **kwargs})
 
-class binomial_coefficient(OpenSCADObject, Bosl2Mixin):
+class binomial_coefficient(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, k=None, **kwargs):
        super().__init__("binomial_coefficient", {"n" : n, "k" : k, **kwargs})
 
-class gcd(OpenSCADObject, Bosl2Mixin):
+class gcd(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, a=None, b=None, **kwargs):
        super().__init__("gcd", {"a" : a, "b" : b, **kwargs})
 
-class _lcm(OpenSCADObject, Bosl2Mixin):
+class _lcm(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, a=None, b=None, **kwargs):
        super().__init__("_lcm", {"a" : a, "b" : b, **kwargs})
 
-class _lcmlist(OpenSCADObject, Bosl2Mixin):
+class _lcmlist(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, a=None, **kwargs):
        super().__init__("_lcmlist", {"a" : a, **kwargs})
 
-class lcm(OpenSCADObject, Bosl2Mixin):
+class lcm(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, a=None, b=None, **kwargs):
        super().__init__("lcm", {"a" : a, "b" : b, **kwargs})
 
-class sinh(OpenSCADObject, Bosl2Mixin):
+class sinh(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("sinh", {"x" : x, **kwargs})
 
-class cosh(OpenSCADObject, Bosl2Mixin):
+class cosh(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("cosh", {"x" : x, **kwargs})
 
-class tanh(OpenSCADObject, Bosl2Mixin):
+class tanh(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("tanh", {"x" : x, **kwargs})
 
-class asinh(OpenSCADObject, Bosl2Mixin):
+class asinh(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("asinh", {"x" : x, **kwargs})
 
-class acosh(OpenSCADObject, Bosl2Mixin):
+class acosh(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("acosh", {"x" : x, **kwargs})
 
-class atanh(OpenSCADObject, Bosl2Mixin):
+class atanh(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("atanh", {"x" : x, **kwargs})
 
-class quant(OpenSCADObject, Bosl2Mixin):
+class quant(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, y=None, **kwargs):
        super().__init__("quant", {"x" : x, "y" : y, **kwargs})
 
-class quantdn(OpenSCADObject, Bosl2Mixin):
+class quantdn(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, y=None, **kwargs):
        super().__init__("quantdn", {"x" : x, "y" : y, **kwargs})
 
-class quantup(OpenSCADObject, Bosl2Mixin):
+class quantup(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, y=None, **kwargs):
        super().__init__("quantup", {"x" : x, "y" : y, **kwargs})
 
-class constrain(OpenSCADObject, Bosl2Mixin):
+class constrain(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, minval=None, maxval=None, **kwargs):
        super().__init__("constrain", {"v" : v, "minval" : minval, "maxval" : maxval, **kwargs})
 
-class posmod(OpenSCADObject, Bosl2Mixin):
+class posmod(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, m=None, **kwargs):
        super().__init__("posmod", {"x" : x, "m" : m, **kwargs})
 
-class modang(OpenSCADObject, Bosl2Mixin):
+class modang(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("modang", {"x" : x, **kwargs})
 
-class sum(OpenSCADObject, Bosl2Mixin):
+class sum(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, dflt=None, **kwargs):
        super().__init__("sum", {"v" : v, "dflt" : dflt, **kwargs})
 
-class _sum(OpenSCADObject, Bosl2Mixin):
+class _sum(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, _total=None, _i=None, **kwargs):
        super().__init__("_sum", {"v" : v, "_total" : _total, "_i" : _i, **kwargs})
 
-class mean(OpenSCADObject, Bosl2Mixin):
+class mean(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, **kwargs):
        super().__init__("mean", {"v" : v, **kwargs})
 
-class median(OpenSCADObject, Bosl2Mixin):
+class median(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, **kwargs):
        super().__init__("median", {"v" : v, **kwargs})
 
-class deltas(OpenSCADObject, Bosl2Mixin):
+class deltas(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, wrap=None, **kwargs):
        super().__init__("deltas", {"v" : v, "wrap" : wrap, **kwargs})
 
-class cumsum(OpenSCADObject, Bosl2Mixin):
+class cumsum(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, **kwargs):
        super().__init__("cumsum", {"v" : v, **kwargs})
 
-class _cumsum(OpenSCADObject, Bosl2Mixin):
+class _cumsum(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, _i=None, _acc=None, **kwargs):
        super().__init__("_cumsum", {"v" : v, "_i" : _i, "_acc" : _acc, **kwargs})
 
-class product(OpenSCADObject, Bosl2Mixin):
+class product(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, **kwargs):
        super().__init__("product", {"v" : v, **kwargs})
 
-class _product(OpenSCADObject, Bosl2Mixin):
+class _product(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, i=None, _tot=None, **kwargs):
        super().__init__("_product", {"v" : v, "i" : i, "_tot" : _tot, **kwargs})
 
-class cumprod(OpenSCADObject, Bosl2Mixin):
+class cumprod(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, list=None, **kwargs):
        super().__init__("cumprod", {"list" : list, **kwargs})
 
-class _cumprod(OpenSCADObject, Bosl2Mixin):
+class _cumprod(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, _i=None, _acc=None, **kwargs):
        super().__init__("_cumprod", {"v" : v, "_i" : _i, "_acc" : _acc, **kwargs})
 
-class _cumprod_vec(OpenSCADObject, Bosl2Mixin):
+class _cumprod_vec(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, _i=None, _acc=None, **kwargs):
        super().__init__("_cumprod_vec", {"v" : v, "_i" : _i, "_acc" : _acc, **kwargs})
 
-class convolve(OpenSCADObject, Bosl2Mixin):
+class convolve(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, p=None, q=None, **kwargs):
        super().__init__("convolve", {"p" : p, "q" : q, **kwargs})
 
-class sum_of_sines(OpenSCADObject, Bosl2Mixin):
+class sum_of_sines(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, a=None, sines=None, **kwargs):
        super().__init__("sum_of_sines", {"a" : a, "sines" : sines, **kwargs})
 
-class rand_int(OpenSCADObject, Bosl2Mixin):
+class rand_int(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, minval=None, maxval=None, n=None, seed=None, **kwargs):
        super().__init__("rand_int", {"minval" : minval, "maxval" : maxval, "n" : n, "seed" : seed, **kwargs})
 
-class random_points(OpenSCADObject, Bosl2Mixin):
+class random_points(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, dim=None, scale=None, seed=None, **kwargs):
        super().__init__("random_points", {"n" : n, "dim" : dim, "scale" : scale, "seed" : seed, **kwargs})
 
-class gaussian_rands(OpenSCADObject, Bosl2Mixin):
+class gaussian_rands(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, mean=None, cov=None, seed=None, **kwargs):
        super().__init__("gaussian_rands", {"n" : n, "mean" : mean, "cov" : cov, "seed" : seed, **kwargs})
 
-class exponential_rands(OpenSCADObject, Bosl2Mixin):
+class exponential_rands(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, _lambda=None, seed=None, **kwargs):
        super().__init__("exponential_rands", {"n" : n, "_lambda" : _lambda, "seed" : seed, **kwargs})
 
-class spherical_random_points(OpenSCADObject, Bosl2Mixin):
+class spherical_random_points(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, radius=None, seed=None, **kwargs):
        super().__init__("spherical_random_points", {"n" : n, "radius" : radius, "seed" : seed, **kwargs})
 
-class random_polygon(OpenSCADObject, Bosl2Mixin):
+class random_polygon(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, size=None, seed=None, **kwargs):
        super().__init__("random_polygon", {"n" : n, "size" : size, "seed" : seed, **kwargs})
 
-class deriv(OpenSCADObject, Bosl2Mixin):
+class deriv(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, data=None, h=None, closed=None, **kwargs):
        super().__init__("deriv", {"data" : data, "h" : h, "closed" : closed, **kwargs})
 
-class _dnu_calc(OpenSCADObject, Bosl2Mixin):
+class _dnu_calc(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, f1=None, fc=None, f2=None, h1=None, h2=None, **kwargs):
        super().__init__("_dnu_calc", {"f1" : f1, "fc" : fc, "f2" : f2, "h1" : h1, "h2" : h2, **kwargs})
 
-class _deriv_nonuniform(OpenSCADObject, Bosl2Mixin):
+class _deriv_nonuniform(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, data=None, h=None, closed=None, **kwargs):
        super().__init__("_deriv_nonuniform", {"data" : data, "h" : h, "closed" : closed, **kwargs})
 
-class deriv2(OpenSCADObject, Bosl2Mixin):
+class deriv2(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, data=None, h=None, closed=None, **kwargs):
        super().__init__("deriv2", {"data" : data, "h" : h, "closed" : closed, **kwargs})
 
-class deriv3(OpenSCADObject, Bosl2Mixin):
+class deriv3(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, data=None, h=None, closed=None, **kwargs):
        super().__init__("deriv3", {"data" : data, "h" : h, "closed" : closed, **kwargs})
 
-class complex(OpenSCADObject, Bosl2Mixin):
+class complex(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, list=None, **kwargs):
        super().__init__("complex", {"list" : list, **kwargs})
 
-class c_mul(OpenSCADObject, Bosl2Mixin):
+class c_mul(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, z1=None, z2=None, **kwargs):
        super().__init__("c_mul", {"z1" : z1, "z2" : z2, **kwargs})
 
-class _split_complex(OpenSCADObject, Bosl2Mixin):
+class _split_complex(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, data=None, **kwargs):
        super().__init__("_split_complex", {"data" : data, **kwargs})
 
-class _combine_complex(OpenSCADObject, Bosl2Mixin):
+class _combine_complex(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, data=None, **kwargs):
        super().__init__("_combine_complex", {"data" : data, **kwargs})
 
-class _c_mul(OpenSCADObject, Bosl2Mixin):
+class _c_mul(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, z1=None, z2=None, **kwargs):
        super().__init__("_c_mul", {"z1" : z1, "z2" : z2, **kwargs})
 
-class c_div(OpenSCADObject, Bosl2Mixin):
+class c_div(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, z1=None, z2=None, **kwargs):
        super().__init__("c_div", {"z1" : z1, "z2" : z2, **kwargs})
 
-class c_conj(OpenSCADObject, Bosl2Mixin):
+class c_conj(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, z=None, **kwargs):
        super().__init__("c_conj", {"z" : z, **kwargs})
 
-class c_real(OpenSCADObject, Bosl2Mixin):
+class c_real(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, z=None, **kwargs):
        super().__init__("c_real", {"z" : z, **kwargs})
 
-class c_imag(OpenSCADObject, Bosl2Mixin):
+class c_imag(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, z=None, **kwargs):
        super().__init__("c_imag", {"z" : z, **kwargs})
 
-class c_ident(OpenSCADObject, Bosl2Mixin):
+class c_ident(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, **kwargs):
        super().__init__("c_ident", {"n" : n, **kwargs})
 
-class c_norm(OpenSCADObject, Bosl2Mixin):
+class c_norm(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, z=None, **kwargs):
        super().__init__("c_norm", {"z" : z, **kwargs})
 
-class quadratic_roots(OpenSCADObject, Bosl2Mixin):
+class quadratic_roots(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, a=None, b=None, c=None, real=None, **kwargs):
        super().__init__("quadratic_roots", {"a" : a, "b" : b, "c" : c, "real" : real, **kwargs})
 
-class polynomial(OpenSCADObject, Bosl2Mixin):
+class polynomial(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, p=None, z=None, k=None, total=None, **kwargs):
        super().__init__("polynomial", {"p" : p, "z" : z, "k" : k, "total" : total, **kwargs})
 
-class poly_mult(OpenSCADObject, Bosl2Mixin):
+class poly_mult(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, p=None, q=None, **kwargs):
        super().__init__("poly_mult", {"p" : p, "q" : q, **kwargs})
 
-class poly_div(OpenSCADObject, Bosl2Mixin):
+class poly_div(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, d=None, **kwargs):
        super().__init__("poly_div", {"n" : n, "d" : d, **kwargs})
 
-class _poly_div(OpenSCADObject, Bosl2Mixin):
+class _poly_div(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, d=None, q=None, **kwargs):
        super().__init__("_poly_div", {"n" : n, "d" : d, "q" : q, **kwargs})
 
-class _poly_trim(OpenSCADObject, Bosl2Mixin):
+class _poly_trim(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, p=None, eps=None, **kwargs):
        super().__init__("_poly_trim", {"p" : p, "eps" : eps, **kwargs})
 
-class poly_add(OpenSCADObject, Bosl2Mixin):
+class poly_add(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, p=None, q=None, **kwargs):
        super().__init__("poly_add", {"p" : p, "q" : q, **kwargs})
 
-class poly_roots(OpenSCADObject, Bosl2Mixin):
+class poly_roots(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, p=None, tol=None, error_bound=None, **kwargs):
        super().__init__("poly_roots", {"p" : p, "tol" : tol, "error_bound" : error_bound, **kwargs})
 
-class _poly_roots(OpenSCADObject, Bosl2Mixin):
+class _poly_roots(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, p=None, pderiv=None, s=None, z=None, tol=None, i=None, **kwargs):
        super().__init__("_poly_roots", {"p" : p, "pderiv" : pderiv, "s" : s, "z" : z, "tol" : tol, "i" : i, **kwargs})
 
-class real_roots(OpenSCADObject, Bosl2Mixin):
+class real_roots(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, p=None, eps=None, tol=None, **kwargs):
        super().__init__("real_roots", {"p" : p, "eps" : eps, "tol" : tol, **kwargs})
 
-class root_find(OpenSCADObject, Bosl2Mixin):
+class root_find(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, f=None, x0=None, x1=None, tol=None, **kwargs):
        super().__init__("root_find", {"f" : f, "x0" : x0, "x1" : x1, "tol" : tol, **kwargs})
 
-class _rfcheck(OpenSCADObject, Bosl2Mixin):
+class _rfcheck(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, y=None, range=None, tol=None, **kwargs):
        super().__init__("_rfcheck", {"x" : x, "y" : y, "range" : range, "tol" : tol, **kwargs})
 
-class _rootfind(OpenSCADObject, Bosl2Mixin):
+class _rootfind(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, f=None, xpts=None, ypts=None, yrange=None, tol=None, i=None, **kwargs):
        super().__init__("_rootfind", {"f" : f, "xpts" : xpts, "ypts" : ypts, "yrange" : yrange, "tol" : tol, "i" : i, **kwargs})
 

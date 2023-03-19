@@ -1,39 +1,39 @@
-from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
-from solid2.core.scad_import import extra_scad_include
-from pathlib import Path
-from .bosl2_mixin import Bosl2Mixin
+from solid2.core.object_base import OpenSCADObject as _OpenSCADObject,                                    OpenSCADConstant as _OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include as _extra_scad_include
+from pathlib import Path as _Path
+from .bosl2_mixin import Bosl2Mixin as _Bosl2Mixin
 
-extra_scad_include(f"{Path(__file__).parent.parent / '../libs/BOSL2/structs.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / '../libs/BOSL2/structs.scad'}", use_not_include=False)
 
-class echo_struct(OpenSCADObject, Bosl2Mixin):
-    def __init__(self, struct=None, name=None, **kwargs):
-       super().__init__("echo_struct", {"struct" : struct, "name" : name, **kwargs})
-
-class struct_set(OpenSCADObject, Bosl2Mixin):
+class struct_set(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, struct=None, key=None, value=None, grow=None, **kwargs):
        super().__init__("struct_set", {"struct" : struct, "key" : key, "value" : value, "grow" : grow, **kwargs})
 
-class _format_key(OpenSCADObject, Bosl2Mixin):
+class _format_key(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, key=None, **kwargs):
        super().__init__("_format_key", {"key" : key, **kwargs})
 
-class struct_remove(OpenSCADObject, Bosl2Mixin):
+class struct_remove(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, struct=None, key=None, **kwargs):
        super().__init__("struct_remove", {"struct" : struct, "key" : key, **kwargs})
 
-class struct_val(OpenSCADObject, Bosl2Mixin):
+class struct_val(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, struct=None, key=None, default=None, **kwargs):
        super().__init__("struct_val", {"struct" : struct, "key" : key, "default" : default, **kwargs})
 
-class struct_keys(OpenSCADObject, Bosl2Mixin):
+class struct_keys(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, struct=None, **kwargs):
        super().__init__("struct_keys", {"struct" : struct, **kwargs})
 
-class echo_struct(OpenSCADObject, Bosl2Mixin):
+class echo_struct(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, struct=None, name=None, **kwargs):
        super().__init__("echo_struct", {"struct" : struct, "name" : name, **kwargs})
 
-class is_struct(OpenSCADObject, Bosl2Mixin):
+class is_struct(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("is_struct", {"x" : x, **kwargs})
+
+class echo_struct(_OpenSCADObject, _Bosl2Mixin):
+    def __init__(self, struct=None, name=None, **kwargs):
+       super().__init__("echo_struct", {"struct" : struct, "name" : name, **kwargs})
 

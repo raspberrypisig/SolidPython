@@ -1,63 +1,63 @@
-from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
-from solid2.core.scad_import import extra_scad_include
-from pathlib import Path
-from .bosl2_mixin import Bosl2Mixin
+from solid2.core.object_base import OpenSCADObject as _OpenSCADObject,                                    OpenSCADConstant as _OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include as _extra_scad_include
+from pathlib import Path as _Path
+from .bosl2_mixin import Bosl2Mixin as _Bosl2Mixin
 
-extra_scad_include(f"{Path(__file__).parent.parent / '../libs/BOSL2/screw_drive.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / '../libs/BOSL2/screw_drive.scad'}", use_not_include=False)
 
-class phillips_mask(OpenSCADObject, Bosl2Mixin):
-    def __init__(self, size=None, _fn=None, anchor=None, spin=None, orient=None, **kwargs):
-       super().__init__("phillips_mask", {"size" : size, "_fn" : _fn, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
-
-class torx_mask(OpenSCADObject, Bosl2Mixin):
-    def __init__(self, size=None, l=None, center=None, anchor=None, spin=None, orient=None, **kwargs):
-       super().__init__("torx_mask", {"size" : size, "l" : l, "center" : center, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
-
-class torx_mask2d(OpenSCADObject, Bosl2Mixin):
-    def __init__(self, size=None, **kwargs):
-       super().__init__("torx_mask2d", {"size" : size, **kwargs})
-
-class robertson_mask(OpenSCADObject, Bosl2Mixin):
-    def __init__(self, size=None, extra=None, ang=None, **kwargs):
-       super().__init__("robertson_mask", {"size" : size, "extra" : extra, "ang" : ang, **kwargs})
-
-class _phillips_shaft(OpenSCADObject, Bosl2Mixin):
+class _phillips_shaft(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, x=None, **kwargs):
        super().__init__("_phillips_shaft", {"x" : x, **kwargs})
 
-class _ph_bot_angle(OpenSCADObject, Bosl2Mixin):
+class _ph_bot_angle(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, **kwargs):
        super().__init__("_ph_bot_angle", {**kwargs})
 
-class _ph_side_angle(OpenSCADObject, Bosl2Mixin):
+class _ph_side_angle(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, **kwargs):
        super().__init__("_ph_side_angle", {**kwargs})
 
-class phillips_depth(OpenSCADObject, Bosl2Mixin):
+class phillips_depth(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, size=None, d=None, **kwargs):
        super().__init__("phillips_depth", {"size" : size, "d" : d, **kwargs})
 
-class phillips_diam(OpenSCADObject, Bosl2Mixin):
+class phillips_diam(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, size=None, depth=None, **kwargs):
        super().__init__("phillips_diam", {"size" : size, "depth" : depth, **kwargs})
 
-class torx_diam(OpenSCADObject, Bosl2Mixin):
+class torx_diam(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, size=None, **kwargs):
        super().__init__("torx_diam", {"size" : size, **kwargs})
 
-class _torx_inner_diam(OpenSCADObject, Bosl2Mixin):
+class _torx_inner_diam(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, size=None, **kwargs):
        super().__init__("_torx_inner_diam", {"size" : size, **kwargs})
 
-class torx_depth(OpenSCADObject, Bosl2Mixin):
+class torx_depth(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, size=None, **kwargs):
        super().__init__("torx_depth", {"size" : size, **kwargs})
 
-class _torx_tip_radius(OpenSCADObject, Bosl2Mixin):
+class _torx_tip_radius(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, size=None, **kwargs):
        super().__init__("_torx_tip_radius", {"size" : size, **kwargs})
 
-class _torx_rounding_radius(OpenSCADObject, Bosl2Mixin):
+class _torx_rounding_radius(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, size=None, **kwargs):
        super().__init__("_torx_rounding_radius", {"size" : size, **kwargs})
+
+class phillips_mask(_OpenSCADObject, _Bosl2Mixin):
+    def __init__(self, size=None, _fn=None, anchor=None, spin=None, orient=None, **kwargs):
+       super().__init__("phillips_mask", {"size" : size, "_fn" : _fn, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
+
+class torx_mask(_OpenSCADObject, _Bosl2Mixin):
+    def __init__(self, size=None, l=None, center=None, anchor=None, spin=None, orient=None, **kwargs):
+       super().__init__("torx_mask", {"size" : size, "l" : l, "center" : center, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
+
+class torx_mask2d(_OpenSCADObject, _Bosl2Mixin):
+    def __init__(self, size=None, **kwargs):
+       super().__init__("torx_mask2d", {"size" : size, **kwargs})
+
+class robertson_mask(_OpenSCADObject, _Bosl2Mixin):
+    def __init__(self, size=None, extra=None, ang=None, **kwargs):
+       super().__init__("robertson_mask", {"size" : size, "extra" : extra, "ang" : ang, **kwargs})
 

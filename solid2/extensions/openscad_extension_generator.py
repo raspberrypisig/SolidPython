@@ -6,18 +6,19 @@ from solid2.core.utils import escape_openscad_identifier as escape
 from solid2.libs.py_scadparser import scad_parser
 
 headerTemplate = """\
-from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
-from solid2.core.scad_import import extra_scad_include
-from pathlib import Path
+from solid2.core.object_base import OpenSCADObject as _OpenSCADObject,\
+                                    OpenSCADConstant as _OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include as _extra_scad_include
+from pathlib import Path as _Path
 
-extra_scad_include(f"{{Path(__file__).parent / Path('../'*{parentCount}) / '{scadFile}'}}", use_not_include={use_not_include})
+_extra_scad_include(f"{{_Path(__file__).parent / _Path('../'*{parentCount}) / '{scadFile}'}}", use_not_include={use_not_include})
 
 """
 
-constantTemplate = "{name} = OpenSCADConstant('{name}')"
+constantTemplate = "{name} = _OpenSCADConstant('{name}')"
 
 callableTemplate = """\
-class {name}(OpenSCADObject):
+class {name}(_OpenSCADObject):
     def __init__({paramStr}):
        super().__init__({initStr})
 
@@ -58,7 +59,7 @@ def generateStub(scadFile, outputDir, use_not_include,
         for c in global_vars:
             f.write(generateConstant(c))
 
-        for c in modules + functions:
+        for c in functions + modules:
             f.write(generateCallable(c))
 
 def makePackage(directory):

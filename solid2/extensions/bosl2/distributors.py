@@ -1,95 +1,95 @@
-from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
-from solid2.core.scad_import import extra_scad_include
-from pathlib import Path
-from .bosl2_mixin import Bosl2Mixin
+from solid2.core.object_base import OpenSCADObject as _OpenSCADObject,                                    OpenSCADConstant as _OpenSCADConstant
+from solid2.core.scad_import import extra_scad_include as _extra_scad_include
+from pathlib import Path as _Path
+from .bosl2_mixin import Bosl2Mixin as _Bosl2Mixin
 
-extra_scad_include(f"{Path(__file__).parent.parent / '../libs/BOSL2/distributors.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / '../libs/BOSL2/distributors.scad'}", use_not_include=False)
 
-class move_copies(OpenSCADObject, Bosl2Mixin):
+class line_of(_OpenSCADObject, _Bosl2Mixin):
+    def __init__(self, spacing=None, n=None, l=None, p1=None, p2=None, **kwargs):
+       super().__init__("line_of", {"spacing" : spacing, "n" : n, "l" : l, "p1" : p1, "p2" : p2, **kwargs})
+
+class move_copies(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, a=None, **kwargs):
        super().__init__("move_copies", {"a" : a, **kwargs})
 
-class line_of(OpenSCADObject, Bosl2Mixin):
+class line_of(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, spacing=None, n=None, l=None, p1=None, p2=None, **kwargs):
        super().__init__("line_of", {"spacing" : spacing, "n" : n, "l" : l, "p1" : p1, "p2" : p2, **kwargs})
 
-class xcopies(OpenSCADObject, Bosl2Mixin):
+class xcopies(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, spacing=None, n=None, l=None, sp=None, **kwargs):
        super().__init__("xcopies", {"spacing" : spacing, "n" : n, "l" : l, "sp" : sp, **kwargs})
 
-class ycopies(OpenSCADObject, Bosl2Mixin):
+class ycopies(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, spacing=None, n=None, l=None, sp=None, **kwargs):
        super().__init__("ycopies", {"spacing" : spacing, "n" : n, "l" : l, "sp" : sp, **kwargs})
 
-class zcopies(OpenSCADObject, Bosl2Mixin):
+class zcopies(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, spacing=None, n=None, l=None, sp=None, **kwargs):
        super().__init__("zcopies", {"spacing" : spacing, "n" : n, "l" : l, "sp" : sp, **kwargs})
 
-class grid2d(OpenSCADObject, Bosl2Mixin):
+class grid2d(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, spacing=None, n=None, size=None, stagger=None, inside=None, nonzero=None, **kwargs):
        super().__init__("grid2d", {"spacing" : spacing, "n" : n, "size" : size, "stagger" : stagger, "inside" : inside, "nonzero" : nonzero, **kwargs})
 
-class rot_copies(OpenSCADObject, Bosl2Mixin):
+class rot_copies(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, rots=None, v=None, cp=None, n=None, sa=None, offset=None, delta=None, subrot=None, **kwargs):
        super().__init__("rot_copies", {"rots" : rots, "v" : v, "cp" : cp, "n" : n, "sa" : sa, "offset" : offset, "delta" : delta, "subrot" : subrot, **kwargs})
 
-class xrot_copies(OpenSCADObject, Bosl2Mixin):
+class xrot_copies(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, rots=None, cp=None, n=None, sa=None, r=None, d=None, subrot=None, **kwargs):
        super().__init__("xrot_copies", {"rots" : rots, "cp" : cp, "n" : n, "sa" : sa, "r" : r, "d" : d, "subrot" : subrot, **kwargs})
 
-class yrot_copies(OpenSCADObject, Bosl2Mixin):
+class yrot_copies(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, rots=None, cp=None, n=None, sa=None, r=None, d=None, subrot=None, **kwargs):
        super().__init__("yrot_copies", {"rots" : rots, "cp" : cp, "n" : n, "sa" : sa, "r" : r, "d" : d, "subrot" : subrot, **kwargs})
 
-class zrot_copies(OpenSCADObject, Bosl2Mixin):
+class zrot_copies(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, rots=None, cp=None, n=None, sa=None, r=None, d=None, subrot=None, **kwargs):
        super().__init__("zrot_copies", {"rots" : rots, "cp" : cp, "n" : n, "sa" : sa, "r" : r, "d" : d, "subrot" : subrot, **kwargs})
 
-class arc_of(OpenSCADObject, Bosl2Mixin):
+class arc_of(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, r=None, rx=None, ry=None, d=None, dx=None, dy=None, sa=None, ea=None, rot=None, **kwargs):
        super().__init__("arc_of", {"n" : n, "r" : r, "rx" : rx, "ry" : ry, "d" : d, "dx" : dx, "dy" : dy, "sa" : sa, "ea" : ea, "rot" : rot, **kwargs})
 
-class ovoid_spread(OpenSCADObject, Bosl2Mixin):
+class ovoid_spread(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, n=None, r=None, d=None, cone_ang=None, scale=None, perp=None, **kwargs):
        super().__init__("ovoid_spread", {"n" : n, "r" : r, "d" : d, "cone_ang" : cone_ang, "scale" : scale, "perp" : perp, **kwargs})
 
-class path_spread(OpenSCADObject, Bosl2Mixin):
+class path_spread(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, path=None, n=None, spacing=None, sp=None, rotate_children=None, closed=None, **kwargs):
        super().__init__("path_spread", {"path" : path, "n" : n, "spacing" : spacing, "sp" : sp, "rotate_children" : rotate_children, "closed" : closed, **kwargs})
 
-class mirror_copy(OpenSCADObject, Bosl2Mixin):
+class mirror_copy(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, v=None, offset=None, cp=None, **kwargs):
        super().__init__("mirror_copy", {"v" : v, "offset" : offset, "cp" : cp, **kwargs})
 
-class xflip_copy(OpenSCADObject, Bosl2Mixin):
+class xflip_copy(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, offset=None, x=None, **kwargs):
        super().__init__("xflip_copy", {"offset" : offset, "x" : x, **kwargs})
 
-class yflip_copy(OpenSCADObject, Bosl2Mixin):
+class yflip_copy(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, offset=None, y=None, **kwargs):
        super().__init__("yflip_copy", {"offset" : offset, "y" : y, **kwargs})
 
-class zflip_copy(OpenSCADObject, Bosl2Mixin):
+class zflip_copy(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, offset=None, z=None, **kwargs):
        super().__init__("zflip_copy", {"offset" : offset, "z" : z, **kwargs})
 
-class distribute(OpenSCADObject, Bosl2Mixin):
+class distribute(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, spacing=None, sizes=None, dir=None, l=None, **kwargs):
        super().__init__("distribute", {"spacing" : spacing, "sizes" : sizes, "dir" : dir, "l" : l, **kwargs})
 
-class xdistribute(OpenSCADObject, Bosl2Mixin):
+class xdistribute(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, spacing=None, sizes=None, l=None, **kwargs):
        super().__init__("xdistribute", {"spacing" : spacing, "sizes" : sizes, "l" : l, **kwargs})
 
-class ydistribute(OpenSCADObject, Bosl2Mixin):
+class ydistribute(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, spacing=None, sizes=None, l=None, **kwargs):
        super().__init__("ydistribute", {"spacing" : spacing, "sizes" : sizes, "l" : l, **kwargs})
 
-class zdistribute(OpenSCADObject, Bosl2Mixin):
+class zdistribute(_OpenSCADObject, _Bosl2Mixin):
     def __init__(self, spacing=None, sizes=None, l=None, **kwargs):
        super().__init__("zdistribute", {"spacing" : spacing, "sizes" : sizes, "l" : l, **kwargs})
-
-class line_of(OpenSCADObject, Bosl2Mixin):
-    def __init__(self, spacing=None, n=None, l=None, p1=None, p2=None, **kwargs):
-       super().__init__("line_of", {"spacing" : spacing, "n" : n, "l" : l, "p1" : p1, "p2" : p2, **kwargs})
 
