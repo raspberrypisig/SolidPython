@@ -1,162 +1,163 @@
 from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
 from solid2.core.scad_import import extra_scad_include
 from pathlib import Path
+from .bosl2_mixin import Bosl2Mixin
 
 extra_scad_include(f"{Path(__file__).parent.parent / '../libs/BOSL2/lists.scad'}", use_not_include=False)
 
-class is_homogeneous(OpenSCADObject):
+class is_homogeneous(OpenSCADObject, Bosl2Mixin):
     def __init__(self, l=None, depth=None, **kwargs):
        super().__init__("is_homogeneous", {"l" : l, "depth" : depth, **kwargs})
 
-class is_homogenous(OpenSCADObject):
+class is_homogenous(OpenSCADObject, Bosl2Mixin):
     def __init__(self, l=None, depth=None, **kwargs):
        super().__init__("is_homogenous", {"l" : l, "depth" : depth, **kwargs})
 
-class _same_type(OpenSCADObject):
+class _same_type(OpenSCADObject, Bosl2Mixin):
     def __init__(self, a=None, b=None, depth=None, **kwargs):
        super().__init__("_same_type", {"a" : a, "b" : b, "depth" : depth, **kwargs})
 
-class min_length(OpenSCADObject):
+class min_length(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, **kwargs):
        super().__init__("min_length", {"list" : list, **kwargs})
 
-class max_length(OpenSCADObject):
+class max_length(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, **kwargs):
        super().__init__("max_length", {"list" : list, **kwargs})
 
-class _list_shape_recurse(OpenSCADObject):
+class _list_shape_recurse(OpenSCADObject, Bosl2Mixin):
     def __init__(self, v=None, **kwargs):
        super().__init__("_list_shape_recurse", {"v" : v, **kwargs})
 
-class _list_shape_recurse(OpenSCADObject):
+class _list_shape_recurse(OpenSCADObject, Bosl2Mixin):
     def __init__(self, v=None, **kwargs):
        super().__init__("_list_shape_recurse", {"v" : v, **kwargs})
 
-class list_shape(OpenSCADObject):
+class list_shape(OpenSCADObject, Bosl2Mixin):
     def __init__(self, v=None, depth=None, **kwargs):
        super().__init__("list_shape", {"v" : v, "depth" : depth, **kwargs})
 
-class in_list(OpenSCADObject):
+class in_list(OpenSCADObject, Bosl2Mixin):
     def __init__(self, val=None, list=None, idx=None, **kwargs):
        super().__init__("in_list", {"val" : val, "list" : list, "idx" : idx, **kwargs})
 
-class select(OpenSCADObject):
+class select(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, start=None, end=None, **kwargs):
        super().__init__("select", {"list" : list, "start" : start, "end" : end, **kwargs})
 
-class slice(OpenSCADObject):
+class slice(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, start=None, end=None, **kwargs):
        super().__init__("slice", {"list" : list, "start" : start, "end" : end, **kwargs})
 
-class last(OpenSCADObject):
+class last(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, **kwargs):
        super().__init__("last", {"list" : list, **kwargs})
 
-class list_head(OpenSCADObject):
+class list_head(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, to=None, **kwargs):
        super().__init__("list_head", {"list" : list, "to" : to, **kwargs})
 
-class list_tail(OpenSCADObject):
+class list_tail(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, _from=None, **kwargs):
        super().__init__("list_tail", {"list" : list, "_from" : _from, **kwargs})
 
-class bselect(OpenSCADObject):
+class bselect(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, index=None, **kwargs):
        super().__init__("bselect", {"list" : list, "index" : index, **kwargs})
 
-class repeat(OpenSCADObject):
+class repeat(OpenSCADObject, Bosl2Mixin):
     def __init__(self, val=None, n=None, i=None, **kwargs):
        super().__init__("repeat", {"val" : val, "n" : n, "i" : i, **kwargs})
 
-class list_bset(OpenSCADObject):
+class list_bset(OpenSCADObject, Bosl2Mixin):
     def __init__(self, indexset=None, valuelist=None, dflt=None, **kwargs):
        super().__init__("list_bset", {"indexset" : indexset, "valuelist" : valuelist, "dflt" : dflt, **kwargs})
 
-class list(OpenSCADObject):
+class list(OpenSCADObject, Bosl2Mixin):
     def __init__(self, l=None, **kwargs):
        super().__init__("list", {"l" : l, **kwargs})
 
-class force_list(OpenSCADObject):
+class force_list(OpenSCADObject, Bosl2Mixin):
     def __init__(self, value=None, n=None, fill=None, **kwargs):
        super().__init__("force_list", {"value" : value, "n" : n, "fill" : fill, **kwargs})
 
-class reverse(OpenSCADObject):
+class reverse(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, **kwargs):
        super().__init__("reverse", {"list" : list, **kwargs})
 
-class list_rotate(OpenSCADObject):
+class list_rotate(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, n=None, **kwargs):
        super().__init__("list_rotate", {"list" : list, "n" : n, **kwargs})
 
-class shuffle(OpenSCADObject):
+class shuffle(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, seed=None, **kwargs):
        super().__init__("shuffle", {"list" : list, "seed" : seed, **kwargs})
 
-class repeat_entries(OpenSCADObject):
+class repeat_entries(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, N=None, exact=None, **kwargs):
        super().__init__("repeat_entries", {"list" : list, "N" : N, "exact" : exact, **kwargs})
 
-class list_pad(OpenSCADObject):
+class list_pad(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, minlen=None, fill=None, **kwargs):
        super().__init__("list_pad", {"list" : list, "minlen" : minlen, "fill" : fill, **kwargs})
 
-class list_set(OpenSCADObject):
+class list_set(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, indices=None, values=None, dflt=None, minlen=None, **kwargs):
        super().__init__("list_set", {"list" : list, "indices" : indices, "values" : values, "dflt" : dflt, "minlen" : minlen, **kwargs})
 
-class list_insert(OpenSCADObject):
+class list_insert(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, indices=None, values=None, **kwargs):
        super().__init__("list_insert", {"list" : list, "indices" : indices, "values" : values, **kwargs})
 
-class list_remove(OpenSCADObject):
+class list_remove(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, ind=None, **kwargs):
        super().__init__("list_remove", {"list" : list, "ind" : ind, **kwargs})
 
-class list_remove_values(OpenSCADObject):
+class list_remove_values(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, values=None, all=None, **kwargs):
        super().__init__("list_remove_values", {"list" : list, "values" : values, "all" : all, **kwargs})
 
-class idx(OpenSCADObject):
+class idx(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, s=None, e=None, step=None, **kwargs):
        super().__init__("idx", {"list" : list, "s" : s, "e" : e, "step" : step, **kwargs})
 
-class pair(OpenSCADObject):
+class pair(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, wrap=None, **kwargs):
        super().__init__("pair", {"list" : list, "wrap" : wrap, **kwargs})
 
-class triplet(OpenSCADObject):
+class triplet(OpenSCADObject, Bosl2Mixin):
     def __init__(self, list=None, wrap=None, **kwargs):
        super().__init__("triplet", {"list" : list, "wrap" : wrap, **kwargs})
 
-class combinations(OpenSCADObject):
+class combinations(OpenSCADObject, Bosl2Mixin):
     def __init__(self, l=None, n=None, _s=None, **kwargs):
        super().__init__("combinations", {"l" : l, "n" : n, "_s" : _s, **kwargs})
 
-class permutations(OpenSCADObject):
+class permutations(OpenSCADObject, Bosl2Mixin):
     def __init__(self, l=None, n=None, **kwargs):
        super().__init__("permutations", {"l" : l, "n" : n, **kwargs})
 
-class list_to_matrix(OpenSCADObject):
+class list_to_matrix(OpenSCADObject, Bosl2Mixin):
     def __init__(self, v=None, cnt=None, dflt=None, **kwargs):
        super().__init__("list_to_matrix", {"v" : v, "cnt" : cnt, "dflt" : dflt, **kwargs})
 
-class flatten(OpenSCADObject):
+class flatten(OpenSCADObject, Bosl2Mixin):
     def __init__(self, l=None, **kwargs):
        super().__init__("flatten", {"l" : l, **kwargs})
 
-class full_flatten(OpenSCADObject):
+class full_flatten(OpenSCADObject, Bosl2Mixin):
     def __init__(self, l=None, **kwargs):
        super().__init__("full_flatten", {"l" : l, **kwargs})
 
-class set_union(OpenSCADObject):
+class set_union(OpenSCADObject, Bosl2Mixin):
     def __init__(self, a=None, b=None, get_indices=None, **kwargs):
        super().__init__("set_union", {"a" : a, "b" : b, "get_indices" : get_indices, **kwargs})
 
-class set_difference(OpenSCADObject):
+class set_difference(OpenSCADObject, Bosl2Mixin):
     def __init__(self, a=None, b=None, **kwargs):
        super().__init__("set_difference", {"a" : a, "b" : b, **kwargs})
 
-class set_intersection(OpenSCADObject):
+class set_intersection(OpenSCADObject, Bosl2Mixin):
     def __init__(self, a=None, b=None, **kwargs):
        super().__init__("set_intersection", {"a" : a, "b" : b, **kwargs})
 

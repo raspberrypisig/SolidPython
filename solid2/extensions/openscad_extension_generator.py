@@ -23,7 +23,10 @@ class {name}(OpenSCADObject):
 
 """
 
-def generateStub(scadFile, outputDir, use_not_include):
+def generateStub(scadFile, outputDir, use_not_include,
+                 headerTemplate=headerTemplate,
+                 callableTemplate=callableTemplate):
+
     def generateHeader():
         return headerTemplate.format(__file__=__file__,
                                      scadFile=scadFile,

@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 from solid2.extensions.bosl2 import *
+from solid2.extensions.bosl2 import metric_screws
 
 #basic stuff
 def bolt():
