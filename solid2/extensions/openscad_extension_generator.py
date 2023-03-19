@@ -61,19 +61,10 @@ def generateStub(scadFile, outputDir, use_not_include,
 
 def generateInit(inDir, outputDir, packageName):
     import os
-    try:
+    if not os.path.exists(outputDir / packageName):
         os.mkdir(outputDir / packageName)
-    except FileExistsError:
-        pass
-
-    stubFile = outputDir / packageName / "__init__.py"
-
-    with open(stubFile, "w") as std_f:
-        for f in inDir.iterdir():
-            if not f.suffix == ".scad":
-                continue
-
-            std_f.write(f"from . import {escape(Path(f.name).stem)}\n")
+    if not os.path.exists(outputDir / packageName / "__init__.py"):
+        with open(outputDir / packageName / "__init__.py", "w") : pass
 
 
 if __name__ == "__main__":
