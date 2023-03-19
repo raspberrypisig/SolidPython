@@ -87,12 +87,14 @@ def get_scad_file_as_dict(filename):
 
     #create a wrapper for each callable and add it to the dict
     new_namespace_dict = {}
-    for c in callables:
-        wrapper = create_openscad_wrapper_from_symbols(c.name, [], c.kwargs)
-        new_namespace_dict[escape_openscad_identifier(c.name)] = wrapper
+    if callables:
+        for c in callables:
+            wrapper = create_openscad_wrapper_from_symbols(c.name, [], c.kwargs)
+            new_namespace_dict[escape_openscad_identifier(c.name)] = wrapper
 
-    for c in global_vars:
-        new_namespace_dict[escape_openscad_identifier(c.name)] = \
+    if global_vars:
+        for c in global_vars:
+            new_namespace_dict[escape_openscad_identifier(c.name)] = \
                                                         OpenSCADConstant(c.name)
 
     return new_namespace_dict

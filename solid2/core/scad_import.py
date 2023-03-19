@@ -88,17 +88,17 @@ def load_scad_file_or_dir_into_dict(filename, dest_namespace_dict, use_not_inclu
 #    Unless you have a specific need, call use().
 def get_callers_namespace_dict(depth=2):
     frame = inspect.currentframe()
-    for i in range(depth):
+    for _ in range(depth):
+        assert(frame)
         frame = frame.f_back
 
+    assert(frame)
     if frame.f_code.co_name == "<module>":
         return frame.f_locals
     else:
         raise Exception("use & include can not be used inside a function!\n" +\
               "they would polute the modules namespace and only if executed. This\n" +\
               "has strange side effects! Use them on module level.\n")
-
-        return frame.f_globals
 
 def use(filename, skip_render=False):
     load_scad_file_or_dir_into_dict(filename, get_callers_namespace_dict(), True, skip_render)

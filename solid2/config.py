@@ -15,9 +15,9 @@ class Config:
         self.enable_pickle_cache = True
         self.pickle_cache_dir = self.get_pickle_cache_dir()
 
-        self.openscad_library_paths = self.openscad_library_paths()
+        self.openscad_library_paths = self.get_openscad_library_paths()
 
-    def openscad_library_paths(self):
+    def get_openscad_library_paths(self):
         """
         Return system-dependent OpenSCAD library paths or paths defined in
         os.environ['OPENSCADPATH'] """
@@ -40,7 +40,7 @@ class Config:
         #system wide paths
         if platform.system() == 'Linux':
             #sorry, but I've no clue what the paths are on other operating systems
-            paths.append("/usr/share/openscad/libraries")
+            paths.append(Path("/usr/share/openscad/libraries"))
 
         return paths
 
