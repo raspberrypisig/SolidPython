@@ -1,7 +1,7 @@
-from .object_base import OpenSCADObject
+from ..object_base import OpenSCADObject
 
 from pathlib import Path
-from typing import Dict, Optional, Sequence, Tuple, Union, List
+from typing import Sequence, Tuple, Union
 
 PathStr = Union[Path, str]
 

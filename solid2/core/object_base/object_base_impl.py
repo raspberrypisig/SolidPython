@@ -1,29 +1,26 @@
-from .accessSyntaxBase import AccessSyntaxBase
-from .operatorBase import OperatorBase
+from .access_syntax_mixin import AccessSyntaxMixin
+from .operator_mixin import OperatorMixin
 
 #don't do relative imports on the global scope to be able to import this file
 #from "everywhere"
 
-class ObjectBaseInterface(AccessSyntaxBase, OperatorBase):
-    def _render(self):
-        return ""
-
+class RenderMixin:
     def __repr__(self):
         return self.as_scad()
 
     def as_scad(self):
-        from .scad_render import scad_render
+        from ..scad_render import scad_render
         return scad_render(self)[:-1]
 
     def save_as_scad(self, filename='', outdir=''):
-        from .scad_render import scad_render_to_file
+        from ..scad_render import scad_render_to_file
         return scad_render_to_file(self, filename, outdir)
 
     def save_as_stl(self, filename='', outdir=''):
-        from .scad_render import render_to_stl_file
+        from ..scad_render import render_to_stl_file
         return render_to_stl_file(self, filename)
 
-class ObjectBase(ObjectBaseInterface):
+class ObjectBase(AccessSyntaxMixin, OperatorMixin, RenderMixin):
     def __init__(self):
         self.children = []
 
@@ -53,6 +50,7 @@ class ObjectBase(ObjectBaseInterface):
             self.add(a)
         return self
 
+
 class OpenSCADObject(ObjectBase):
     def __init__(self, name, params):
         super().__init__()
@@ -66,7 +64,7 @@ class OpenSCADObject(ObjectBase):
 
             -> translate(v = [1, 2, 3]) {children[0]; children[1]; ...};\n
         """
-        from .utils import indent
+        from ..utils import indent
         s = self.generate_scad_head()
 
         if self.children:
@@ -85,8 +83,8 @@ class OpenSCADObject(ObjectBase):
                 {name}(p1=v1, p2=v2,...)
                 -> translate(v = [1, 2, 3])
         """
-        from .utils import unescape_openscad_identifier, py2openscad
-        from ..config import config
+        from ..utils import unescape_openscad_identifier, py2openscad
+        from ...config import config
 
         param_strings = []
         for p in sorted(self.params.keys()):
@@ -112,7 +110,7 @@ class OpenSCADConstant:
     def __init__(self, value):
         self.value = value
 
-        from .utils import escape_openscad_identifier
+        from ..utils import escape_openscad_identifier
         self.__doc__ = escape_openscad_identifier(value)
 
     def __repr__(self):

@@ -10,7 +10,7 @@ class Config:
         self.use_implicit_builtins = "--implicit" in sys.argv
 
         builtins_suffix = ".openscad" if not self.use_implicit_builtins else ".implicit"
-        self.builtins_file = Path(__file__).absolute().parent / ("core/builtins" + builtins_suffix)
+        self.builtins_file = Path(__file__).absolute().parent / ("core/builtins/builtins" + builtins_suffix)
 
         self.enable_pickle_cache = True
         self.pickle_cache_dir = self.get_pickle_cache_dir()

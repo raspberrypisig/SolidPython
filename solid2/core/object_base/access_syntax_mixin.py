@@ -1,10 +1,10 @@
-from ..config import config
+from ...config import config
 
 def builtins():
-    from . import builtins
+    from .. import builtins
     return builtins
 
-class AccessSyntaxBase:
+class AccessSyntaxMixin:
     if not config.use_implicit_builtins:
         def intersection_for(self, n):     return builtins().intersection_for(n)(self)
         def color(self, color, alpha=1.0): return builtins().color(color, alpha)(self)

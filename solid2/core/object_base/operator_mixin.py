@@ -1,11 +1,11 @@
 
-class OperatorBase:
+class OperatorMixin:
     def union_op(self, x):
         """
         This makes u = a+b identical to:
         u = union()(a, b )
         """
-        from . import builtins
+        from .. import builtins
         res = builtins.union()
 
         #add self or all its children to res
@@ -29,7 +29,7 @@ class OperatorBase:
         This makes u = a - b identical to:
         u = difference()(a, b )
         """
-        from . import builtins
+        from .. import builtins
         res = builtins.difference()
 
         if isinstance(self, builtins.difference) and len(self.children):
@@ -46,7 +46,7 @@ class OperatorBase:
         This makes u = a * b identical to:
         u = intersection()(a, b )
         """
-        from . import builtins
+        from .. import builtins
         res = builtins.intersection()
 
         if isinstance(self, builtins.intersection) and len(self.children):
@@ -69,5 +69,5 @@ class OperatorBase:
     def __sub__(self, x): return self.difference_op(x)
     def __mul__(self, x): return self.intersection_op(x)
     def __and__(self, x): return self.intersection_op(x)
-    def __invert__(self): from . import builtins; return builtins.debug()(self)
+    def __invert__(self): from .. import builtins; return builtins.debug()(self)
 
