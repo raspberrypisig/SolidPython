@@ -7,7 +7,7 @@ from solid2 import *
 ball_radius = 100
 
 class Vector3:
-    def __init__(self, x=0, y=0, z=0):
+    def __init__(self, x=0.0, y=0.0, z=0.0):
         self.x = x
         self.y = y
         self.z = z
@@ -29,7 +29,7 @@ class Vector3:
 def get_bouncing_ball_data(pos=Vector3(), vel=Vector3(5.0, 5.0, 200.0)):
     data = []
     gravity = Vector3(0.0, 0.0, -8.0)
-    for t in range(1000):
+    for _ in range(1000):
         vel = (vel + gravity) * 0.995
         pos += vel
         if pos.z < ball_radius:

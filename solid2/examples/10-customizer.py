@@ -23,7 +23,7 @@ scene += translate(cube_pos) (
             cube(cube_size * 2))
 
 scene += translate([0, -20, 0]) (
-            text(customizedText))
+            text(str(customizedText)))
 
 scad_render_to_file(scene)
 
