@@ -10,7 +10,7 @@ from solid2.core.object_base import OpenSCADObject, OpenSCADConstant
 from solid2.core.scad_import import extra_scad_include
 from pathlib import Path
 
-extra_scad_include(f"{{Path(__file__).parent.parent / '{scadFile}'}}", use_not_include={use_not_include})
+extra_scad_include(f"{{Path(__file__).parent / Path('../'*{parentCount}) / '{scadFile}'}}", use_not_include={use_not_include})
 
 """
 
@@ -25,12 +25,14 @@ class {name}(OpenSCADObject):
 
 def generateStub(scadFile, outputDir, use_not_include,
                  headerTemplate=headerTemplate,
-                 callableTemplate=callableTemplate):
+                 callableTemplate=callableTemplate,
+                 parentCount=1):
 
     def generateHeader():
         return headerTemplate.format(__file__=__file__,
                                      scadFile=scadFile,
-                                     use_not_include=use_not_include)
+                                     use_not_include=use_not_include,
+                                     parentCount=parentCount)
 
     def generateConstant(c):
         return constantTemplate.format(name=escape(c.name)) + "\n"
@@ -59,12 +61,12 @@ def generateStub(scadFile, outputDir, use_not_include,
         for c in modules + functions:
             f.write(generateCallable(c))
 
-def generateInit(inDir, outputDir, packageName):
+def makePackage(directory):
     import os
-    if not os.path.exists(outputDir / packageName):
-        os.mkdir(outputDir / packageName)
-    if not os.path.exists(outputDir / packageName / "__init__.py"):
-        with open(outputDir / packageName / "__init__.py", "w") : pass
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+    if not os.path.exists(directory / "__init__.py"):
+        with open(directory / "__init__.py", "w") : pass
 
 
 if __name__ == "__main__":
@@ -81,11 +83,13 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    generateInit(Path(args.scadInDir), Path("."), args.packageName)
+    def generatePackage(inDir, outDir, parentCount=1):
+        for f in inDir.iterdir():
+            if f.is_dir():
+                makePackage(outDir)
+                generatePackage(inDir / f.name, outDir / f.name, parentCount+1)
+            elif f.suffix == ".scad":
+                makePackage(outDir)
+                generateStub(f, outDir, args.include, parentCount=parentCount)
 
-    for f in Path(args.scadInDir).iterdir():
-        if not f.suffix == ".scad":
-            continue
-
-        generateStub(f, Path(".") / args.packageName, args.include)
-
+    generatePackage(Path(args.scadInDir), Path(".") / args.packageName)
