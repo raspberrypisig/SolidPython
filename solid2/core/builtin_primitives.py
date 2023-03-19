@@ -25,11 +25,11 @@ class polygon(OpenSCADObject):
     :param points: the list of points of the polygon
     :type points: sequence of 2 element sequences
 
-    :param paths: Either a single vector, enumerating the point list, ie. the 
-    order to traverse the points, or, a vector of vectors, ie a list of point 
-    lists for each separate curve of the polygon. The latter is required if the 
-    polygon has holes. The parameter is optional and if omitted the points are 
-    assumed in order. (The 'pN' components of the *paths* vector are 0-indexed 
+    :param paths: Either a single vector, enumerating the point list, ie. the
+    order to traverse the points, or, a vector of vectors, ie a list of point
+    lists for each separate curve of the polygon. The latter is required if the
+    polygon has holes. The parameter is optional and if omitted the points are
+    assumed in order. (The 'pN' components of the *paths* vector are 0-indexed
     references to the elements of the *points* vector.)
 
     :param convexity: OpenSCAD's convexity... yadda yadda
@@ -79,13 +79,13 @@ class square(OpenSCADObject):
     in the first quadrant. The argument names are optional if the arguments
     are given in the same order as specified in the parameters
 
-    :param size: If a single number is given, the result will be a square with 
-    sides of that length. If a 2 value sequence is given, then the values will 
+    :param size: If a single number is given, the result will be a square with
+    sides of that length. If a 2 value sequence is given, then the values will
     correspond to the lengths of the X and Y sides.  Default value is 1.
     :type size: number or 2 value sequence
 
-    :param center: This determines the positioning of the object. If True, 
-    object is centered at (0,0). Otherwise, the square is placed in the positive 
+    :param center: This determines the positioning of the object. If True,
+    object is centered at (0,0). Otherwise, the square is placed in the positive
     quadrant with one corner at (0,0). Defaults to False.
     :type center: boolean
     """
@@ -122,13 +122,13 @@ class cube(OpenSCADObject):
     the first octant. The argument names are optional if the arguments are
     given in the same order as specified in the parameters
 
-    :param size: If a single number is given, the result will be a cube with 
-    sides of that length. If a 3 value sequence is given, then the values will 
+    :param size: If a single number is given, the result will be a cube with
+    sides of that length. If a 3 value sequence is given, then the values will
     correspond to the lengths of the X, Y, and Z sides. Default value is 1.
     :type size: number or 3 value sequence
 
-    :param center: This determines the positioning of the object. If True, 
-    object is centered at (0,0,0). Otherwise, the cube is placed in the positive 
+    :param center: This determines the positioning of the object. If True,
+    object is centered at (0,0,0). Otherwise, the cube is placed in the positive
     quadrant with one corner at (0,0,0). Defaults to False
     :type center: boolean
     """
@@ -147,7 +147,7 @@ class cylinder(OpenSCADObject):
     :param h: This is the height of the cylinder. Default value is 1.
     :type h: number
 
-    :param r: The radius of both top and bottom ends of the cylinder. Use this 
+    :param r: The radius of both top and bottom ends of the cylinder. Use this
     parameter if you want plain cylinder. Default value is 1.
     :type r: number
 
@@ -167,8 +167,8 @@ class cylinder(OpenSCADObject):
     :param d2: This is the diameter of the cone on top end. Default value is 1.
     :type d2: number
 
-    :param center: If True will center the height of the cone/cylinder around 
-    the origin. Default is False, placing the base of the cylinder or r1 radius 
+    :param center: If True will center the height of the cone/cylinder around
+    the origin. Default is False, placing the base of the cylinder or r1 radius
     of cone at the origin.
     :type center: boolean
 
@@ -196,19 +196,19 @@ class polyhedron(OpenSCADObject):
 
     :param points: sequence of points or vertices (each a 3 number sequence).
 
-    :param triangles: (*deprecated in version 2014.03, use faces*) vector of 
-    point triplets (each a 3 number sequence). Each number is the 0-indexed point 
+    :param triangles: (*deprecated in version 2014.03, use faces*) vector of
+    point triplets (each a 3 number sequence). Each number is the 0-indexed point
     number from the point vector.
 
-    :param faces: (*introduced in version 2014.03*) vector of point n-tuples 
-    with n >= 3. Each number is the 0-indexed point number from the point vector.  
-    That is, faces=[[0,1,4]] specifies a triangle made from the first, second, 
-    and fifth point listed in points. When referencing more than 3 points in a 
+    :param faces: (*introduced in version 2014.03*) vector of point n-tuples
+    with n >= 3. Each number is the 0-indexed point number from the point vector.
+    That is, faces=[[0,1,4]] specifies a triangle made from the first, second,
+    and fifth point listed in points. When referencing more than 3 points in a
     single tuple, the points must all be on the same plane.
 
-    :param convexity: The convexity parameter specifies the maximum number of 
-    front sides (back sides) a ray intersecting the object might penetrate. This 
-    parameter is only needed for correctly displaying the object in OpenCSG 
+    :param convexity: The convexity parameter specifies the maximum number of
+    front sides (back sides) a ray intersecting the object might penetrate. This
+    parameter is only needed for correctly displaying the object in OpenCSG
     preview mode and has no effect on the polyhedron rendering.
     :type convexity: int
     """
@@ -308,7 +308,7 @@ class resize(OpenSCADObject):
 
     :param newsize: X, Y and Z values
     :type newsize: 3 value sequence
-    
+
     :param auto: 3-tuple of booleans to specify which axes should be scaled
     :type auto: 3 boolean sequence
     """
@@ -341,7 +341,7 @@ class color(OpenSCADObject):
     :type c: sequence of 3 or 4 numbers between 0 and 1, OR 3-, 4-, 6-, or 8-digit RGB/A hex code, OR string color name as described at https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#color
 
     :param alpha: Alpha value from 0 to 1
-    :type alpha: float 
+    :type alpha: float
     """
 
     def __init__(self, c: Union[Vec34, str], alpha: float = 1.0) -> None:
@@ -361,19 +361,19 @@ class minkowski(OpenSCADObject):
 
 class offset(OpenSCADObject):
     """
-    
-    :param r: Amount to offset the polygon (rounded corners). When negative, 
-        the polygon is offset inwards. The parameter r specifies the radius 
+
+    :param r: Amount to offset the polygon (rounded corners). When negative,
+        the polygon is offset inwards. The parameter r specifies the radius
         that is used to generate rounded corners, using delta gives straight edges.
     :type r: number
-    
-    :param delta: Amount to offset the polygon (sharp corners). When negative, 
-        the polygon is offset inwards. The parameter r specifies the radius 
+
+    :param delta: Amount to offset the polygon (sharp corners). When negative,
+        the polygon is offset inwards. The parameter r specifies the radius
         that is used to generate rounded corners, using delta gives straight edges.
     :type delta: number
-    
-    :param chamfer: When using the delta parameter, this flag defines if edges 
-        should be chamfered (cut off with a straight line) or not (extended to 
+
+    :param chamfer: When using the delta parameter, this flag defines if edges
+        should be chamfered (cut off with a straight line) or not (extended to
         their intersection).
     :type chamfer: bool
 
@@ -430,14 +430,14 @@ class linear_extrude(OpenSCADObject):
     :param center: determines if the object is centered on the Z-axis after extrusion.
     :type center: boolean
 
-    :param convexity: The convexity parameter specifies the maximum number of 
-    front sides (back sides) a ray intersecting the object might penetrate. This 
-    parameter is only needed for correctly displaying the object in OpenCSG 
+    :param convexity: The convexity parameter specifies the maximum number of
+    front sides (back sides) a ray intersecting the object might penetrate. This
+    parameter is only needed for correctly displaying the object in OpenCSG
     preview mode and has no effect on the polyhedron rendering.
     :type convexity: int
 
-    :param twist: Twist is the number of degrees of through which the shape is 
-    extruded.  Setting to 360 will extrude through one revolution.  The twist 
+    :param twist: Twist is the number of degrees of through which the shape is
+    extruded.  Setting to 360 will extrude through one revolution.  The twist
     direction follows the left hand rule.
     :type twist: number
 
@@ -471,17 +471,17 @@ class rotate_extrude(OpenSCADObject):
     is in the negative axis the faces will be inside-out, you probably don't
     want to do that; it may be fixed in the future.
 
-    :param angle: Defaults to 360. Specifies the number of degrees to sweep, 
-    starting at the positive X axis. The direction of the sweep follows the 
+    :param angle: Defaults to 360. Specifies the number of degrees to sweep,
+    starting at the positive X axis. The direction of the sweep follows the
     Right Hand Rule, hence a negative angle will sweep clockwise.
     :type angle: number
-    
+
     :param _fn: Number of fragments in 360 degrees.
     :type _fn: int
 
-    :param convexity: The convexity parameter specifies the maximum number of 
-    front sides (back sides) a ray intersecting the object might penetrate. This 
-    parameter is only needed for correctly displaying the object in OpenCSG 
+    :param convexity: The convexity parameter specifies the maximum number of
+    front sides (back sides) a ray intersecting the object might penetrate. This
+    parameter is only needed for correctly displaying the object in OpenCSG
     preview mode and has no effect on the polyhedron rendering.
     :type convexity: int
 
@@ -509,8 +509,8 @@ class projection(OpenSCADObject):
     Creates 2d shapes from 3d models, and export them to the dxf format.
     It works by projecting a 3D model to the (x,y) plane, with z at 0.
 
-    :param cut: when True only points with z=0 will be considered (effectively 
-    cutting the object) When False points above and below the plane will be 
+    :param cut: when True only points with z=0 will be considered (effectively
+    cutting the object) When False points above and below the plane will be
     considered as well (creating a proper projection).
     :type cut: boolean
     """
@@ -526,19 +526,19 @@ class surface(OpenSCADObject):
     :param file: The path to the file containing the heightmap data.
     :type file: PathStr
 
-    :param center: This determines the positioning of the generated object. If 
-    True, object is centered in X- and Y-axis. Otherwise, the object is placed 
+    :param center: This determines the positioning of the generated object. If
+    True, object is centered in X- and Y-axis. Otherwise, the object is placed
     in the positive quadrant. Defaults to False.
     :type center: boolean
 
-    :param invert: Inverts how the color values of imported images are translated 
-    into height values. This has no effect when importing text data files. 
+    :param invert: Inverts how the color values of imported images are translated
+    into height values. This has no effect when importing text data files.
     Defaults to False.
     :type invert: boolean
 
-    :param convexity: The convexity parameter specifies the maximum number of 
-    front sides (back sides) a ray intersecting the object might penetrate. 
-    This parameter is only needed for correctly displaying the object in OpenCSG 
+    :param convexity: The convexity parameter specifies the maximum number of
+    front sides (back sides) a ray intersecting the object might penetrate.
+    This parameter is only needed for correctly displaying the object in OpenCSG
     preview mode and has no effect on the polyhedron rendering.
     :type convexity: int
     """
@@ -551,39 +551,39 @@ class surface(OpenSCADObject):
 
 class text(OpenSCADObject):
     """
-    Create text using fonts installed on the local system or provided as separate 
+    Create text using fonts installed on the local system or provided as separate
     font file.
 
     :param text: The text to generate.
     :type text: string
 
-    :param size: The generated text will have approximately an ascent of the given 
-    value (height above the baseline). Default is 10.  Note that specific fonts 
-    will vary somewhat and may not fill the size specified exactly, usually 
+    :param size: The generated text will have approximately an ascent of the given
+    value (height above the baseline). Default is 10.  Note that specific fonts
+    will vary somewhat and may not fill the size specified exactly, usually
     slightly smaller.
     :type size: number
 
-    :param font: The name of the font that should be used. This is not the name 
-    of the font file, but the logical font name (internally handled by the 
-    fontconfig library). A list of installed fonts can be obtained using the 
+    :param font: The name of the font that should be used. This is not the name
+    of the font file, but the logical font name (internally handled by the
+    fontconfig library). A list of installed fonts can be obtained using the
     font list dialog (Help -> Font List).
     :type font: string
 
-    :param halign: The horizontal alignment for the text. Possible values are 
+    :param halign: The horizontal alignment for the text. Possible values are
     "left", "center" and "right". Default is "left".
     :type halign: string
 
-    :param valign: The vertical alignment for the text. Possible values are 
+    :param valign: The vertical alignment for the text. Possible values are
     "top", "center", "baseline" and "bottom". Default is "baseline".
     :type valign: string
 
-    :param spacing: Factor to increase/decrease the character spacing.  The 
-    default value of 1 will result in the normal spacing for the font, giving 
+    :param spacing: Factor to increase/decrease the character spacing.  The
+    default value of 1 will result in the normal spacing for the font, giving
     a value greater than 1 will cause the letters to be spaced further apart.
     :type spacing: number
 
-    :param direction: Direction of the text flow. Possible values are "ltr" 
-    (left-to-right), "rtl" (right-to-left), "ttb" (top-to-bottom) and "btt" 
+    :param direction: Direction of the text flow. Possible values are "ltr"
+    (left-to-right), "rtl" (right-to-left), "ttb" (top-to-bottom) and "btt"
     (bottom-to-top). Default is "ltr".
     :type direction: string
 
@@ -593,7 +593,7 @@ class text(OpenSCADObject):
     :param script: The script of the text. Default is "latin".
     :type script: string
 
-    :param _fn: used for subdividing the curved path _fn provided by 
+    :param _fn: used for subdividing the curved path _fn provided by
     freetype
     :type _fn: int
     """
@@ -622,11 +622,11 @@ class children(OpenSCADObject):
     children() statement within the module. The number of module children
     can be accessed using the $children variable.
 
-    :param index: select one child, at index value. Index start at 0 and should 
+    :param index: select one child, at index value. Index start at 0 and should
     be less than or equal to $children-1.
     :type index: int
 
-    :param vector: select children with index in vector. Index should be between 
+    :param vector: select children with index in vector. Index should be between
     0 and $children-1.
     :type vector: sequence of int
 
@@ -661,9 +661,9 @@ class import_(OpenSCADObject):
     :param file: path to the STL or DXF file.
     :type file: PathStr
 
-    :param convexity: The convexity parameter specifies the maximum number of 
-    front sides (back sides) a ray intersecting the object might penetrate. This 
-    parameter is only needed for correctly displaying the object in OpenCSG 
+    :param convexity: The convexity parameter specifies the maximum number of
+    front sides (back sides) a ray intersecting the object might penetrate. This
+    parameter is only needed for correctly displaying the object in OpenCSG
     preview mode and has no effect on the polyhedron rendering.
     :type convexity: int
     """
@@ -672,6 +672,8 @@ class import_(OpenSCADObject):
         super().__init__('import',
                          {'file': Path(file).as_posix(), 'origin': origin,
                           'convexity': convexity, 'layer': layer})
+
+class _import(import_): pass
 
 
 class intersection_for(OpenSCADObject):
