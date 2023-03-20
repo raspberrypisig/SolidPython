@@ -8,13 +8,13 @@ from .std import union, attachable
 attachable_default_add = attachable.add
 
 def attachable_add(self, c):
-    if len(self.children) == 0:
+    if len(self._children) == 0:
         attachable_default_add(self, c)
-    elif len(self.children) == 1:
+    elif len(self._children) == 1:
         attachable_default_add(self, union()(c))
     else:
-        assert(len(self.children) == 2)
-        self.children[1].add(c)
+        assert(len(self._children) == 2)
+        self._children[1].add(c)
 
 attachable.add = attachable_add
 #============ attachable add end =============

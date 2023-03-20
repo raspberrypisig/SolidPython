@@ -33,7 +33,7 @@ def non_sense_pre_render(root):
         if isinstance(node, non_sense_comment):
             count += 1
 
-        for c in node.children:
+        for c in node._children:
             count += count_nense_recursive(c)
 
         return count

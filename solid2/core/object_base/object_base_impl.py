@@ -22,12 +22,12 @@ class RenderMixin:
 
 class ObjectBase(AccessSyntaxMixin, OperatorMixin, RenderMixin):
     def __init__(self):
-        self.children = []
+        self._children = []
 
     def add(self, c):
         def _add(c):
             assert(hasattr(c, "_render"))
-            self.children += [c]
+            self._children += [c]
 
         if isinstance(c, list):
             for cc in c:
@@ -39,13 +39,13 @@ class ObjectBase(AccessSyntaxMixin, OperatorMixin, RenderMixin):
 
     def _render(self):
         s = ''
-        for c in self.children:
+        for c in self._children:
             s += c._render()
         return s
 
     def __call__(self, *args):
         #translate(...)(cube())
-        #this adds cube() to translate.children
+        #this adds cube() to translate._children
         for a in args:
             self.add(a)
         return self
@@ -54,8 +54,8 @@ class ObjectBase(AccessSyntaxMixin, OperatorMixin, RenderMixin):
 class OpenSCADObject(ObjectBase):
     def __init__(self, name, params):
         super().__init__()
-        self.name = name
-        self.params = params
+        self._name = name
+        self._params = params
 
     def _render(self):
         """
@@ -67,9 +67,9 @@ class OpenSCADObject(ObjectBase):
         from ..utils import indent
         s = self._generate_scad_head()
 
-        if self.children:
+        if self._children:
             s += " {\n"
-            for child in self.children:
+            for child in self._children:
                 s += indent(child._render())
             s += "}"
         else:
@@ -87,21 +87,21 @@ class OpenSCADObject(ObjectBase):
         from ...config import config
 
         param_strings = []
-        for p in sorted(self.params.keys()):
-            if self.params[p] is None:
+        for p in sorted(self._params.keys()):
+            if self._params[p] is None:
                 continue
 
             if config.use_implicit_builtins and \
-                        isinstance(self.params[p], OpenSCADParameterFunction):
+                        isinstance(self._params[p], OpenSCADParameterFunction):
 
-                param_strings.append(self.params[p]._render())
+                param_strings.append(self._params[p]._render())
             else:
-                scad_value = py2openscad(self.params[p])
+                scad_value = py2openscad(self._params[p])
                 scad_identifier = unescape_openscad_identifier(p)
 
                 param_strings.append(f'{scad_identifier} = {scad_value}')
 
-        scad_identifier = unescape_openscad_identifier(self.name)
+        scad_identifier = unescape_openscad_identifier(self._name)
         param_str = ", ".join(param_strings)
 
         return f'{scad_identifier}({param_str})'

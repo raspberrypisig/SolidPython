@@ -9,7 +9,7 @@ class ModifierBase(ObjectBase):
     def __init__(self, child=None):
         super().__init__()
         if child:
-            self.children += [child]
+            self._children += [child]
 
 class debug(ModifierBase):
     def _render(self):

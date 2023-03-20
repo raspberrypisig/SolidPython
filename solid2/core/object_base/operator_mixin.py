@@ -1,39 +1,37 @@
 
 class OperatorMixin:
-    def union_op(self, x):
+    def _union_op(self, x, unionType):
         """
         This makes u = a+b identical to:
         u = union()(a, b )
         """
-        from .. import builtins
-        res = builtins.union()
+        res = unionType()
 
         #add self or all its children to res
-        if isinstance(self, builtins.union):
-            for c in self.children:
+        if isinstance(self, unionType):
+            for c in self._children:
                 res.add(c)
         else:
             res.add(self)
 
         #add x or all its children to res
-        if isinstance(x, builtins.union):
-            for c in x.children:
+        if isinstance(x, unionType):
+            for c in x._children:
                 res.add(c)
         else:
             res.add(x)
 
         return res
 
-    def difference_op(self, x):
+    def _difference_op(self, x, differenceType):
         """
         This makes u = a - b identical to:
         u = difference()(a, b )
         """
-        from .. import builtins
-        res = builtins.difference()
+        res = differenceType()
 
-        if isinstance(self, builtins.difference) and len(self.children):
-            for c in self.children:
+        if isinstance(self, differenceType) and len(self._children):
+            for c in self._children:
                 res.add(c)
         else:
             res.add(self)
@@ -41,33 +39,45 @@ class OperatorMixin:
         res.add(x)
         return res
 
-    def intersection_op(self, x):
+    def _intersection_op(self, x, intersectionType):
         """
         This makes u = a * b identical to:
         u = intersection()(a, b )
         """
-        from .. import builtins
-        res = builtins.intersection()
+        res = intersectionType()
 
-        if isinstance(self, builtins.intersection) and len(self.children):
-            for c in self.children:
+        if isinstance(self, intersectionType) and len(self._children):
+            for c in self._children:
                 res.add(c)
         else:
             res.add(self)
 
-        if isinstance(x, builtins.intersection):
-            for c in x.children:
+        if isinstance(x, intersectionType):
+            for c in x._children:
                 res.add(c)
         else:
             res.add(x)
 
         return res
 
-    def __add__(self, x): return self.union_op(x)
-    def __or__(self, x): return self.union_op(x)
-    def __radd__(self, x): return self.union_op(x)
-    def __sub__(self, x): return self.difference_op(x)
-    def __mul__(self, x): return self.intersection_op(x)
-    def __and__(self, x): return self.intersection_op(x)
-    def __invert__(self): from .. import builtins; return builtins.debug()(self)
+    def __add__(self, x):
+        from ..builtins import union
+        return self._union_op(x, union)
+    def __or__(self, x):
+        from ..builtins import union
+        return self._union_op(x, union)
+    def __radd__(self, x):
+        from ..builtins import union
+        return self._union_op(x, union)
+    def __sub__(self, x):
+        from ..builtins import difference
+        return self._difference_op(x, difference)
+    def __mul__(self, x):
+        from ..builtins import intersection
+        return self._intersection_op(x, intersection)
+    def __and__(self, x):
+        from ..builtins import intersection
+        return self._intersection_op(x, intersection)
+    def __invert__(self):
+        from .. import builtins; return builtins.debug()(self)
 
