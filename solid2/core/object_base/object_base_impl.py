@@ -20,7 +20,7 @@ class RenderMixin:
         from ..scad_render import render_to_stl_file
         return render_to_stl_file(self, filename)
 
-class ObjectBase(AccessSyntaxMixin, OperatorMixin, RenderMixin):
+class ObjectBase(RenderMixin):
     def __init__(self):
         self._children = []
 
@@ -51,7 +51,7 @@ class ObjectBase(AccessSyntaxMixin, OperatorMixin, RenderMixin):
         return self
 
 
-class OpenSCADObject(ObjectBase):
+class BareOpenSCADObject(ObjectBase):
     def __init__(self, name, params):
         super().__init__()
         self._name = name
@@ -105,6 +105,9 @@ class OpenSCADObject(ObjectBase):
         param_str = ", ".join(param_strings)
 
         return f'{scad_identifier}({param_str})'
+
+class OpenSCADObject(AccessSyntaxMixin, OperatorMixin, BareOpenSCADObject):
+    pass
 
 class OpenSCADConstant:
     def __init__(self, value):
