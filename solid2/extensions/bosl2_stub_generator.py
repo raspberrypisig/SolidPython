@@ -8,18 +8,18 @@ from solid2.libs.py_scadparser import scad_parser
 from openscad_extension_generator import generateStub
 
 headerTemplate = """\
-from solid2.core.object_base import OpenSCADObject as _OpenSCADObject,\
-                                    OpenSCADConstant as _OpenSCADConstant
+from solid2.core.object_base import OpenSCADConstant as _OpenSCADConstant
 from solid2.core.scad_import import extra_scad_include as _extra_scad_include
 from pathlib import Path as _Path
-from .bosl2_mixin import Bosl2Mixin as _Bosl2Mixin
+
+from .bosl2_base import Bosl2Base as _Bosl2Base
 
 _extra_scad_include(f"{{_Path(__file__).parent.parent / '{scadFile}'}}", use_not_include={use_not_include})
 
 """
 
 callableTemplate = """\
-class {name}(_OpenSCADObject, _Bosl2Mixin):
+class {name}(_Bosl2Base):
     def __init__({paramStr}):
        super().__init__({initStr})
 
@@ -47,17 +47,17 @@ def generateBosl2Std(bosl2_dir):
 
 
 mixinHeader = """
-def std():
-    from . import std
-    return std
+class Bosl2AccessSyntaxMixin:
 
-class Bosl2Mixin:
+    def _get_std(self):
+        from . import std
+        return std
 """
 mixinTemplate = """
     def {name}(self, {paramListWithDefaults}**kwargs):
-        return std().{name}({paramList}**kwargs)(self)
+        return self._get_std().{name}({paramList}**kwargs)(self)
 """
-def generateBosl2Mixin(bosl2_dir, outputDir):
+def generateBosl2AccessSyntaxMixin(bosl2_dir, outputDir):
     def generateCallable(c):
         name = escape(c.name)
         paramNames = [escape(p.name) for p in c.parameters]
@@ -80,7 +80,7 @@ def generateBosl2Mixin(bosl2_dir, outputDir):
         modules += m
 
 
-    with open(outputDir / "bosl2_mixin.py", "w") as f:
+    with open(outputDir / "bosl2_access_syntax_mixin.py", "w") as f:
         f.write(mixinHeader)
 
         for c in modules:
@@ -92,7 +92,7 @@ bosl2_dir = Path("../libs/BOSL2")
 output_dir = Path(__file__).parent / "bosl2"
 
 generateBosl2Std(bosl2_dir)
-generateBosl2Mixin(bosl2_dir, output_dir)
+generateBosl2AccessSyntaxMixin(bosl2_dir, output_dir)
 
 for f in bosl2_dir.iterdir():
     if not f.suffix == ".scad":
