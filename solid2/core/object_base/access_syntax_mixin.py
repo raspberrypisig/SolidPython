@@ -10,7 +10,7 @@ class AccessSyntaxMixin:
         def color(self, color, alpha=1.0): return builtins().color(color, alpha)(self)
         def hull(self):                    return builtins().hull()(self)
         def render(self, convexity=None):  return builtins().render(convexity)(self)
-        def projection(self, cut=None):    return builtins().projection(cut=None)(self)
+        def projection(self, cut=None):    return builtins().projection(cut)(self)
 
         def surface(self, file, center=None, convexity=None, invert=None):
             return builtins().surface(file, center, convexity, invert)(self)
@@ -20,9 +20,9 @@ class AccessSyntaxMixin:
         def mirror(self, *args, **kwargs): return builtins().mirror(*args, **kwargs)(self)
         def resize(self, *args, **kwargs): return builtins().resize(*args, **kwargs)(self)
 
-        def mirrorX(self, x): return builtins().mirrorX(x)(self)
-        def mirrorY(self, y): return builtins().mirrorY(y)(self)
-        def mirrorZ(self, z): return builtins().mirrorZ(z)(self)
+        def mirrorX(self): return builtins().mirrorX()(self)
+        def mirrorY(self): return builtins().mirrorY()(self)
+        def mirrorZ(self): return builtins().mirrorZ()(self)
 
         def resizeX(self, x): return builtins().resizeX(x)(self)
         def resizeY(self, y): return builtins().resizeY(y)(self)
@@ -34,10 +34,12 @@ class AccessSyntaxMixin:
 
 
     def rotate_extrude(self, angle=None, convexity=None, _fn=None):
-        return builtins().rotate_extrude(*args, **kwargs)(self)
+        return builtins().rotate_extrude(angle, convexity, _fn)(self)
+
     def linear_extrude(self, height=None, center=None, convexity=None, \
                        twist=None, slices=None, scale=None):
-        return builtins().linear_extrude(height, center, convexity, twist, slices, scale)(self)
+        return builtins().linear_extrude(height, center, convexity, twist,
+                                         slices, scale)(self)
 
     def translate(self, *args, **kwargs): return builtins().translate(*args, **kwargs)(self)
     def scale(self, *args, **kwargs):     return builtins().scale(*args, **kwargs)(self)

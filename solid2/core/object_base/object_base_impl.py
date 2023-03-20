@@ -65,7 +65,7 @@ class OpenSCADObject(ObjectBase):
             -> translate(v = [1, 2, 3]) {children[0]; children[1]; ...};\n
         """
         from ..utils import indent
-        s = self.generate_scad_head()
+        s = self._generate_scad_head()
 
         if self.children:
             s += " {\n"
@@ -77,7 +77,7 @@ class OpenSCADObject(ObjectBase):
 
         return s + "\n"
 
-    def generate_scad_head(self):
+    def _generate_scad_head(self):
         """
             for a given function name and dict of params it returns:
                 {name}(p1=v1, p2=v2,...)
