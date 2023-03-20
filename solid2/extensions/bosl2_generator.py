@@ -25,11 +25,28 @@ class {name}(_Bosl2Base):
 
 """
 
+mixinHeader = """
+class Bosl2AccessSyntaxMixin:
+
+    def _get_std(self):
+        from . import std
+        return std
+"""
+mixinTemplate = """
+    def {name}(self, {paramListWithDefaults}**kwargs):
+        return self._get_std().{name}({paramList}**kwargs)(self)
+"""
+
+scad_builtins_mutators = \
+    Path(__file__).parent.parent / "core" / "builtins" / "openscad.mutators"
+scad_builtins_primitives = \
+    Path(__file__).parent.parent / "core" / "builtins" / "openscad.primitives"
 
 def generateBosl2Std(bosl2_dir):
     stubFile = Path(__file__).absolute().parent / "bosl2" / "std.py"
 
     with open(stubFile, "w") as std_f:
+        std_f.write("from .openscad import *\n")
         stdlibs = []
         with open(bosl2_dir / "std.scad") as f:
             for l in f.readlines():
@@ -46,17 +63,6 @@ def generateBosl2Std(bosl2_dir):
             #     std_f.write(f"from . import {f.stem}\n")
 
 
-mixinHeader = """
-class Bosl2AccessSyntaxMixin:
-
-    def _get_std(self):
-        from . import std
-        return std
-"""
-mixinTemplate = """
-    def {name}(self, {paramListWithDefaults}**kwargs):
-        return self._get_std().{name}({paramList}**kwargs)(self)
-"""
 def generateBosl2AccessSyntaxMixin(bosl2_dir, outputDir):
     def generateCallable(c):
         name = escape(c.name)
@@ -72,11 +78,16 @@ def generateBosl2AccessSyntaxMixin(bosl2_dir, outputDir):
                                     paramListWithDefaults=paramListWithDefaults,
                                     paramList=paramList)
 
-    mixinFiles = ["transforms", "attachments", "mutators",
-                  "distributors", "partitions", "color"]
+    mixinFiles = [scad_builtins_mutators]
+
+    mods = ["transforms", "attachments", "mutators",
+            "distributors", "partitions", "color"]
+    for m in mods:
+        mixinFiles.append((bosl2_dir / m).with_suffix(".scad"))
+
     modules = []
     for f in mixinFiles:
-        m, _, _ = scad_parser.parseFile((bosl2_dir / f).with_suffix(".scad"))
+        m, _, _ = scad_parser.parseFile(f)
         modules += m
 
 
@@ -103,4 +114,9 @@ for f in bosl2_dir.iterdir():
     generateStub(f, output_dir, False,
                  headerTemplate=headerTemplate,
                  callableTemplate=callableTemplate)
+
+generateStub(scad_builtins_primitives, output_dir, False,
+                headerTemplate=\
+                    "from .bosl2_base import Bosl2Base as _Bosl2Base\n\n",
+                callableTemplate=callableTemplate)
 

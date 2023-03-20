@@ -40,7 +40,6 @@ module import(file, origin=default, convexity=default, layer=default);
 module assign();
 module multmatrix(m=default);
 
-//builtin primitives
 module polygon(points, paths=default, convexity=default);
 module circle(r=default, d=default, $fn=default);
 module square(size=default, center=default);
