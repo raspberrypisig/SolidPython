@@ -1,6 +1,6 @@
 from ...config import config
 from ..object_base import ObjectBase
-from .builtins_impl import *
+from .primitives import *
 
 # =============
 # = modifiers =
