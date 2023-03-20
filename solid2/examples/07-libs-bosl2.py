@@ -7,12 +7,9 @@ from solid2.extensions.bosl2 import metric_screws
 def bolt():
     return metric_screws.metric_bolt(size=20, headtype='hex', l=40)
 
-def bounding_box_wrapper(obj):
-    return ~bounding_box()(obj)
-
 def extrude_along_path():
     path = [ [0, 0, 0], [33, 33, 33], [66, 33, 40], [100, 0, 0], [150,0,0] ]
-    return path_extrude(path)(circle(r=10, _fn=6))
+    return circle(r=10, _fn=6).path_extrude(path)
 
 def heightfield_test():
     def get_data():
@@ -52,15 +49,13 @@ def bosl_diff2():
     #        tag("keep") attach(CTR) cylinder(h=40, d=10);
     #    }
     return \
-    diff() (
         cuboid(50) (
             sphere(d=40).attach(TOP).tag("remove"),
             cylinder(h=40, d=10).attach(CTR).tag("keep")
-        )
-    )
+        ).diff()
 
-assembly = bounding_box_wrapper(extrude_along_path()) +\
-           extrude_along_path().color("purple") +\
+assembly = ~extrude_along_path().bounding_box() +\
+           extrude_along_path().recolor("purple") +\
            bosl_diff2().back(100) +\
            bolt().left(100) +\
            heightfield_test().fwd(100)
