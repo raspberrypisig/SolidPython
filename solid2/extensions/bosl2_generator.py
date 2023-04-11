@@ -5,7 +5,7 @@ from pathlib import Path
 from solid2.core.utils import escape_openscad_identifier as escape
 from solid2.libs.py_scadparser import scad_parser
 
-from openscad_extension_generator import generateStub
+from openscad_extension_generator import generateStub, makePackage
 
 headerTemplate = """\
 from solid2.core.object_base import OpenSCADConstant as _OpenSCADConstant
@@ -102,6 +102,7 @@ def generateBosl2AccessSyntaxMixin(bosl2_dir, outputDir):
 bosl2_dir = Path("../libs/BOSL2")
 output_dir = Path(__file__).parent / "bosl2"
 
+makePackage(output_dir)
 generateBosl2Std(bosl2_dir)
 generateBosl2AccessSyntaxMixin(bosl2_dir, output_dir)
 
