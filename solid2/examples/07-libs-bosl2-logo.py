@@ -97,7 +97,7 @@ def II():
 	# }
 
     screw = screws.screw("M12,70", head="hex", anchor="origin", orient=BACK)
-    nut = screws.nut("M12", thickness=10, diameter=20)
+    nut = screws.nut("M12", thickness=10)
 
     screw.add(nut.attach(BOT, CENTER))
 
