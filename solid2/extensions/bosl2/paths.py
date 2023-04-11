@@ -18,18 +18,6 @@ class force_path(_Bosl2Base):
     def __init__(self, path=None, name=None, **kwargs):
        super().__init__("force_path", {"path" : path, "name" : name, **kwargs})
 
-class is_closed_path(_Bosl2Base):
-    def __init__(self, path=None, eps=None, **kwargs):
-       super().__init__("is_closed_path", {"path" : path, "eps" : eps, **kwargs})
-
-class close_path(_Bosl2Base):
-    def __init__(self, path=None, eps=None, **kwargs):
-       super().__init__("close_path", {"path" : path, "eps" : eps, **kwargs})
-
-class cleanup_path(_Bosl2Base):
-    def __init__(self, path=None, eps=None, **kwargs):
-       super().__init__("cleanup_path", {"path" : path, "eps" : eps, **kwargs})
-
 class _path_select(_Bosl2Base):
     def __init__(self, path=None, s1=None, u1=None, s2=None, u2=None, closed=None, **kwargs):
        super().__init__("_path_select", {"path" : path, "s1" : s1, "u1" : u1, "s2" : s2, "u2" : u2, "closed" : closed, **kwargs})
@@ -90,13 +78,21 @@ class path_torsion(_Bosl2Base):
     def __init__(self, path=None, closed=None, **kwargs):
        super().__init__("path_torsion", {"path" : path, "closed" : closed, **kwargs})
 
-class _path_cut_points(_Bosl2Base):
-    def __init__(self, path=None, dists=None, closed=None, direction=None, **kwargs):
-       super().__init__("_path_cut_points", {"path" : path, "dists" : dists, "closed" : closed, "direction" : direction, **kwargs})
+class path_cut(_Bosl2Base):
+    def __init__(self, path=None, cutdist=None, closed=None, **kwargs):
+       super().__init__("path_cut", {"path" : path, "cutdist" : cutdist, "closed" : closed, **kwargs})
 
-class _path_cut_points_recurse(_Bosl2Base):
+class _path_cut_getpaths(_Bosl2Base):
+    def __init__(self, path=None, cutlist=None, closed=None, **kwargs):
+       super().__init__("_path_cut_getpaths", {"path" : path, "cutlist" : cutlist, "closed" : closed, **kwargs})
+
+class path_cut_points(_Bosl2Base):
+    def __init__(self, path=None, cutdist=None, closed=None, direction=None, **kwargs):
+       super().__init__("path_cut_points", {"path" : path, "cutdist" : cutdist, "closed" : closed, "direction" : direction, **kwargs})
+
+class path_cut_points_recurse(_Bosl2Base):
     def __init__(self, path=None, dists=None, closed=None, pind=None, dtotal=None, dind=None, result=None, **kwargs):
-       super().__init__("_path_cut_points_recurse", {"path" : path, "dists" : dists, "closed" : closed, "pind" : pind, "dtotal" : dtotal, "dind" : dind, "result" : result, **kwargs})
+       super().__init__("path_cut_points_recurse", {"path" : path, "dists" : dists, "closed" : closed, "pind" : pind, "dtotal" : dtotal, "dind" : dind, "result" : result, **kwargs})
 
 class _path_cut_single(_Bosl2Base):
     def __init__(self, path=None, dist=None, closed=None, ind=None, eps=None, **kwargs):
@@ -113,14 +109,6 @@ class _path_plane(_Bosl2Base):
 class _path_cuts_dir(_Bosl2Base):
     def __init__(self, path=None, cuts=None, closed=None, eps=None, **kwargs):
        super().__init__("_path_cuts_dir", {"path" : path, "cuts" : cuts, "closed" : closed, "eps" : eps, **kwargs})
-
-class path_cut(_Bosl2Base):
-    def __init__(self, path=None, cutdist=None, closed=None, **kwargs):
-       super().__init__("path_cut", {"path" : path, "cutdist" : cutdist, "closed" : closed, **kwargs})
-
-class _path_cut_getpaths(_Bosl2Base):
-    def __init__(self, path=None, cutlist=None, closed=None, **kwargs):
-       super().__init__("_path_cut_getpaths", {"path" : path, "cutlist" : cutlist, "closed" : closed, **kwargs})
 
 class _cut_to_seg_u_form(_Bosl2Base):
     def __init__(self, pathcut=None, path=None, closed=None, **kwargs):

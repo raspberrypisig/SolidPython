@@ -110,14 +110,14 @@ class Bosl2AccessSyntaxMixin:
     def frame_map(self, x=None, y=None, z=None, p=None, reverse=None, **kwargs):
         return self._get_std().frame_map(x, y, z, p, reverse, **kwargs)(self)
 
-    def skew(self, p=None, sxy=None, sxz=None, syx=None, syz=None, szx=None, szy=None, **kwargs):
-        return self._get_std().skew(p, sxy, sxz, syx, syz, szx, szy, **kwargs)(self)
+    def skew(self, p=None, sxy=None, sxz=None, syx=None, syz=None, szx=None, szy=None, axy=None, axz=None, ayx=None, ayz=None, azx=None, azy=None, **kwargs):
+        return self._get_std().skew(p, sxy, sxz, syx, syz, szx, szy, axy, axz, ayx, ayz, azx, azy, **kwargs)(self)
 
     def position(self, _from=None, **kwargs):
         return self._get_std().position(_from, **kwargs)(self)
 
-    def orient(self, dir=None, anchor=None, spin=None, **kwargs):
-        return self._get_std().orient(dir, anchor, spin, **kwargs)(self)
+    def orient(self, anchor=None, spin=None, **kwargs):
+        return self._get_std().orient(anchor, spin, **kwargs)(self)
 
     def attach(self, _from=None, to=None, overlap=None, norot=None, **kwargs):
         return self._get_std().attach(_from, to, overlap, norot, **kwargs)(self)
@@ -127,6 +127,9 @@ class Bosl2AccessSyntaxMixin:
 
     def force_tag(self, tag=None, **kwargs):
         return self._get_std().force_tag(tag, **kwargs)(self)
+
+    def default_tag(self, tag=None, **kwargs):
+        return self._get_std().default_tag(tag, **kwargs)(self)
 
     def tag_scope(self, scope=None, **kwargs):
         return self._get_std().tag_scope(scope, **kwargs)(self)
@@ -161,6 +164,9 @@ class Bosl2AccessSyntaxMixin:
     def show_int(self, tags=None, **kwargs):
         return self._get_std().show_int(tags, **kwargs)(self)
 
+    def face_mask(self, faces=None, **kwargs):
+        return self._get_std().face_mask(faces, **kwargs)(self)
+
     def edge_mask(self, edges=None, _except=None, **kwargs):
         return self._get_std().edge_mask(edges, _except, **kwargs)(self)
 
@@ -176,14 +182,14 @@ class Bosl2AccessSyntaxMixin:
     def corner_profile(self, corners=None, _except=None, r=None, d=None, convexity=None, **kwargs):
         return self._get_std().corner_profile(corners, _except, r, d, convexity, **kwargs)(self)
 
-    def attachable(self, anchor=None, spin=None, orient=None, size=None, size2=None, shift=None, r=None, r1=None, r2=None, d=None, d1=None, d2=None, l=None, h=None, vnf=None, path=None, region=None, extent=None, cp=None, offset=None, anchors=None, two_d=None, axis=None, geom=None, **kwargs):
-        return self._get_std().attachable(anchor, spin, orient, size, size2, shift, r, r1, r2, d, d1, d2, l, h, vnf, path, region, extent, cp, offset, anchors, two_d, axis, geom, **kwargs)(self)
+    def attachable(self, anchor=None, spin=None, orient=None, size=None, size2=None, shift=None, r=None, r1=None, r2=None, d=None, d1=None, d2=None, l=None, h=None, vnf=None, path=None, region=None, extent=None, cp=None, offset=None, anchors=None, two_d=None, axis=None, override=None, geom=None, **kwargs):
+        return self._get_std().attachable(anchor, spin, orient, size, size2, shift, r, r1, r2, d, d1, d2, l, h, vnf, path, region, extent, cp, offset, anchors, two_d, axis, override, geom, **kwargs)(self)
 
     def show_anchors(self, s=None, std=None, custom=None, **kwargs):
         return self._get_std().show_anchors(s, std, custom, **kwargs)(self)
 
-    def anchor_arrow(self, s=None, color=None, flag=None, _tag=None, **kwargs):
-        return self._get_std().anchor_arrow(s, color, flag, _tag, **kwargs)(self)
+    def anchor_arrow(self, s=None, color=None, flag=None, _tag=None, _fn=None, anchor=None, spin=None, orient=None, **kwargs):
+        return self._get_std().anchor_arrow(s, color, flag, _tag, _fn, anchor, spin, orient, **kwargs)(self)
 
     def anchor_arrow2d(self, s=None, color=None, _tag=None, **kwargs):
         return self._get_std().anchor_arrow2d(s, color, _tag, **kwargs)(self)
@@ -224,9 +230,6 @@ class Bosl2AccessSyntaxMixin:
     def move_copies(self, a=None, **kwargs):
         return self._get_std().move_copies(a, **kwargs)(self)
 
-    def line_of(self, spacing=None, n=None, l=None, p1=None, p2=None, **kwargs):
-        return self._get_std().line_of(spacing, n, l, p1, p2, **kwargs)(self)
-
     def xcopies(self, spacing=None, n=None, l=None, sp=None, **kwargs):
         return self._get_std().xcopies(spacing, n, l, sp, **kwargs)(self)
 
@@ -236,8 +239,17 @@ class Bosl2AccessSyntaxMixin:
     def zcopies(self, spacing=None, n=None, l=None, sp=None, **kwargs):
         return self._get_std().zcopies(spacing, n, l, sp, **kwargs)(self)
 
+    def line_of(self, spacing=None, n=None, l=None, p1=None, p2=None, **kwargs):
+        return self._get_std().line_of(spacing, n, l, p1, p2, **kwargs)(self)
+
+    def line_copies(self, spacing=None, n=None, l=None, p1=None, p2=None, **kwargs):
+        return self._get_std().line_copies(spacing, n, l, p1, p2, **kwargs)(self)
+
     def grid2d(self, spacing=None, n=None, size=None, stagger=None, inside=None, nonzero=None, **kwargs):
         return self._get_std().grid2d(spacing, n, size, stagger, inside, nonzero, **kwargs)(self)
+
+    def grid_copies(self, spacing=None, n=None, size=None, stagger=None, inside=None, nonzero=None, **kwargs):
+        return self._get_std().grid_copies(spacing, n, size, stagger, inside, nonzero, **kwargs)(self)
 
     def rot_copies(self, rots=None, v=None, cp=None, n=None, sa=None, offset=None, delta=None, subrot=None, **kwargs):
         return self._get_std().rot_copies(rots, v, cp, n, sa, offset, delta, subrot, **kwargs)(self)
@@ -254,14 +266,20 @@ class Bosl2AccessSyntaxMixin:
     def arc_of(self, n=None, r=None, rx=None, ry=None, d=None, dx=None, dy=None, sa=None, ea=None, rot=None, **kwargs):
         return self._get_std().arc_of(n, r, rx, ry, d, dx, dy, sa, ea, rot, **kwargs)(self)
 
+    def arc_copies(self, n=None, r=None, rx=None, ry=None, d=None, dx=None, dy=None, sa=None, ea=None, rot=None, **kwargs):
+        return self._get_std().arc_copies(n, r, rx, ry, d, dx, dy, sa, ea, rot, **kwargs)(self)
+
     def ovoid_spread(self, n=None, r=None, d=None, cone_ang=None, scale=None, perp=None, **kwargs):
         return self._get_std().ovoid_spread(n, r, d, cone_ang, scale, perp, **kwargs)(self)
 
-    def path_spread(self, path=None, n=None, spacing=None, sp=None, rotate_children=None, closed=None, **kwargs):
-        return self._get_std().path_spread(path, n, spacing, sp, rotate_children, closed, **kwargs)(self)
+    def sphere_copies(self, n=None, r=None, d=None, cone_ang=None, scale=None, perp=None, **kwargs):
+        return self._get_std().sphere_copies(n, r, d, cone_ang, scale, perp, **kwargs)(self)
 
-    def mirror_copy(self, v=None, offset=None, cp=None, **kwargs):
-        return self._get_std().mirror_copy(v, offset, cp, **kwargs)(self)
+    def path_spread(self, path=None, n=None, spacing=None, sp=None, rotate_children=None, dist=None, closed=None, **kwargs):
+        return self._get_std().path_spread(path, n, spacing, sp, rotate_children, dist, closed, **kwargs)(self)
+
+    def path_copies(self, path=None, n=None, spacing=None, sp=None, dist=None, rotate_children=None, closed=None, **kwargs):
+        return self._get_std().path_copies(path, n, spacing, sp, dist, rotate_children, closed, **kwargs)(self)
 
     def xflip_copy(self, offset=None, x=None, **kwargs):
         return self._get_std().xflip_copy(offset, x, **kwargs)(self)
@@ -272,8 +290,8 @@ class Bosl2AccessSyntaxMixin:
     def zflip_copy(self, offset=None, z=None, **kwargs):
         return self._get_std().zflip_copy(offset, z, **kwargs)(self)
 
-    def distribute(self, spacing=None, sizes=None, dir=None, l=None, **kwargs):
-        return self._get_std().distribute(spacing, sizes, dir, l, **kwargs)(self)
+    def mirror_copy(self, v=None, offset=None, cp=None, **kwargs):
+        return self._get_std().mirror_copy(v, offset, cp, **kwargs)(self)
 
     def xdistribute(self, spacing=None, sizes=None, l=None, **kwargs):
         return self._get_std().xdistribute(spacing, sizes, l, **kwargs)(self)
@@ -283,6 +301,9 @@ class Bosl2AccessSyntaxMixin:
 
     def zdistribute(self, spacing=None, sizes=None, l=None, **kwargs):
         return self._get_std().zdistribute(spacing, sizes, l, **kwargs)(self)
+
+    def distribute(self, spacing=None, sizes=None, dir=None, l=None, **kwargs):
+        return self._get_std().distribute(spacing, sizes, dir, l, **kwargs)(self)
 
     def half_of(self, v=None, cp=None, s=None, planar=None, **kwargs):
         return self._get_std().half_of(v, cp, s, planar, **kwargs)(self)

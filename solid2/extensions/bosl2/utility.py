@@ -186,6 +186,10 @@ class no_module(_Bosl2Base):
     def __init__(self, **kwargs):
        super().__init__("no_module", {**kwargs})
 
+class deprecate(_Bosl2Base):
+    def __init__(self, new_name=None, **kwargs):
+       super().__init__("deprecate", {"new_name" : new_name, **kwargs})
+
 class assert_approx(_Bosl2Base):
     def __init__(self, got=None, expected=None, info=None, **kwargs):
        super().__init__("assert_approx", {"got" : got, "expected" : expected, "info" : info, **kwargs})

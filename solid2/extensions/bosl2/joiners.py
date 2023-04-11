@@ -27,8 +27,8 @@ class joiner(_Bosl2Base):
        super().__init__("joiner", {"l" : l, "w" : w, "base" : base, "ang" : ang, "screwsize" : screwsize, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
 
 class dovetail(_Bosl2Base):
-    def __init__(self, gender=None, width=None, height=None, slide=None, h=None, w=None, angle=None, slope=None, taper=None, back_width=None, chamfer=None, extra=None, r=None, radius=None, round=None, anchor=None, spin=None, orient=None, **kwargs):
-       super().__init__("dovetail", {"gender" : gender, "width" : width, "height" : height, "slide" : slide, "h" : h, "w" : w, "angle" : angle, "slope" : slope, "taper" : taper, "back_width" : back_width, "chamfer" : chamfer, "extra" : extra, "r" : r, "radius" : radius, "round" : round, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
+    def __init__(self, gender=None, width=None, height=None, slide=None, h=None, w=None, angle=None, slope=None, thickness=None, taper=None, back_width=None, chamfer=None, extra=None, r=None, radius=None, round=None, anchor=None, spin=None, orient=None, **kwargs):
+       super().__init__("dovetail", {"gender" : gender, "width" : width, "height" : height, "slide" : slide, "h" : h, "w" : w, "angle" : angle, "slope" : slope, "thickness" : thickness, "taper" : taper, "back_width" : back_width, "chamfer" : chamfer, "extra" : extra, "r" : r, "radius" : radius, "round" : round, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
 
 class _pin_size(_Bosl2Base):
     def __init__(self, size=None, **kwargs):
@@ -67,8 +67,8 @@ class joiner(_Bosl2Base):
        super().__init__("joiner", {"l" : l, "w" : w, "base" : base, "ang" : ang, "screwsize" : screwsize, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
 
 class dovetail(_Bosl2Base):
-    def __init__(self, gender=None, width=None, height=None, slide=None, h=None, w=None, angle=None, slope=None, taper=None, back_width=None, chamfer=None, extra=None, r=None, radius=None, round=None, anchor=None, spin=None, orient=None, **kwargs):
-       super().__init__("dovetail", {"gender" : gender, "width" : width, "height" : height, "slide" : slide, "h" : h, "w" : w, "angle" : angle, "slope" : slope, "taper" : taper, "back_width" : back_width, "chamfer" : chamfer, "extra" : extra, "r" : r, "radius" : radius, "round" : round, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
+    def __init__(self, gender=None, width=None, height=None, slide=None, h=None, w=None, angle=None, slope=None, thickness=None, taper=None, back_width=None, chamfer=None, extra=None, r=None, radius=None, round=None, anchor=None, spin=None, orient=None, **kwargs):
+       super().__init__("dovetail", {"gender" : gender, "width" : width, "height" : height, "slide" : slide, "h" : h, "w" : w, "angle" : angle, "slope" : slope, "thickness" : thickness, "taper" : taper, "back_width" : back_width, "chamfer" : chamfer, "extra" : extra, "r" : r, "radius" : radius, "round" : round, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
 
 class _pin_nub(_Bosl2Base):
     def __init__(self, r=None, nub=None, h=None, **kwargs):

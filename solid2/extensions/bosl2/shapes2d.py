@@ -11,8 +11,8 @@ class square(_Bosl2Base):
        super().__init__("square", {"size" : size, "center" : center, "anchor" : anchor, "spin" : spin, **kwargs})
 
 class rect(_Bosl2Base):
-    def __init__(self, size=None, rounding=None, chamfer=None, atype=None, anchor=None, spin=None, **kwargs):
-       super().__init__("rect", {"size" : size, "rounding" : rounding, "chamfer" : chamfer, "atype" : atype, "anchor" : anchor, "spin" : spin, **kwargs})
+    def __init__(self, size=None, rounding=None, chamfer=None, atype=None, anchor=None, spin=None, _return_override=None, **kwargs):
+       super().__init__("rect", {"size" : size, "rounding" : rounding, "chamfer" : chamfer, "atype" : atype, "anchor" : anchor, "spin" : spin, "_return_override" : _return_override, **kwargs})
 
 class circle(_Bosl2Base):
     def __init__(self, r=None, d=None, points=None, corner=None, anchor=None, spin=None, **kwargs):
@@ -50,9 +50,13 @@ class right_triangle(_Bosl2Base):
     def __init__(self, size=None, center=None, anchor=None, spin=None, **kwargs):
        super().__init__("right_triangle", {"size" : size, "center" : center, "anchor" : anchor, "spin" : spin, **kwargs})
 
+class _trapezoid_dims(_Bosl2Base):
+    def __init__(self, h=None, w1=None, w2=None, shift=None, ang=None, **kwargs):
+       super().__init__("_trapezoid_dims", {"h" : h, "w1" : w1, "w2" : w2, "shift" : shift, "ang" : ang, **kwargs})
+
 class trapezoid(_Bosl2Base):
-    def __init__(self, h=None, w1=None, w2=None, angle=None, shift=None, chamfer=None, rounding=None, flip=None, anchor=None, spin=None, **kwargs):
-       super().__init__("trapezoid", {"h" : h, "w1" : w1, "w2" : w2, "angle" : angle, "shift" : shift, "chamfer" : chamfer, "rounding" : rounding, "flip" : flip, "anchor" : anchor, "spin" : spin, **kwargs})
+    def __init__(self, h=None, w1=None, w2=None, ang=None, shift=None, chamfer=None, rounding=None, flip=None, anchor=None, spin=None, atype=None, _return_override=None, angle=None, **kwargs):
+       super().__init__("trapezoid", {"h" : h, "w1" : w1, "w2" : w2, "ang" : ang, "shift" : shift, "chamfer" : chamfer, "rounding" : rounding, "flip" : flip, "anchor" : anchor, "spin" : spin, "atype" : atype, "_return_override" : _return_override, "angle" : angle, **kwargs})
 
 class star(_Bosl2Base):
     def __init__(self, n=None, r=None, ir=None, d=None, _or=None, od=None, id=None, step=None, realign=None, align_tip=None, align_pit=None, anchor=None, spin=None, atype=None, _mat=None, _anchs=None, **kwargs):
@@ -63,8 +67,8 @@ class _path_add_jitter(_Bosl2Base):
        super().__init__("_path_add_jitter", {"path" : path, "dist" : dist, "closed" : closed, **kwargs})
 
 class teardrop2d(_Bosl2Base):
-    def __init__(self, r=None, ang=None, cap_h=None, d=None, anchor=None, spin=None, **kwargs):
-       super().__init__("teardrop2d", {"r" : r, "ang" : ang, "cap_h" : cap_h, "d" : d, "anchor" : anchor, "spin" : spin, **kwargs})
+    def __init__(self, r=None, ang=None, cap_h=None, d=None, circum=None, realign=None, anchor=None, spin=None, _extrapt=None, **kwargs):
+       super().__init__("teardrop2d", {"r" : r, "ang" : ang, "cap_h" : cap_h, "d" : d, "circum" : circum, "realign" : realign, "anchor" : anchor, "spin" : spin, "_extrapt" : _extrapt, **kwargs})
 
 class egg(_Bosl2Base):
     def __init__(self, length=None, r1=None, r2=None, R=None, d1=None, d2=None, D=None, anchor=None, spin=None, **kwargs):
@@ -79,8 +83,8 @@ class _superformula(_Bosl2Base):
        super().__init__("_superformula", {"theta" : theta, "m1" : m1, "m2" : m2, "n1" : n1, "n2" : n2, "n3" : n3, "a" : a, "b" : b, **kwargs})
 
 class supershape(_Bosl2Base):
-    def __init__(self, step=None, m1=None, m2=None, n1=None, n2=None, n3=None, a=None, b=None, r=None, d=None, anchor=None, spin=None, atype=None, **kwargs):
-       super().__init__("supershape", {"step" : step, "m1" : m1, "m2" : m2, "n1" : n1, "n2" : n2, "n3" : n3, "a" : a, "b" : b, "r" : r, "d" : d, "anchor" : anchor, "spin" : spin, "atype" : atype, **kwargs})
+    def __init__(self, step=None, n=None, m1=None, m2=None, n1=None, n2=None, n3=None, a=None, b=None, r=None, d=None, anchor=None, spin=None, atype=None, **kwargs):
+       super().__init__("supershape", {"step" : step, "n" : n, "m1" : m1, "m2" : m2, "n1" : n1, "n2" : n2, "n3" : n3, "a" : a, "b" : b, "r" : r, "d" : d, "anchor" : anchor, "spin" : spin, "atype" : atype, **kwargs})
 
 class reuleaux_polygon(_Bosl2Base):
     def __init__(self, n=None, r=None, d=None, anchor=None, spin=None, **kwargs):
@@ -123,8 +127,8 @@ class right_triangle(_Bosl2Base):
        super().__init__("right_triangle", {"size" : size, "center" : center, "anchor" : anchor, "spin" : spin, **kwargs})
 
 class trapezoid(_Bosl2Base):
-    def __init__(self, h=None, w1=None, w2=None, angle=None, shift=None, chamfer=None, rounding=None, flip=None, anchor=None, spin=None, **kwargs):
-       super().__init__("trapezoid", {"h" : h, "w1" : w1, "w2" : w2, "angle" : angle, "shift" : shift, "chamfer" : chamfer, "rounding" : rounding, "flip" : flip, "anchor" : anchor, "spin" : spin, **kwargs})
+    def __init__(self, h=None, w1=None, w2=None, ang=None, shift=None, chamfer=None, rounding=None, flip=None, anchor=None, spin=None, atype=None, angle=None, **kwargs):
+       super().__init__("trapezoid", {"h" : h, "w1" : w1, "w2" : w2, "ang" : ang, "shift" : shift, "chamfer" : chamfer, "rounding" : rounding, "flip" : flip, "anchor" : anchor, "spin" : spin, "atype" : atype, "angle" : angle, **kwargs})
 
 class star(_Bosl2Base):
     def __init__(self, n=None, r=None, ir=None, d=None, _or=None, od=None, id=None, step=None, realign=None, align_tip=None, align_pit=None, anchor=None, spin=None, atype=None, **kwargs):
@@ -135,8 +139,8 @@ class jittered_poly(_Bosl2Base):
        super().__init__("jittered_poly", {"path" : path, "dist" : dist, **kwargs})
 
 class teardrop2d(_Bosl2Base):
-    def __init__(self, r=None, ang=None, cap_h=None, d=None, anchor=None, spin=None, **kwargs):
-       super().__init__("teardrop2d", {"r" : r, "ang" : ang, "cap_h" : cap_h, "d" : d, "anchor" : anchor, "spin" : spin, **kwargs})
+    def __init__(self, r=None, ang=None, cap_h=None, d=None, circum=None, realign=None, anchor=None, spin=None, **kwargs):
+       super().__init__("teardrop2d", {"r" : r, "ang" : ang, "cap_h" : cap_h, "d" : d, "circum" : circum, "realign" : realign, "anchor" : anchor, "spin" : spin, **kwargs})
 
 class egg(_Bosl2Base):
     def __init__(self, length=None, r1=None, r2=None, R=None, d1=None, d2=None, D=None, anchor=None, spin=None, **kwargs):
@@ -147,8 +151,8 @@ class glued_circles(_Bosl2Base):
        super().__init__("glued_circles", {"r" : r, "spread" : spread, "tangent" : tangent, "d" : d, "anchor" : anchor, "spin" : spin, **kwargs})
 
 class supershape(_Bosl2Base):
-    def __init__(self, step=None, m1=None, m2=None, n1=None, n2=None, n3=None, a=None, b=None, r=None, d=None, anchor=None, spin=None, atype=None, **kwargs):
-       super().__init__("supershape", {"step" : step, "m1" : m1, "m2" : m2, "n1" : n1, "n2" : n2, "n3" : n3, "a" : a, "b" : b, "r" : r, "d" : d, "anchor" : anchor, "spin" : spin, "atype" : atype, **kwargs})
+    def __init__(self, step=None, n=None, m1=None, m2=None, n1=None, n2=None, n3=None, a=None, b=None, r=None, d=None, anchor=None, spin=None, atype=None, **kwargs):
+       super().__init__("supershape", {"step" : step, "n" : n, "m1" : m1, "m2" : m2, "n1" : n1, "n2" : n2, "n3" : n3, "a" : a, "b" : b, "r" : r, "d" : d, "anchor" : anchor, "spin" : spin, "atype" : atype, **kwargs})
 
 class reuleaux_polygon(_Bosl2Base):
     def __init__(self, n=None, r=None, d=None, anchor=None, spin=None, **kwargs):

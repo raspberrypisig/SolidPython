@@ -26,29 +26,29 @@ class phillips_diam(_Bosl2Base):
     def __init__(self, size=None, depth=None, **kwargs):
        super().__init__("phillips_diam", {"size" : size, "depth" : depth, **kwargs})
 
+class hex_drive_mask(_Bosl2Base):
+    def __init__(self, size=None, length=None, l=None, h=None, height=None, anchor=None, spin=None, orient=None, **kwargs):
+       super().__init__("hex_drive_mask", {"size" : size, "length" : length, "l" : l, "h" : h, "height" : height, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
+
+class torx_info(_Bosl2Base):
+    def __init__(self, size=None, **kwargs):
+       super().__init__("torx_info", {"size" : size, **kwargs})
+
 class torx_diam(_Bosl2Base):
     def __init__(self, size=None, **kwargs):
        super().__init__("torx_diam", {"size" : size, **kwargs})
-
-class _torx_inner_diam(_Bosl2Base):
-    def __init__(self, size=None, **kwargs):
-       super().__init__("_torx_inner_diam", {"size" : size, **kwargs})
 
 class torx_depth(_Bosl2Base):
     def __init__(self, size=None, **kwargs):
        super().__init__("torx_depth", {"size" : size, **kwargs})
 
-class _torx_tip_radius(_Bosl2Base):
-    def __init__(self, size=None, **kwargs):
-       super().__init__("_torx_tip_radius", {"size" : size, **kwargs})
-
-class _torx_rounding_radius(_Bosl2Base):
-    def __init__(self, size=None, **kwargs):
-       super().__init__("_torx_rounding_radius", {"size" : size, **kwargs})
-
 class phillips_mask(_Bosl2Base):
     def __init__(self, size=None, _fn=None, anchor=None, spin=None, orient=None, **kwargs):
        super().__init__("phillips_mask", {"size" : size, "_fn" : _fn, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
+
+class hex_drive_mask(_Bosl2Base):
+    def __init__(self, size=None, length=None, l=None, h=None, height=None, anchor=None, spin=None, orient=None, **kwargs):
+       super().__init__("hex_drive_mask", {"size" : size, "length" : length, "l" : l, "h" : h, "height" : height, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
 
 class torx_mask(_Bosl2Base):
     def __init__(self, size=None, l=None, center=None, anchor=None, spin=None, orient=None, **kwargs):

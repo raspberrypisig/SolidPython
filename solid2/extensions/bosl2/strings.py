@@ -34,13 +34,13 @@ class _str_find_all(_Bosl2Base):
     def __init__(self, str=None, pattern=None, **kwargs):
        super().__init__("_str_find_all", {"str" : str, "pattern" : pattern, **kwargs})
 
-class _str_cmp(_Bosl2Base):
-    def __init__(self, str=None, sindex=None, pattern=None, **kwargs):
-       super().__init__("_str_cmp", {"str" : str, "sindex" : sindex, "pattern" : pattern, **kwargs})
+class substr_match(_Bosl2Base):
+    def __init__(self, str=None, start=None, pattern=None, **kwargs):
+       super().__init__("substr_match", {"str" : str, "start" : start, "pattern" : pattern, **kwargs})
 
-class _str_cmp_recurse(_Bosl2Base):
+class _substr_match_recurse(_Bosl2Base):
     def __init__(self, str=None, sindex=None, pattern=None, plen=None, pindex=None, **kwargs):
-       super().__init__("_str_cmp_recurse", {"str" : str, "sindex" : sindex, "pattern" : pattern, "plen" : plen, "pindex" : pindex, **kwargs})
+       super().__init__("_substr_match_recurse", {"str" : str, "sindex" : sindex, "pattern" : pattern, "plen" : plen, "pindex" : pindex, **kwargs})
 
 class starts_with(_Bosl2Base):
     def __init__(self, str=None, pattern=None, **kwargs):

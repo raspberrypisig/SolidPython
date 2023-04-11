@@ -30,16 +30,20 @@ CORNERS_NONE = _OpenSCADConstant('CORNERS_NONE')
 CORNERS_ALL = _OpenSCADConstant('CORNERS_ALL')
 CORNER_OFFSETS = _OpenSCADConstant('CORNER_OFFSETS')
 class reorient(_Bosl2Base):
-    def __init__(self, anchor=None, spin=None, orient=None, size=None, size2=None, shift=None, r=None, r1=None, r2=None, d=None, d1=None, d2=None, l=None, h=None, vnf=None, path=None, region=None, extent=None, offset=None, cp=None, anchors=None, two_d=None, axis=None, geom=None, p=None, **kwargs):
-       super().__init__("reorient", {"anchor" : anchor, "spin" : spin, "orient" : orient, "size" : size, "size2" : size2, "shift" : shift, "r" : r, "r1" : r1, "r2" : r2, "d" : d, "d1" : d1, "d2" : d2, "l" : l, "h" : h, "vnf" : vnf, "path" : path, "region" : region, "extent" : extent, "offset" : offset, "cp" : cp, "anchors" : anchors, "two_d" : two_d, "axis" : axis, "geom" : geom, "p" : p, **kwargs})
+    def __init__(self, anchor=None, spin=None, orient=None, size=None, size2=None, shift=None, r=None, r1=None, r2=None, d=None, d1=None, d2=None, l=None, h=None, vnf=None, path=None, region=None, extent=None, offset=None, cp=None, anchors=None, two_d=None, axis=None, override=None, geom=None, p=None, **kwargs):
+       super().__init__("reorient", {"anchor" : anchor, "spin" : spin, "orient" : orient, "size" : size, "size2" : size2, "shift" : shift, "r" : r, "r1" : r1, "r2" : r2, "d" : d, "d1" : d1, "d2" : d2, "l" : l, "h" : h, "vnf" : vnf, "path" : path, "region" : region, "extent" : extent, "offset" : offset, "cp" : cp, "anchors" : anchors, "two_d" : two_d, "axis" : axis, "override" : override, "geom" : geom, "p" : p, **kwargs})
 
 class named_anchor(_Bosl2Base):
     def __init__(self, name=None, pos=None, orient=None, spin=None, **kwargs):
        super().__init__("named_anchor", {"name" : name, "pos" : pos, "orient" : orient, "spin" : spin, **kwargs})
 
+class _local_struct_val(_Bosl2Base):
+    def __init__(self, struct=None, key=None, **kwargs):
+       super().__init__("_local_struct_val", {"struct" : struct, "key" : key, **kwargs})
+
 class attach_geom(_Bosl2Base):
-    def __init__(self, size=None, size2=None, shift=None, scale=None, twist=None, r=None, r1=None, r2=None, d=None, d1=None, d2=None, l=None, h=None, vnf=None, region=None, extent=None, cp=None, offset=None, anchors=None, two_d=None, axis=None, **kwargs):
-       super().__init__("attach_geom", {"size" : size, "size2" : size2, "shift" : shift, "scale" : scale, "twist" : twist, "r" : r, "r1" : r1, "r2" : r2, "d" : d, "d1" : d1, "d2" : d2, "l" : l, "h" : h, "vnf" : vnf, "region" : region, "extent" : extent, "cp" : cp, "offset" : offset, "anchors" : anchors, "two_d" : two_d, "axis" : axis, **kwargs})
+    def __init__(self, size=None, size2=None, shift=None, scale=None, twist=None, r=None, r1=None, r2=None, d=None, d1=None, d2=None, l=None, h=None, vnf=None, region=None, extent=None, cp=None, offset=None, anchors=None, two_d=None, axis=None, override=None, **kwargs):
+       super().__init__("attach_geom", {"size" : size, "size2" : size2, "shift" : shift, "scale" : scale, "twist" : twist, "r" : r, "r1" : r1, "r2" : r2, "d" : d, "d1" : d1, "d2" : d2, "l" : l, "h" : h, "vnf" : vnf, "region" : region, "extent" : extent, "cp" : cp, "offset" : offset, "anchors" : anchors, "two_d" : two_d, "axis" : axis, "override" : override, **kwargs})
 
 class _attach_geom_2d(_Bosl2Base):
     def __init__(self, geom=None, **kwargs):
@@ -52,6 +56,10 @@ class _attach_geom_size(_Bosl2Base):
 class _attach_transform(_Bosl2Base):
     def __init__(self, anchor=None, spin=None, orient=None, geom=None, p=None, **kwargs):
        super().__init__("_attach_transform", {"anchor" : anchor, "spin" : spin, "orient" : orient, "geom" : geom, "p" : p, **kwargs})
+
+class _get_cp(_Bosl2Base):
+    def __init__(self, geom=None, **kwargs):
+       super().__init__("_get_cp", {"geom" : geom, **kwargs})
 
 class _get_cp(_Bosl2Base):
     def __init__(self, geom=None, **kwargs):
@@ -130,8 +138,8 @@ class position(_Bosl2Base):
        super().__init__("position", {"_from" : _from, **kwargs})
 
 class orient(_Bosl2Base):
-    def __init__(self, dir=None, anchor=None, spin=None, **kwargs):
-       super().__init__("orient", {"dir" : dir, "anchor" : anchor, "spin" : spin, **kwargs})
+    def __init__(self, anchor=None, spin=None, **kwargs):
+       super().__init__("orient", {"anchor" : anchor, "spin" : spin, **kwargs})
 
 class attach(_Bosl2Base):
     def __init__(self, _from=None, to=None, overlap=None, norot=None, **kwargs):
@@ -144,6 +152,10 @@ class tag(_Bosl2Base):
 class force_tag(_Bosl2Base):
     def __init__(self, tag=None, **kwargs):
        super().__init__("force_tag", {"tag" : tag, **kwargs})
+
+class default_tag(_Bosl2Base):
+    def __init__(self, tag=None, **kwargs):
+       super().__init__("default_tag", {"tag" : tag, **kwargs})
 
 class tag_scope(_Bosl2Base):
     def __init__(self, scope=None, **kwargs):
@@ -189,6 +201,10 @@ class show_int(_Bosl2Base):
     def __init__(self, tags=None, **kwargs):
        super().__init__("show_int", {"tags" : tags, **kwargs})
 
+class face_mask(_Bosl2Base):
+    def __init__(self, faces=None, **kwargs):
+       super().__init__("face_mask", {"faces" : faces, **kwargs})
+
 class edge_mask(_Bosl2Base):
     def __init__(self, edges=None, _except=None, **kwargs):
        super().__init__("edge_mask", {"edges" : edges, "_except" : _except, **kwargs})
@@ -210,16 +226,16 @@ class corner_profile(_Bosl2Base):
        super().__init__("corner_profile", {"corners" : corners, "_except" : _except, "r" : r, "d" : d, "convexity" : convexity, **kwargs})
 
 class attachable(_Bosl2Base):
-    def __init__(self, anchor=None, spin=None, orient=None, size=None, size2=None, shift=None, r=None, r1=None, r2=None, d=None, d1=None, d2=None, l=None, h=None, vnf=None, path=None, region=None, extent=None, cp=None, offset=None, anchors=None, two_d=None, axis=None, geom=None, **kwargs):
-       super().__init__("attachable", {"anchor" : anchor, "spin" : spin, "orient" : orient, "size" : size, "size2" : size2, "shift" : shift, "r" : r, "r1" : r1, "r2" : r2, "d" : d, "d1" : d1, "d2" : d2, "l" : l, "h" : h, "vnf" : vnf, "path" : path, "region" : region, "extent" : extent, "cp" : cp, "offset" : offset, "anchors" : anchors, "two_d" : two_d, "axis" : axis, "geom" : geom, **kwargs})
+    def __init__(self, anchor=None, spin=None, orient=None, size=None, size2=None, shift=None, r=None, r1=None, r2=None, d=None, d1=None, d2=None, l=None, h=None, vnf=None, path=None, region=None, extent=None, cp=None, offset=None, anchors=None, two_d=None, axis=None, override=None, geom=None, **kwargs):
+       super().__init__("attachable", {"anchor" : anchor, "spin" : spin, "orient" : orient, "size" : size, "size2" : size2, "shift" : shift, "r" : r, "r1" : r1, "r2" : r2, "d" : d, "d1" : d1, "d2" : d2, "l" : l, "h" : h, "vnf" : vnf, "path" : path, "region" : region, "extent" : extent, "cp" : cp, "offset" : offset, "anchors" : anchors, "two_d" : two_d, "axis" : axis, "override" : override, "geom" : geom, **kwargs})
 
 class show_anchors(_Bosl2Base):
     def __init__(self, s=None, std=None, custom=None, **kwargs):
        super().__init__("show_anchors", {"s" : s, "std" : std, "custom" : custom, **kwargs})
 
 class anchor_arrow(_Bosl2Base):
-    def __init__(self, s=None, color=None, flag=None, _tag=None, **kwargs):
-       super().__init__("anchor_arrow", {"s" : s, "color" : color, "flag" : flag, "_tag" : _tag, **kwargs})
+    def __init__(self, s=None, color=None, flag=None, _tag=None, _fn=None, anchor=None, spin=None, orient=None, **kwargs):
+       super().__init__("anchor_arrow", {"s" : s, "color" : color, "flag" : flag, "_tag" : _tag, "_fn" : _fn, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
 
 class anchor_arrow2d(_Bosl2Base):
     def __init__(self, s=None, color=None, _tag=None, **kwargs):

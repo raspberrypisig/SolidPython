@@ -54,6 +54,10 @@ class vector_axis(_Bosl2Base):
     def __init__(self, v1=None, v2=None, v3=None, **kwargs):
        super().__init__("vector_axis", {"v1" : v1, "v2" : v2, "v3" : v3, **kwargs})
 
+class vector_bisect(_Bosl2Base):
+    def __init__(self, v1=None, v2=None, **kwargs):
+       super().__init__("vector_bisect", {"v1" : v1, "v2" : v2, **kwargs})
+
 class pointlist_bounds(_Bosl2Base):
     def __init__(self, pts=None, **kwargs):
        super().__init__("pointlist_bounds", {"pts" : pts, **kwargs})

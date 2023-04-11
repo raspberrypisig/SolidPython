@@ -88,9 +88,17 @@ class vnf_triangulate(_Bosl2Base):
     def __init__(self, vnf=None, **kwargs):
        super().__init__("vnf_triangulate", {"vnf" : vnf, **kwargs})
 
+class _vnf_sort_vertices(_Bosl2Base):
+    def __init__(self, vnf=None, idx=None, **kwargs):
+       super().__init__("_vnf_sort_vertices", {"vnf" : vnf, "idx" : idx, **kwargs})
+
 class vnf_slice(_Bosl2Base):
     def __init__(self, vnf=None, dir=None, cuts=None, **kwargs):
        super().__init__("vnf_slice", {"vnf" : vnf, "dir" : dir, "cuts" : cuts, **kwargs})
+
+class _shift_cut_plane(_Bosl2Base):
+    def __init__(self, vnf=None, dir=None, cut=None, off=None, **kwargs):
+       super().__init__("_shift_cut_plane", {"vnf" : vnf, "dir" : dir, "cut" : cut, "off" : off, **kwargs})
 
 class _split_polygon_at_x(_Bosl2Base):
     def __init__(self, poly=None, x=None, **kwargs):
@@ -117,8 +125,8 @@ class _vnf_centroid(_Bosl2Base):
        super().__init__("_vnf_centroid", {"vnf" : vnf, "eps" : eps, **kwargs})
 
 class vnf_halfspace(_Bosl2Base):
-    def __init__(self, plane=None, vnf=None, closed=None, **kwargs):
-       super().__init__("vnf_halfspace", {"plane" : plane, "vnf" : vnf, "closed" : closed, **kwargs})
+    def __init__(self, plane=None, vnf=None, closed=None, boundary=None, **kwargs):
+       super().__init__("vnf_halfspace", {"plane" : plane, "vnf" : vnf, "closed" : closed, "boundary" : boundary, **kwargs})
 
 class _assemble_paths(_Bosl2Base):
     def __init__(self, vertices=None, edges=None, paths=None, i=None, **kwargs):
@@ -136,9 +144,9 @@ class vnf_bend(_Bosl2Base):
     def __init__(self, vnf=None, r=None, d=None, axis=None, **kwargs):
        super().__init__("vnf_bend", {"vnf" : vnf, "r" : r, "d" : d, "axis" : axis, **kwargs})
 
-class vnf_validate(_Bosl2Base):
+class _vnf_validate(_Bosl2Base):
     def __init__(self, vnf=None, show_warns=None, check_isects=None, **kwargs):
-       super().__init__("vnf_validate", {"vnf" : vnf, "show_warns" : show_warns, "check_isects" : check_isects, **kwargs})
+       super().__init__("_vnf_validate", {"vnf" : vnf, "show_warns" : show_warns, "check_isects" : check_isects, **kwargs})
 
 class _vnf_validate_err(_Bosl2Base):
     def __init__(self, name=None, extra=None, **kwargs):
@@ -161,18 +169,18 @@ class vnf_wireframe(_Bosl2Base):
        super().__init__("vnf_wireframe", {"vnf" : vnf, "width" : width, **kwargs})
 
 class _show_vertices(_Bosl2Base):
-    def __init__(self, vertices=None, size=None, **kwargs):
-       super().__init__("_show_vertices", {"vertices" : vertices, "size" : size, **kwargs})
+    def __init__(self, vertices=None, size=None, filter=None, **kwargs):
+       super().__init__("_show_vertices", {"vertices" : vertices, "size" : size, "filter" : filter, **kwargs})
 
 class _show_faces(_Bosl2Base):
-    def __init__(self, vertices=None, faces=None, size=None, **kwargs):
-       super().__init__("_show_faces", {"vertices" : vertices, "faces" : faces, "size" : size, **kwargs})
+    def __init__(self, vertices=None, faces=None, size=None, filter=None, **kwargs):
+       super().__init__("_show_faces", {"vertices" : vertices, "faces" : faces, "size" : size, "filter" : filter, **kwargs})
 
 class debug_vnf(_Bosl2Base):
-    def __init__(self, vnf=None, faces=None, vertices=None, opacity=None, size=None, convexity=None, **kwargs):
-       super().__init__("debug_vnf", {"vnf" : vnf, "faces" : faces, "vertices" : vertices, "opacity" : opacity, "size" : size, "convexity" : convexity, **kwargs})
+    def __init__(self, vnf=None, faces=None, vertices=None, opacity=None, size=None, convexity=None, filter=None, **kwargs):
+       super().__init__("debug_vnf", {"vnf" : vnf, "faces" : faces, "vertices" : vertices, "opacity" : opacity, "size" : size, "convexity" : convexity, "filter" : filter, **kwargs})
 
 class vnf_validate(_Bosl2Base):
-    def __init__(self, vnf=None, size=None, show_warns=None, check_isects=None, **kwargs):
-       super().__init__("vnf_validate", {"vnf" : vnf, "size" : size, "show_warns" : show_warns, "check_isects" : check_isects, **kwargs})
+    def __init__(self, vnf=None, size=None, show_warns=None, check_isects=None, opacity=None, adjacent=None, label_verts=None, label_faces=None, wireframe=None, **kwargs):
+       super().__init__("vnf_validate", {"vnf" : vnf, "size" : size, "show_warns" : show_warns, "check_isects" : check_isects, "opacity" : opacity, "adjacent" : adjacent, "label_verts" : label_verts, "label_faces" : label_faces, "wireframe" : wireframe, **kwargs})
 

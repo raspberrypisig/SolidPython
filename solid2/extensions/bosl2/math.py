@@ -90,13 +90,25 @@ class quant(_Bosl2Base):
     def __init__(self, x=None, y=None, **kwargs):
        super().__init__("quant", {"x" : x, "y" : y, **kwargs})
 
+class _roundall(_Bosl2Base):
+    def __init__(self, data=None, **kwargs):
+       super().__init__("_roundall", {"data" : data, **kwargs})
+
 class quantdn(_Bosl2Base):
     def __init__(self, x=None, y=None, **kwargs):
        super().__init__("quantdn", {"x" : x, "y" : y, **kwargs})
 
+class _floorall(_Bosl2Base):
+    def __init__(self, data=None, **kwargs):
+       super().__init__("_floorall", {"data" : data, **kwargs})
+
 class quantup(_Bosl2Base):
     def __init__(self, x=None, y=None, **kwargs):
        super().__init__("quantup", {"x" : x, "y" : y, **kwargs})
+
+class _ceilall(_Bosl2Base):
+    def __init__(self, data=None, **kwargs):
+       super().__init__("_ceilall", {"data" : data, **kwargs})
 
 class constrain(_Bosl2Base):
     def __init__(self, v=None, minval=None, maxval=None, **kwargs):

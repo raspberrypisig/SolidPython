@@ -46,8 +46,8 @@ class bottle_adapter_neck_to_neck(_Bosl2Base):
        super().__init__("bottle_adapter_neck_to_neck", {"d" : d, "neck_od1" : neck_od1, "neck_id1" : neck_id1, "thread_od1" : thread_od1, "height1" : height1, "support_od1" : support_od1, "thread_pitch1" : thread_pitch1, "neck_od2" : neck_od2, "neck_id2" : neck_id2, "thread_od2" : thread_od2, "height2" : height2, "support_od2" : support_od2, "pitch2" : pitch2, "taper_lead_in" : taper_lead_in, "wall" : wall, **kwargs})
 
 class _sp_thread_profile(_Bosl2Base):
-    def __init__(self, tpi=None, a=None, S=None, style=None, **kwargs):
-       super().__init__("_sp_thread_profile", {"tpi" : tpi, "a" : a, "S" : S, "style" : style, **kwargs})
+    def __init__(self, tpi=None, a=None, S=None, style=None, flip=None, **kwargs):
+       super().__init__("_sp_thread_profile", {"tpi" : tpi, "a" : a, "S" : S, "style" : style, "flip" : flip, **kwargs})
 
 class sp_neck(_Bosl2Base):
     def __init__(self, diam=None, type=None, wall=None, id=None, style=None, bead=None, anchor=None, spin=None, orient=None, **kwargs):
@@ -96,4 +96,8 @@ class bottle_adapter_neck_to_neck(_Bosl2Base):
 class sp_neck(_Bosl2Base):
     def __init__(self, diam=None, type=None, wall=None, id=None, style=None, bead=None, anchor=None, spin=None, orient=None, **kwargs):
        super().__init__("sp_neck", {"diam" : diam, "type" : type, "wall" : wall, "id" : id, "style" : style, "bead" : bead, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
+
+class sp_cap(_Bosl2Base):
+    def __init__(self, diam=None, type=None, wall=None, style=None, top_adj=None, bot_adj=None, texture=None, anchor=None, spin=None, orient=None, **kwargs):
+       super().__init__("sp_cap", {"diam" : diam, "type" : type, "wall" : wall, "style" : style, "top_adj" : top_adj, "bot_adj" : bot_adj, "texture" : texture, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
 

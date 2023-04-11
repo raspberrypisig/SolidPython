@@ -31,8 +31,8 @@ class worm(_Bosl2Base):
        super().__init__("worm", {"pitch" : pitch, "d" : d, "l" : l, "starts" : starts, "left_handed" : left_handed, "pressure_angle" : pressure_angle, "backlash" : backlash, "clearance" : clearance, "mod" : mod, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
 
 class worm_gear(_Bosl2Base):
-    def __init__(self, pitch=None, teeth=None, worm_diam=None, worm_starts=None, worm_arc=None, crowning=None, left_handed=None, pressure_angle=None, backlash=None, clearance=None, mod=None, slices=None, anchor=None, spin=None, orient=None, **kwargs):
-       super().__init__("worm_gear", {"pitch" : pitch, "teeth" : teeth, "worm_diam" : worm_diam, "worm_starts" : worm_starts, "worm_arc" : worm_arc, "crowning" : crowning, "left_handed" : left_handed, "pressure_angle" : pressure_angle, "backlash" : backlash, "clearance" : clearance, "mod" : mod, "slices" : slices, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
+    def __init__(self, pitch=None, teeth=None, worm_diam=None, worm_starts=None, worm_arc=None, crowning=None, left_handed=None, pressure_angle=None, backlash=None, clearance=None, slices=None, mod=None, anchor=None, spin=None, orient=None, **kwargs):
+       super().__init__("worm_gear", {"pitch" : pitch, "teeth" : teeth, "worm_diam" : worm_diam, "worm_starts" : worm_starts, "worm_arc" : worm_arc, "crowning" : crowning, "left_handed" : left_handed, "pressure_angle" : pressure_angle, "backlash" : backlash, "clearance" : clearance, "slices" : slices, "mod" : mod, "anchor" : anchor, "spin" : spin, "orient" : orient, **kwargs})
 
 class _gear_tooth_profile(_Bosl2Base):
     def __init__(self, pitch=None, teeth=None, pressure_angle=None, clearance=None, backlash=None, interior=None, valleys=None, center=None, mod=None, **kwargs):
