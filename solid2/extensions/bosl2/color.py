@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / '../libs/BOSL2/color.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/color.scad'}", use_not_include=False)
 
 class hsl(_Bosl2Base):
     def __init__(self, h=None, s=None, l=None, a=None, **kwargs):

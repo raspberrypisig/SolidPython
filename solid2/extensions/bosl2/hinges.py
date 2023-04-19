@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / '../libs/BOSL2/hinges.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/hinges.scad'}", use_not_include=False)
 
 class knuckle_hinge(_Bosl2Base):
     def __init__(self, length=None, segs=None, offset=None, inner=None, arm_height=None, arm_angle=None, gap=None, seg_ratio=None, knuckle_diam=None, pin_diam=None, fill=None, clear_top=None, round_bot=None, round_top=None, pin_fn=None, clearance=None, tap_depth=None, screw_head=None, screw_tolerance=None, anchor=None, orient=None, spin=None, **kwargs):

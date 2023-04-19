@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / '../libs/BOSL2/mutators.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/mutators.scad'}", use_not_include=False)
 
 class bounding_box(_Bosl2Base):
     def __init__(self, excess=None, planar=None, **kwargs):
