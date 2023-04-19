@@ -99,7 +99,7 @@ def generateBosl2AccessSyntaxMixin(bosl2_dir, outputDir):
                 continue
             f.write(generateCallable(c))
 
-bosl2_dir = Path("../libs/BOSL2")
+bosl2_dir = Path("./bosl2/BOSL2")
 output_dir = Path(__file__).parent / "bosl2"
 
 makePackage(output_dir)
