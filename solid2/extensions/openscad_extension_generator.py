@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 
 from pathlib import Path
-from collections import OrderedDict
 
 from solid2.core.utils import escape_openscad_identifier as escape
 from solid2.libs.py_scadparser import scad_parser
@@ -42,7 +41,7 @@ def generateStub(scadFile, outputDir, use_not_include,
     def generateCallable(c):
         name = escape(c.name)
         paramNames = [escape(p.name) for p in c.parameters]
-        paramNames = list(OrderedDict.fromkeys(paramNames))
+        paramNames = list(dict.fromkeys(paramNames))
 
         paramStr = ", ".join(["self"] +
                              [f"{p}=None" for p in paramNames] +
