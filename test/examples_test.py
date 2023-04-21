@@ -13,7 +13,7 @@ class TestExamples(unittest.TestCase):
         for f in sorted(Path(root / "solid2" / "examples/").iterdir()):
             if not re.match("[0-9][0-9]-.*\.py", f.name):
                 continue
-            if "implicitCAD" in f.as_posix():
+            if f.stem.endswith(".x"):
                 continue
 
             test_scad_file = root / "test" / "examples_scad" \
@@ -34,7 +34,8 @@ class TestExamples(unittest.TestCase):
             subprocess.check_call(["openscad", "-o",
                                    test_scad_file.with_suffix(".png"),
                                    "--preview", "-",
-                                   test_scad_file])
+                                   test_scad_file],
+                                   stderr=subprocess.DEVNULL)
 
 if __name__ == "__main__":
     unittest.main()
