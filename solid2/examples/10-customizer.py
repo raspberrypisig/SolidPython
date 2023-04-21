@@ -11,7 +11,8 @@ customizedText = CustomizerDropdownVariable("text", "customize me!",
                                             ["customize me!", "Thank you!"])
 
 #use scad_inline to use them
-scene = scad_inline("""
+scene = union()
+scene += scad_inline("""
                     for (i = [1:objects]){
                         translate([2*i*side,0,0]){
                             cube(side);
