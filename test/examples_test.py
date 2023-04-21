@@ -1,12 +1,10 @@
-#! /usr/bin/env python
-
 import unittest
 import shutil
 import subprocess
 import re
 from pathlib import Path
 
-class TestExamples(unittest.TestCase):
+class ExamplesTest(unittest.TestCase):
     def test_examples(self):
         root = Path(__file__).parent.parent
 
@@ -36,6 +34,3 @@ class TestExamples(unittest.TestCase):
                                    "--preview", "-",
                                    test_scad_file],
                                    stderr=subprocess.DEVNULL)
-
-if __name__ == "__main__":
-    unittest.main()
