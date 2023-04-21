@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 from pathlib import Path
+from collections import OrderedDict
 
 from solid2.core.utils import escape_openscad_identifier as escape
 from solid2.libs.py_scadparser import scad_parser
@@ -67,6 +68,7 @@ def generateBosl2AccessSyntaxMixin(bosl2_dir, outputDir):
     def generateCallable(c):
         name = escape(c.name)
         paramNames = [escape(p.name) for p in c.parameters]
+        paramNames = list(OrderedDict.fromkeys(paramNames))
 
         paramListWithDefaults = ", ".join([f"{p}=None" for p in paramNames])
         paramList = ", ".join([f'{p}' for p in paramNames])
