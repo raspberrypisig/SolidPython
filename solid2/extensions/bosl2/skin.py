@@ -6,7 +6,6 @@ from .bosl2_base import Bosl2Base as _Bosl2Base
 
 _extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/skin.scad'}", use_not_include=False)
 
-
 _leadin_ogive = _OpenSCADConstant('_leadin_ogive')
 _leadin_cut = _OpenSCADConstant('_leadin_cut')
 _leadin_sqrt = _OpenSCADConstant('_leadin_sqrt')
