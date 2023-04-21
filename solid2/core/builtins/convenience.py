@@ -46,9 +46,9 @@ def rotateX(x): return rotate((x, 0, 0))
 def rotateY(y): return rotate((0, y, 0))
 def rotateZ(z): return rotate((0, 0, z))
 
-def scaleX(x): return scale((x, 0, 0))
-def scaleY(y): return scale((0, y, 0))
-def scaleZ(z): return scale((0, 0, z))
+def scaleX(x): return scale((x, 1, 1))
+def scaleY(y): return scale((1, y, 1))
+def scaleZ(z): return scale((1, 1, z))
 
 if not config.use_implicit_builtins:
     def resizeX(x): return resize((x, 0, 0))
