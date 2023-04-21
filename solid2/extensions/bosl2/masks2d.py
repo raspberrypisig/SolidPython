@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / '../libs/BOSL2/masks2d.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/masks2d.scad'}", use_not_include=False)
 
 class mask2d_roundover(_Bosl2Base):
     def __init__(self, r=None, inset=None, excess=None, d=None, anchor=None, spin=None, **kwargs):

@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / '../libs/BOSL2/modular_hose.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/modular_hose.scad'}", use_not_include=False)
 
 _small_end = _OpenSCADConstant('_small_end')
 _big_end = _OpenSCADConstant('_big_end')
