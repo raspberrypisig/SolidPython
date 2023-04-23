@@ -39,7 +39,7 @@ class ExamplesTest(unittest.TestCase):
             if f.stem.endswith(".x"):
                 continue
 
-            test_scad_file = root / "test" / "examples_scad" \
+            test_scad_file = root / "tests" / "examples_scad" \
                              / f.with_suffix('.scad').name
 
             print(f)
