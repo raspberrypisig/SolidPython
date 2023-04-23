@@ -1,4 +1,5 @@
-use <11-font/RichEatin.otf>
+use <../../11-font/RichEatin.otf>
+>;
 
 $vpt = [700, 900, 200];
 
