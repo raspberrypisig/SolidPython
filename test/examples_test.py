@@ -1,3 +1,4 @@
+import os
 import platform
 import unittest
 import shutil
@@ -17,6 +18,21 @@ class ExamplesTest(unittest.TestCase):
 
         root = Path(__file__).parent.parent
 
+        def copyWithRelativeIncludes(src, dest):
+            with open(src, 'r') as srcFile:
+                with open(dest, 'w') as destFile:
+                    for l in srcFile:
+                        if l.startswith("include <"):
+                            incPath = l.replace("include <", "").replace(">;", "").replace("\n","")
+                            relIncPath = os.path.relpath(incPath, Path(dest).parent)
+                            l = f"include <{relIncPath}>;\n"
+                        elif l.startswith("use <"):
+                            incPath = l.replace("use <", "").replace(">;", "")
+                            relIncPath = os.path.relpath(incPath, Path(dest).parent)
+                            l = f"use <{relIncPath}>;\n"
+
+                        destFile.write(l)
+
         for f in sorted(Path(root / "solid2" / "examples/").iterdir()):
             if not re.match("[0-9][0-9]-.*\.py", f.name):
                 continue
@@ -31,7 +47,7 @@ class ExamplesTest(unittest.TestCase):
             # call example (generate *.scad file)
             subprocess.check_call(["python3", f.as_posix()])
             # copy generated scad file to examples_scad/
-            shutil.copyfile(f.with_suffix(".scad"), test_scad_file)
+            copyWithRelativeIncludes(f.with_suffix(".scad"), test_scad_file)
             # call git diff test/examples_scad/{f}.scad
             diff = subprocess.check_output(["git", "diff",
                                             test_scad_file.as_posix()])
