@@ -43,9 +43,9 @@ class Config:
 
     def get_pickle_cache_dir(self):
         default_paths = {
-            'Linux':   Path.home() / '.local/share/expSolidPython/pickle_cache',
-            'Darwin':  Path.home() / 'Documents/expSolidPython/pickle_cache',
-            'Windows': Path('My Documents/expSolidPython/pickle_cache')
+            'Linux':   Path.home() / '.local/share/SolidPython2/pickle_cache',
+            'Darwin':  Path.home() / 'Documents/SolidPython2/pickle_cache',
+            'Windows': Path('My Documents/SolidPython2/pickle_cache')
         }
         return default_paths[platform.system()]
 
