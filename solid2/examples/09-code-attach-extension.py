@@ -40,8 +40,6 @@ def attach_code_post_render(root):
         return f'/* Generated from the following ExpSolid code:\n\n' +\
                f'{code_str}*/'
 
-    assert(False)
-
 # register the post_render extension. This hooks it into the "_render" routine.
 # It will be called after the root gets rendered. It's return string will be
 # appended to the rendered string.

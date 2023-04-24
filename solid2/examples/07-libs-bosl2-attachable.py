@@ -8,11 +8,6 @@ def cubic_barbell(s=100, anchor=CENTER, spin=0, orient=UP):
         )
     )
 
-#cc = cubic_barbell2(100) (
-#        attach(TOP)(cube(50)),
-#        attach(LEFT)(sphere(50))
-#    )
-
 cc = cubic_barbell(100)(
         cube(50, center=True).attach(TOP),
         sphere(50).attach(LEFT),
