@@ -14,7 +14,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{{_Path(__file__).parent.parent / '{scadFile}'}}", use_not_include={use_not_include})
+_extra_scad_include(f"{{_Path(__file__).parent.parent / '{scadFile}'}}", {use_not_include})
 
 """
 
@@ -26,7 +26,9 @@ class {name}(_Bosl2Base):
 """
 
 mixinHeader = """
-class Bosl2AccessSyntaxMixin:
+from solid2.core.object_base import AccessSyntaxMixin as _AccessSyntaxMixin
+
+class Bosl2AccessSyntaxMixin(_AccessSyntaxMixin):
 
     def _get_std(self):
         from . import std
@@ -37,8 +39,6 @@ mixinTemplate = """
         return self._get_std().{name}({paramList}**kwargs)(self)
 """
 
-scad_builtins_mutators = \
-    Path(__file__).parent.parent / "core" / "builtins" / "openscad.mutators"
 scad_builtins_primitives = \
     Path(__file__).parent.parent / "core" / "builtins" / "openscad.primitives"
 
@@ -47,7 +47,6 @@ def generateBosl2Std(bosl2_dir):
 
     with open(stubFile, "w") as std_f:
         std_f.write("from .openscad import *\n")
-        stdlibs = []
         with open(bosl2_dir / "std.scad") as f:
             for l in f.readlines():
                 l = l.strip()
@@ -55,13 +54,6 @@ def generateBosl2Std(bosl2_dir):
                     continue
                 l = l.replace("include <", "").replace(">", "")
                 std_f.write(f"from .{Path(l).stem} import *\n")
-                stdlibs.append(l)
-
-            # for f in bosl2_dir.iterdir():
-            #     if not f.suffix == ".scad" or f.name in stdlibs:
-            #         continue
-            #     std_f.write(f"from . import {f.stem}\n")
-
 
 def generateBosl2AccessSyntaxMixin(bosl2_dir, outputDir):
     def generateCallable(c):
@@ -79,12 +71,10 @@ def generateBosl2AccessSyntaxMixin(bosl2_dir, outputDir):
                                     paramListWithDefaults=paramListWithDefaults,
                                     paramList=paramList)
 
-    mixinFiles = [scad_builtins_mutators]
-
     mods = ["transforms", "attachments", "mutators",
             "distributors", "partitions", "color"]
-    for m in mods:
-        mixinFiles.append((bosl2_dir / m).with_suffix(".scad"))
+
+    mixinFiles = [(bosl2_dir / m).with_suffix(".scad") for m in mods]
 
     modules = []
     for f in mixinFiles:

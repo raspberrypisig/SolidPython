@@ -1,51 +1,11 @@
 
-class Bosl2AccessSyntaxMixin:
+from solid2.core.object_base import AccessSyntaxMixin as _AccessSyntaxMixin
+
+class Bosl2AccessSyntaxMixin(_AccessSyntaxMixin):
 
     def _get_std(self):
         from . import std
         return std
-
-    def translate(self, v=None, **kwargs):
-        return self._get_std().translate(v, **kwargs)(self)
-
-    def scale(self, v=None, **kwargs):
-        return self._get_std().scale(v, **kwargs)(self)
-
-    def rotate(self, a=None, v=None, **kwargs):
-        return self._get_std().rotate(a, v, **kwargs)(self)
-
-    def mirror(self, v=None, **kwargs):
-        return self._get_std().mirror(v, **kwargs)(self)
-
-    def resize(self, newsize=None, auto=None, **kwargs):
-        return self._get_std().resize(newsize, auto, **kwargs)(self)
-
-    def color(self, c=None, alpha=None, **kwargs):
-        return self._get_std().color(c, alpha, **kwargs)(self)
-
-    def minkowski(self, **kwargs):
-        return self._get_std().minkowski(**kwargs)(self)
-
-    def offset(self, r=None, delta=None, chamfer=None, _fn=None, **kwargs):
-        return self._get_std().offset(r, delta, chamfer, _fn, **kwargs)(self)
-
-    def hull(self, **kwargs):
-        return self._get_std().hull(**kwargs)(self)
-
-    def render(self, convexity=None, **kwargs):
-        return self._get_std().render(convexity, **kwargs)(self)
-
-    def linear_extrude(self, height=None, center=None, convexity=None, twist=None, slices=None, scale=None, **kwargs):
-        return self._get_std().linear_extrude(height, center, convexity, twist, slices, scale, **kwargs)(self)
-
-    def rotate_extrude(self, angle=None, convexity=None, _fn=None, **kwargs):
-        return self._get_std().rotate_extrude(angle, convexity, _fn, **kwargs)(self)
-
-    def projection(self, cut=None, **kwargs):
-        return self._get_std().projection(cut, **kwargs)(self)
-
-    def surface(self, file=None, center=None, convexity=None, invert=None, **kwargs):
-        return self._get_std().surface(file, center, convexity, invert, **kwargs)(self)
 
     def move(self, v=None, p=None, **kwargs):
         return self._get_std().move(v, p, **kwargs)(self)
