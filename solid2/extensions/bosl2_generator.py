@@ -108,7 +108,7 @@ for f in bosl2_dir.iterdir():
                  callableTemplate=callableTemplate)
 
 generateStub(scad_builtins_primitives, output_dir, False,
-                headerTemplate=\
-                    "from .bosl2_base import Bosl2Base as _Bosl2Base\n\n",
-                callableTemplate=callableTemplate)
+             headerTemplate=\
+                 "from .bosl2_base import Bosl2Base as _Bosl2Base\n\n",
+             callableTemplate=callableTemplate)
 

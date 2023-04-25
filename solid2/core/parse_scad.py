@@ -11,9 +11,7 @@ from .object_factory import create_openscad_wrapper_from_symbols
 
 callables_entry = namedtuple("callables_entry", ["name", "args", "kwargs"])
 
-# ===========
-# = Parsing =
-# ===========
+
 def get_pickle_filename(filename):
     md5 = hashlib.md5()
     md5.update(filename.as_posix().encode('utf-8'))
