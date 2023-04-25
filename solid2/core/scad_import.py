@@ -51,7 +51,7 @@ def load_scad_dir_into_dict(resolved_scad, dest_namespace_dict, use_not_include,
     #for each file in the dir
     for f in resolved_scad.iterdir():
         #skip non .scad files
-        if f.suffix != ".scad":
+        if f.is_file() and f.suffix != ".scad":
             continue
 
         #load it
