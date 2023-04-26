@@ -27,7 +27,7 @@ class ExamplesTest(unittest.TestCase):
                             relIncPath = os.path.relpath(incPath, Path(dest).parent)
                             l = f"include <{relIncPath}>;\n"
                         elif l.startswith("use <"):
-                            incPath = l.replace("use <", "").replace(">;", "")
+                            incPath = l.replace("use <", "").replace(">;", "").replace("\n","")
                             relIncPath = os.path.relpath(incPath, Path(dest).parent)
                             l = f"use <{relIncPath}>;\n"
 

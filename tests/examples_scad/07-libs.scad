@@ -1,4 +1,4 @@
-use </home/jeff/.local/share/OpenSCAD/libraries/BOSL/metric_screws.scad>;
+use <../../../../../.local/share/OpenSCAD/libraries/BOSL/metric_screws.scad>;
 
 
 
