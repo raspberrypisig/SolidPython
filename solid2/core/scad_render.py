@@ -3,20 +3,33 @@ from pathlib import Path
 from .scad_import import module_cache_by_resolved_filename, extra_scad_includes
 from ..config import config
 
-# =========================================
-# = Rendering Python code to OpenSCAD code=
-# =========================================
+
+def get_default_filename(suffix):
+    #try to get the filename of the calling module
+    import __main__
+    if hasattr(__main__, "__file__"):
+        #not called from a terminal
+        calling_file = Path(__main__.__file__).absolute()
+        outfile = calling_file.with_suffix(suffix)
+    else:
+        outfile = "solid_out" + suffix
+
+    return outfile
+
 def render_to_stl_file(root, filename):
-    scad_render_to_file(root, Path(filename).with_suffix(".stl.scad"))
+    if not filename:
+        filename = get_default_filename(".stl")
+    scad_file = \
+        scad_render_to_file(root,
+                            Path(filename).with_suffix(".stl.scad"))
 
     import subprocess
-    args = ["openscad", "-o", filename, Path(filename).with_suffix(".stl.scad")]
-    cp = subprocess.run(args, stdout=subprocess.PIPE)
+    args = ["openscad", "-o", filename, scad_file]
+    subprocess.check_call(args,
+                          stdout=subprocess.PIPE,
+                          stderr=subprocess.DEVNULL)
 
-    if cp.returncode == 0:
-        return Path(filename).absolute().as_posix()
-
-    return None
+    return Path(filename).absolute().as_posix()
 
 def scad_render(root, file_header = ''):
     #get a list of all used and included files
@@ -53,15 +66,8 @@ def _write_to_file(out_string, filename=None, outdir=''):
 
     if not outfile:
         suffix = ".scad" if not config.use_implicit_builtins else ".escad"
+        outfile = get_default_filename(suffix)
 
-        #try to get the filename of the calling module
-        import __main__
-        if hasattr(__main__, "__file__"):
-            #not called from a terminal
-            calling_file = Path(__main__.__file__).absolute()
-            outfile = calling_file.with_suffix(suffix)
-        else:
-            outfile = "solid_out" + suffix
 
     outpath = Path(outdir)
     if not outpath.exists():
