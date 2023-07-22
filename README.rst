@@ -45,7 +45,7 @@ lot shorter (and I think clearer) than the SCAD code it compiles to:
 .. code:: python
 
     from solid2 import *
-    d = cube(5) + right(5)(sphere(5)) - cylinder(r=2, h=6)
+    d = cube(5) + sphere(5).right(5) - cylinder(r=2, h=6)
 
 Generates this OpenSCAD code:
 
