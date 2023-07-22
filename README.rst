@@ -156,76 +156,13 @@ Using SolidPython
 -  Alternately, you could call OpenSCAD's command line and render
    straight to STL.
 
-Importing OpenSCAD code
------------------------
-
-- Use ``solid2.import_scad(path)`` to import OpenSCAD code. Relative paths will check the current location designated in `OpenSCAD library directories <https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Libraries>`__.
-
-**Ex:** 
-
-``scadfile.scad``
-
-.. code::
-
-    module box(w,h,d){
-        cube([w,h,d]);
-    }
-
-``your_file.py``
-
-.. code:: python
-
-    from solid2 import *
-
-    scadfile = import_scad('/path/to/scadfile.scad') 
-    b = scadfile.box(2,4,6)
-    b.save_as_scad('out_file.scad')
-
-- Recursively import OpenSCAD code by calling ``import_scad()`` with a directory argument.
-
-.. code:: python
-
-    from solid2 import *
-
-    # MCAD is OpenSCAD's most common utility library: https://github.com/openscad/MCAD
-    # If it's installed for OpenSCAD (on MacOS, at: ``$HOME/Documents/OpenSCAD/libraries``)
-    mcad = import_scad('MCAD')
-
-    # MCAD contains about 15 separate packages, each included as its own namespace
-    print(dir(mcad)) # => ['bearing', 'bitmap', 'boxes', etc...]
-    mount = mcad.motors.stepper_motor_mount(nema_standard=17)
-    mount.save_as_scad('motor_mount_file.scad')
-
-- OpenSCAD has the ``use()`` and ``include()`` statements for importing SCAD code, and SolidPython has them, too. They pollute the global namespace, though, and you may have better luck with ``import_scad()``,
-
-**Ex:**
-
-``scadfile.scad``
-
-.. code::
-
-    module box(w,h,d){
-        cube([w,h,d]);
-    }
-
-``your_file.py``
-
-.. code:: python
-
-    from solid2 import *
-
-    # use() puts the module `box()` into the global namespace
-    use('/path/to/scadfile.scad') 
-    b = box(2,4,6)
-    scad_render_to_file(b, 'out_file.scad')
-
-
-Example Code
+Tutorial - Example Code
 ------------
 
 The best way to learn how SolidPython works is to look at the included
-example code. If you've installed SolidPython, the following line of
-Python will print (the location of) the examples directory:
+example code. They are kind of a minimalistic SolidPython tutorial. If
+you've installed SolidPython, the following line of Python will print
+(the location of) the examples directory:
 
 .. code:: python
 
