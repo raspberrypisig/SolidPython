@@ -10,7 +10,7 @@ from solid2.extensions.bosl2 import gears, beziers, screws, cubetruss
 # $fa=1;
 # $fs=1;
 
-from solid2.extensions.greedy_scad_interface import set_global_fa, set_global_fs
+from solid2 import set_global_fa, set_global_fs
 set_global_fa(1)
 set_global_fs(1)
 

@@ -2,8 +2,8 @@
 
 from solid2 import *
 
-# the convenience extension defines some convenience functions and "overloads"
-# some transformations and primitives to get a more convient access to it.
+# the convenience module defines some convenience functions and "overloads" for
+# some transformations and primitives to get a more convenient access to it.
 # It provides for all OpenSCAD modules which need a "size" parameter to pass in
 # single integers / floats (not wrapped in a list or tuple). In other words: you
 # don't need to wrap sizes in [ and ]:

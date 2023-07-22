@@ -8,7 +8,7 @@ c = cube([10, 20, 30])
 s = sphere(10)
 
 d = c - s
-# Operators: This is from the operators extension.
+# Operators:
 # The following operators are defined:
 #
 #   operator    |   action

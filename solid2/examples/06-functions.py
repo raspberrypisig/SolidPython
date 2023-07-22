@@ -2,12 +2,11 @@
 
 from solid2 import *
 
-# as soon as the objects get more complicated it makes sense to use functions
+# as soon as the objects get more sophisticated it makes sense to use functions
 # to hierarchically assemble them.
 # You can use python functions pretty much the same way as OpenSCAD modules
 # except the children stuff. This is not possible with SolidPython but you
-# should be albe to pass other OpenSCAD objects as parameters if neccessary.
-# I haven't tried it but it should work....
+# can pass other OpenSCAD objects as parameters to a function.
 #
 # This simple example assembles a car similar to the one from the OpenSCAD
 # tutorial:
