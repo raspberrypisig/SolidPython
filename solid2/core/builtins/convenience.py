@@ -1,11 +1,11 @@
 from ...config import config
-from ..object_base import ObjectBase
+from ..object_base import ObjectBase, OperatorMixin, AccessSyntaxMixin
 from .primitives import *
 
 # =============
 # = modifiers =
 # =============
-class ModifierBase(ObjectBase):
+class ModifierBase(ObjectBase, OperatorMixin, AccessSyntaxMixin):
     def __init__(self, child=None):
         super().__init__()
         if child:
