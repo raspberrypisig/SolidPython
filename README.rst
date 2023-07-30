@@ -157,7 +157,7 @@ Using SolidPython
    straight to STL.
 
 Tutorial - Example Code
-------------
+-----------------------
 
 The best way to learn how SolidPython works is to look at the included
 example code. They are kind of a minimalistic SolidPython tutorial. If
