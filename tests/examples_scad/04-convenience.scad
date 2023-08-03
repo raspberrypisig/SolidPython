@@ -1,7 +1,3 @@
-
-
-
-
 difference() {
 	rotate(a = [45, 45, 45]) {
 		translate(v = [0, 0, -5]) {

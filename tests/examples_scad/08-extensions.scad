@@ -1,6 +1,3 @@
-
-
-
 //the root tree contains 2 non sense comment(s)
 
 union() {

@@ -27,10 +27,6 @@ include <../../solid2/extensions/bosl2/BOSL2/vnf.scad>;
 include <../../solid2/extensions/bosl2/BOSL2/utility.scad>;
 include <../../solid2/extensions/bosl2/BOSL2/partitions.scad>;
 
-
-
-
-
 attachable(anchor = CENTER, orient = UP, size = [300, 100, 100], spin = 0) {
 	union() {
 		xcopies(spacing = 200) {

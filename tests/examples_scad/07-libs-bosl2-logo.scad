@@ -31,8 +31,6 @@ include <../../solid2/extensions/bosl2/BOSL2/beziers.scad>;
 include <../../solid2/extensions/bosl2/BOSL2/screws.scad>;
 include <../../solid2/extensions/bosl2/BOSL2/cubetruss.scad>;
 
-
-
 $fa = 1;
 $fs = 1;
 

@@ -28,10 +28,6 @@ include <../../solid2/extensions/bosl2/BOSL2/utility.scad>;
 include <../../solid2/extensions/bosl2/BOSL2/partitions.scad>;
 include <../../solid2/extensions/bosl2/BOSL2/metric_screws.scad>;
 
-
-
-
-
 union() {
 	#bounding_box() {
 		path_extrude(path = [[0, 0, 0], [33, 33, 33], [66, 33, 40], [100, 0, 0], [150, 0, 0]]) {

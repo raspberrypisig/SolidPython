@@ -1,7 +1,3 @@
-
-
-
-
 cube(size = 10);
 /* Generated from the following ExpSolid code:
 

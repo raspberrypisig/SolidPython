@@ -1,5 +1,3 @@
-
-
 $fn = 72;
 
 difference() {

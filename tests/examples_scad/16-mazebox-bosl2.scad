@@ -27,10 +27,6 @@ include <../../solid2/extensions/bosl2/BOSL2/vnf.scad>;
 include <../../solid2/extensions/bosl2/BOSL2/utility.scad>;
 include <../../solid2/extensions/bosl2/BOSL2/partitions.scad>;
 
-
-
-
-
 difference() {
 	union() {
 		tube(or = 30.357749073643905, center = true, h = 88, ir = 28.357749073643905);

@@ -1,7 +1,3 @@
-
-
-
-
 union() {
 	cube(center = true, size = [100, 250, 50]);
 	translate(v = [0, 0, 50]) {

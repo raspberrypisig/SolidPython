@@ -37,8 +37,10 @@ def set_global_variable(var_name, value):
 @_register_pre_render
 def _get_scad_header(_):
     base_str = "\n".join([f"use <{f}>" for f in _fonts])
-    base_str += "\n\n"
+    base_str += "\n\n" if base_str else ""
     base_str += "\n".join(_ScadVariable.registered_variables.values())
 
-    return base_str + "\n"
+    if base_str:
+        base_str += "\n"
+    return base_str
 
