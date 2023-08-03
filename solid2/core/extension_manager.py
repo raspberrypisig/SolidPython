@@ -40,7 +40,7 @@ class ExtensionManager():
         for f in self.pre_render:
             pre_render_str += f(root)
 
-        return pre_render_str
+        return pre_render_str.strip()
 
     def call_post_render(self, root):
         post_render_str = ''
@@ -48,7 +48,7 @@ class ExtensionManager():
         for f in self.post_render:
             post_render_str += f(root)
 
-        return post_render_str
+        return post_render_str.strip()
 
     def access_syntax_lookup(self, key):
         return self.access_syntax.get(key, None)

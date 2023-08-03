@@ -38,7 +38,7 @@ def scad_render(root, file_header = ''):
     #call extensions pre_render
     from .extension_manager import default_extension_manager
     extensions_header_str = default_extension_manager.call_pre_render(root)
-    extensions_header_str += "\n" if extensions_header_str else ''
+    extensions_header_str += "\n\n" if extensions_header_str else ''
 
     #wrap the extensions around the root node
     root = default_extension_manager.wrap_root_node(root)
