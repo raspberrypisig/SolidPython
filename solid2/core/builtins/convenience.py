@@ -1,3 +1,4 @@
+import numbers
 from ...config import config as _config
 from ..object_base import ObjectBase as _ObjectBase,\
                           OperatorMixin as _OperatorMixin,\
@@ -82,7 +83,7 @@ def _extract_size_list(size_count, *args):
 
     while args_copy and len(size_list) < size_count:
         a = args_copy.pop(0)
-        if type(a) == int or type(a) == float:
+        if isinstance(a, numbers.Real):
             size_list += [a]
         else:
             args_copy = [a] + args_copy
