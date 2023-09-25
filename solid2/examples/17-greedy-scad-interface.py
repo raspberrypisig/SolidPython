@@ -3,7 +3,7 @@
 from solid2 import *
 
 set_global_fn(32)
-set_global_viewport_distance(abs(sin(get_animation_time() * 360)) * 10 + 5)
+set_global_viewport_distance(abs(openscad_functions.sin(get_animation_time() * 360)) * 10 + 5)
 set_global_viewport_translation([0, -1, 0])
 set_global_viewport_rotation([63, 0, get_animation_time() * 360])
 set_global_viewport_fov(25)
@@ -24,7 +24,7 @@ def funny_cube():
                                                            tab = "Animation")
 
     return color(customized_color) (
-                cube(abs(sin(get_animation_time() * 360 * customized_animation_factor)), center=True)
+                cube(abs(openscad_functions.sin(get_animation_time() * 360 * customized_animation_factor)), center=True)
            )
 
 def funny_sphere():
@@ -33,7 +33,7 @@ def funny_sphere():
 
     return translate([0, -2, 0]) (
                 color(customized_color) (
-                    sphere(r = abs(sin(get_animation_time() * 360 * customized_animation_factor - 90)))
+                    sphere(r = abs(openscad_functions.sin(get_animation_time() * 360 * customized_animation_factor - 90)))
                 )
            )
 

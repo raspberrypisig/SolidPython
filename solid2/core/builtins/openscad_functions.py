@@ -34,4 +34,5 @@ def concat(*args):  return _base_fn('concat', *args)
 def cross(*args):   return _base_fn('cross', *args)
 def lookup(*args):  return _base_fn('lookup', *args)
 def rands(*args):   return _base_fn('rands', *args)
+def not_(*args):    return _base_fn('!', *args)
 

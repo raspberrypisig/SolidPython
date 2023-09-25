@@ -169,16 +169,6 @@ class OpenSCADConstant:
         from textwrap import dedent
         return dedent(self.value)
 
-import math
-sin = lambda x: OpenSCADConstant(f'sin({x})') if isinstance(x, OpenSCADConstant) else math.sin(x)
-cos = lambda x: OpenSCADConstant(f'cos({x})') if isinstance(x, OpenSCADConstant) else math.cos(x)
-tan = lambda x: OpenSCADConstant(f'tan({x})') if isinstance(x, OpenSCADConstant) else math.tan(x)
-asin = lambda x: OpenSCADConstant(f'asin({x})') if isinstance(x, OpenSCADConstant) else math.asin(x)
-acos = lambda x: OpenSCADConstant(f'acos({x})') if isinstance(x, OpenSCADConstant) else math.acos(x)
-atan = lambda x: OpenSCADConstant(f'atan({x})') if isinstance(x, OpenSCADConstant) else math.atan(x)
-sqrt = lambda x: OpenSCADConstant(f'sqrt({x})') if isinstance(x, OpenSCADConstant) else math.sqrt(x)
-not_ = lambda x: OpenSCADConstant(f'!{x}')
-
 def scad_inline(code):
     return OpenSCADConstant(code)
 
