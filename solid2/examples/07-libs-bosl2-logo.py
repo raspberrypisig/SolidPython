@@ -4,7 +4,10 @@
 # include <BOSL2/screws.scad>
 # include <BOSL2/cubetruss.scad>
 
-from solid2.extensions.bosl2 import *
+from solid2.extensions.bosl2 import cuboid, regular_ngon, \
+                                    RIGHT, FRONT, BACK, BOT, CENTER, \
+                                    path_sweep, xdistribute
+
 from solid2.extensions.bosl2 import gears, beziers, screws, cubetruss
 
 # $fa=1;

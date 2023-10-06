@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid2 import *
+from solid2 import cube, sphere
 
 # Since I don't like the OpenSCAD syntax I added "access-style" syntax. This
 # allows to call all OpenSCAD builtin transformations, the convenience

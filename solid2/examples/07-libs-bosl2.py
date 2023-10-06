@@ -1,7 +1,8 @@
 #! /usr/bin/env python
 
-from solid2.extensions.bosl2 import *
-from solid2.extensions.bosl2 import metric_screws
+from solid2.extensions.bosl2 import circle, cuboid, sphere, cylinder, \
+                                    heightfield, diff, tag, attach, \
+                                    TOP, CTR, metric_screws
 
 #basic stuff
 def bolt():

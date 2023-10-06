@@ -1,4 +1,6 @@
-from solid2.extensions.bosl2 import *
+from solid2.extensions.bosl2 import cube, sphere, xcyl, union, xcopies, \
+                                    attachable, show_anchors, \
+                                    CENTER, LEFT, TOP, UP
 
 def cubic_barbell(s=100, anchor=CENTER, spin=0, orient=UP):
     return attachable(anchor,spin,orient, size=[s*3,s,s]) (

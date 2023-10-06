@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid2 import *
+from solid2 import cube, sphere, cylinder, background, debug
 
 c = cube([10, 20, 30])
 

@@ -4,8 +4,8 @@
 # bosl2. It's based on https://www.thingiverse.com/thing:1481
 
 from math import pi, cos
-from solid2 import *
-from solid2.extensions.bosl2 import cylindrical_extrude, zcyl, zrot, tube
+from solid2.extensions.bosl2 import zcyl, zrot, tube, surface, projection, \
+                                    cylindrical_extrude
 
 def mazebox():
     #the maze is 64x90 pixel

@@ -5,7 +5,7 @@ cube(size = 10);
 
 from pathlib import Path
 
-from solid2 import *
+from solid2 import cube, register_post_render
 
 # =============
 # = Extension =
@@ -20,7 +20,7 @@ from solid2 import *
 # the "_render" routine. It will be called after the root gets rendered. It's
 # return string will be appended to the rendered string.
 @register_post_render
-def attach_code_post_render(root):
+def attach_code_post_render(_):
     #find the "root" file
     calling_file = None
 

@@ -16,7 +16,7 @@
 import sys
 sys.argv.append("--implicit")
 
-from solid2 import *
+from solid2 import cylinder, cube, difference, union
 
 def wheel():
     return cylinder(r=35, h=15, center=True).rotate(0, 90, 0)
@@ -35,12 +35,12 @@ def torso():
     top = cube(80, 100, 60, center=True, r=10)
 
     window_cube = cube(200, 55 ,50, center=True, r=10).down(10)
-    top = difference(r=10) (
+    top = difference(r=10) ( # type: ignore
                 top,
-                (union(r=10) (window_cube, window_cube.rotate(0, 0, 90)))
+                (union(r=10) (window_cube, window_cube.rotate(0, 0, 90))) # type: ignore
             )
 
-    return union(r=10)(bottom, top.up(50))
+    return union(r=10)(bottom, top.up(50)) # type: ignore
 
 def car():
     t = torso()
@@ -49,7 +49,7 @@ def car():
 
     rear_axle = front_axle.forward(160)
 
-    return union(r=3)(t, front_axle, rear_axle)
+    return union(r=3)(t, front_axle, rear_axle) # type: ignore
 
 car().save_as_scad()
 

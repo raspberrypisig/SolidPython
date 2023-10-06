@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
-from solid2 import *
+from solid2 import cube, text, translate, union, scad_render_to_file, scad_inline, \
+                   CustomizerDropdownVariable, CustomizerSliderVariable
 
 #register all the custom variables you want to use
 objects = CustomizerDropdownVariable("objects", 4, [2, 4, 6])

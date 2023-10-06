@@ -38,7 +38,7 @@ difference() {
 		cylindrical_extrude(or = 30.557749073643905, ir = 30.357749073643905) {
 			offset(r = 0.0) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -47,7 +47,7 @@ difference() {
 		cylindrical_extrude(or = 30.357749073643905, ir = 30.157749073643906) {
 			offset(r = -0.01231165940486223) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -56,7 +56,7 @@ difference() {
 		cylindrical_extrude(or = 30.157749073643906, ir = 29.957749073643903) {
 			offset(r = -0.04894348370484647) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -65,7 +65,7 @@ difference() {
 		cylindrical_extrude(or = 29.957749073643903, ir = 29.757749073643904) {
 			offset(r = -0.1089934758116321) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -74,7 +74,7 @@ difference() {
 		cylindrical_extrude(or = 29.757749073643904, ir = 29.557749073643905) {
 			offset(r = -0.19098300562505255) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -83,7 +83,7 @@ difference() {
 		cylindrical_extrude(or = 29.557749073643905, ir = 29.357749073643905) {
 			offset(r = -0.2928932188134524) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -92,7 +92,7 @@ difference() {
 		cylindrical_extrude(or = 29.357749073643905, ir = 29.157749073643906) {
 			offset(r = -0.41221474770752686) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -101,7 +101,7 @@ difference() {
 		cylindrical_extrude(or = 29.157749073643906, ir = 28.957749073643903) {
 			offset(r = -0.5460095002604533) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -110,7 +110,7 @@ difference() {
 		cylindrical_extrude(or = 28.957749073643903, ir = 28.757749073643904) {
 			offset(r = -0.6909830056250525) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -119,7 +119,7 @@ difference() {
 		cylindrical_extrude(or = 28.757749073643904, ir = 28.557749073643905) {
 			offset(r = -0.843565534959769) {
 				projection(cut = true) {
-					translate(v = [0, 0, 10]) {
+					up(z = 10) {
 						surface(center = true, file = "maze7.png", invert = true);
 					}
 				}
@@ -130,7 +130,7 @@ difference() {
 				cylindrical_extrude(or = 30.557749073643905, ir = 30.357749073643905) {
 					offset(r = 0.0) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -139,7 +139,7 @@ difference() {
 				cylindrical_extrude(or = 30.357749073643905, ir = 30.157749073643906) {
 					offset(r = -0.01231165940486223) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -148,7 +148,7 @@ difference() {
 				cylindrical_extrude(or = 30.157749073643906, ir = 29.957749073643903) {
 					offset(r = -0.04894348370484647) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -157,7 +157,7 @@ difference() {
 				cylindrical_extrude(or = 29.957749073643903, ir = 29.757749073643904) {
 					offset(r = -0.1089934758116321) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -166,7 +166,7 @@ difference() {
 				cylindrical_extrude(or = 29.757749073643904, ir = 29.557749073643905) {
 					offset(r = -0.19098300562505255) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -175,7 +175,7 @@ difference() {
 				cylindrical_extrude(or = 29.557749073643905, ir = 29.357749073643905) {
 					offset(r = -0.2928932188134524) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -184,7 +184,7 @@ difference() {
 				cylindrical_extrude(or = 29.357749073643905, ir = 29.157749073643906) {
 					offset(r = -0.41221474770752686) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -193,7 +193,7 @@ difference() {
 				cylindrical_extrude(or = 29.157749073643906, ir = 28.957749073643903) {
 					offset(r = -0.5460095002604533) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -202,7 +202,7 @@ difference() {
 				cylindrical_extrude(or = 28.957749073643903, ir = 28.757749073643904) {
 					offset(r = -0.6909830056250525) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -211,7 +211,7 @@ difference() {
 				cylindrical_extrude(or = 28.757749073643904, ir = 28.557749073643905) {
 					offset(r = -0.843565534959769) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -224,7 +224,7 @@ difference() {
 				cylindrical_extrude(or = 30.557749073643905, ir = 30.357749073643905) {
 					offset(r = 0.0) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -233,7 +233,7 @@ difference() {
 				cylindrical_extrude(or = 30.357749073643905, ir = 30.157749073643906) {
 					offset(r = -0.01231165940486223) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -242,7 +242,7 @@ difference() {
 				cylindrical_extrude(or = 30.157749073643906, ir = 29.957749073643903) {
 					offset(r = -0.04894348370484647) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -251,7 +251,7 @@ difference() {
 				cylindrical_extrude(or = 29.957749073643903, ir = 29.757749073643904) {
 					offset(r = -0.1089934758116321) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -260,7 +260,7 @@ difference() {
 				cylindrical_extrude(or = 29.757749073643904, ir = 29.557749073643905) {
 					offset(r = -0.19098300562505255) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -269,7 +269,7 @@ difference() {
 				cylindrical_extrude(or = 29.557749073643905, ir = 29.357749073643905) {
 					offset(r = -0.2928932188134524) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -278,7 +278,7 @@ difference() {
 				cylindrical_extrude(or = 29.357749073643905, ir = 29.157749073643906) {
 					offset(r = -0.41221474770752686) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -287,7 +287,7 @@ difference() {
 				cylindrical_extrude(or = 29.157749073643906, ir = 28.957749073643903) {
 					offset(r = -0.5460095002604533) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -296,7 +296,7 @@ difference() {
 				cylindrical_extrude(or = 28.957749073643903, ir = 28.757749073643904) {
 					offset(r = -0.6909830056250525) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}
@@ -305,7 +305,7 @@ difference() {
 				cylindrical_extrude(or = 28.757749073643904, ir = 28.557749073643905) {
 					offset(r = -0.843565534959769) {
 						projection(cut = true) {
-							translate(v = [0, 0, 10]) {
+							up(z = 10) {
 								surface(center = true, file = "maze7.png", invert = true);
 							}
 						}

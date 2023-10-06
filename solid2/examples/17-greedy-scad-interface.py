@@ -1,6 +1,16 @@
 #! /usr/bin/env python
 
-from solid2 import *
+from solid2 import cube, sphere, color, ScadValue, translate, \
+                   openscad_functions, \
+                   set_global_fn, \
+                   set_global_viewport_distance, \
+                   set_global_viewport_translation, \
+                   set_global_viewport_rotation, \
+                   set_global_viewport_fov, \
+                   get_animation_time, \
+                   CustomizerSliderVariable, \
+                   CustomizerDropdownVariable
+
 
 set_global_fn(32)
 set_global_viewport_distance(abs(openscad_functions.sin(get_animation_time() * 360)) * 10 + 5)
@@ -17,13 +27,13 @@ def funny_cube():
 
     customized_animation_factor = CustomizerSliderVariable(name = "anim_factor",
                                                            default_value = 1,
-                                                           min_ = 1,
-                                                           max_ = 10,
-                                                           step = 0.5,
+                                                           min_ = 1, # type: ignore
+                                                           max_ = 10, # type: ignore
+                                                           step = 0.5, # type: ignore
                                                            label = "Animation speed factor",
                                                            tab = "Animation")
 
-    return color(customized_color) (
+    return color(customized_color) ( # type: ignore
                 cube(abs(openscad_functions.sin(get_animation_time() * 360 * customized_animation_factor)), center=True)
            )
 
@@ -32,8 +42,8 @@ def funny_sphere():
     customized_animation_factor = ScadValue("anim_factor")
 
     return translate([0, -2, 0]) (
-                color(customized_color) (
-                    sphere(r = abs(openscad_functions.sin(get_animation_time() * 360 * customized_animation_factor - 90)))
+                color(customized_color) ( # type: ignore
+                    sphere(r = abs(openscad_functions.sin(get_animation_time() * 360 * customized_animation_factor - 90))) # type: ignore
                 )
            )
 

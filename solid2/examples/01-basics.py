@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid2 import *
+from solid2 import cube, sphere, difference, set_global_fn
 
 set_global_fn(72)
 

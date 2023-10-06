@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid2 import *
+from solid2 import cube, sphere, rotate, down, forward
 
 # the convenience module defines some convenience functions and "overloads" for
 # some transformations and primitives to get a more convenient access to it.

@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid2 import *
+from solid2 import cylinder, cube
 
 # as soon as the objects get more sophisticated it makes sense to use functions
 # to hierarchically assemble them.

@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from solid2 import *
+from solid2 import import_scad
 
 # you can use OpenSCAD libraries in SolidPython. This examples needs the bosl
 # library to be installed in the OpenSCAD library path

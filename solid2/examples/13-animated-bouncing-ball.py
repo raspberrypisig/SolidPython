@@ -1,6 +1,12 @@
 #! /usr/bin/env python
 
-from solid2 import *
+from solid2 import sphere, cube, translate, background, \
+                   scad_inline, scad_render_to_file, \
+                   set_global_viewport_translation, \
+                   set_global_viewport_rotation, \
+                   set_global_viewport_distance, \
+                   set_global_variable
+
 
 #set steps in OpenSCAD to 1000
 
