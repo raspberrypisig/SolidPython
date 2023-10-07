@@ -53,7 +53,7 @@ libraries to generate your models.
 Getting Started
 ---------------
 
-The `wiki <https://github.com/jeff-dh/SolidPython/wiki>`__ is the place to look for docs and tutorials. Furthermore the `examples <https://github.com/jeff-dh/SolidPython/tree/exp_solid/solid2/examples>`__ might be interesting to you too.
+The `wiki <https://github.com/jeff-dh/SolidPython/wiki>`__ is the place to look for docs and tutorials. Furthermore the `examples <https://github.com/jeff-dh/SolidPython/tree/master-2.0.0-beta-dev/solid2/examples>`__ might be interesting to you too.
 
 Contact
 =======
