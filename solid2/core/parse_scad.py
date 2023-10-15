@@ -24,11 +24,13 @@ def get_pickle_filename(filename):
         file_content_hash = d.hexdigest()
 
     pickle_filename = Path(filename_hash).with_suffix("." + file_content_hash).name
+    assert(config.pickle_cache_dir is not None)
     return config.pickle_cache_dir / pickle_filename, filename_hash
 
 def check_pickle_cache(filename):
     if not config.enable_pickle_cache:
         return None, None, False
+    assert(config.pickle_cache_dir is not None)
 
     pickle_filename, _ = get_pickle_filename(filename)
 
