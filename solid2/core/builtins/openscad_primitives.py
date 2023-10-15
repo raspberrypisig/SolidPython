@@ -178,8 +178,8 @@ class cylinder(_OpenSCADObject):
     :type _fn: int
     """
 
-    def __init__(self, r: float = None, h: float = None, r1: float = None, r2: float = None,
-                 d: float = None, d1: float = None, d2: float = None, center: bool = None,
+    def __init__(self, h: float = None, r1: float = None, r2: float = None, center: bool = None,
+                 r: float = None, d: float = None, d1: float = None, d2: float = None,
                  _fn: int = None) -> None:
         super().__init__('cylinder',
                          {'r': r, 'h': h, 'r1': r1, 'r2': r2, 'd': d,
