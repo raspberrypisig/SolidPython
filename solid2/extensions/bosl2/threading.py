@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/threading.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/threading.scad'}", False)
 
 class threaded_rod(_Bosl2Base):
     def __init__(self, d=None, l=None, pitch=None, left_handed=None, bevel=None, bevel1=None, bevel2=None, starts=None, internal=None, d1=None, d2=None, length=None, h=None, height=None, blunt_start=None, blunt_start1=None, blunt_start2=None, lead_in=None, lead_in1=None, lead_in2=None, lead_in_ang=None, lead_in_ang1=None, lead_in_ang2=None, end_len=None, end_len1=None, end_len2=None, lead_in_shape=None, anchor=None, spin=None, orient=None, **kwargs):

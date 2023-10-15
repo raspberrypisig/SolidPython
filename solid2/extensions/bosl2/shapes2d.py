@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/shapes2d.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/shapes2d.scad'}", False)
 
 class square(_Bosl2Base):
     def __init__(self, size=None, center=None, anchor=None, spin=None, **kwargs):

@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/masks3d.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/masks3d.scad'}", False)
 
 class chamfer_edge_mask(_Bosl2Base):
     def __init__(self, l=None, chamfer=None, excess=None, h=None, length=None, height=None, anchor=None, spin=None, orient=None, **kwargs):

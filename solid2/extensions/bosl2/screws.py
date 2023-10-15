@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/screws.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/screws.scad'}", False)
 
 class _get_spec(_Bosl2Base):
     def __init__(self, spec=None, needtype=None, origin=None, thread=None, head=None, drive=None, drive_size=None, shape=None, thickness=None, **kwargs):

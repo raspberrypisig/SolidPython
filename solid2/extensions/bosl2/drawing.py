@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/drawing.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/drawing.scad'}", False)
 
 class stroke(_Bosl2Base):
     def __init__(self, path=None, width=None, closed=None, endcaps=None, endcap1=None, endcap2=None, joints=None, dots=None, endcap_width=None, endcap_width1=None, endcap_width2=None, joint_width=None, dots_width=None, endcap_length=None, endcap_length1=None, endcap_length2=None, joint_length=None, dots_length=None, endcap_extent=None, endcap_extent1=None, endcap_extent2=None, joint_extent=None, dots_extent=None, endcap_angle=None, endcap_angle1=None, endcap_angle2=None, joint_angle=None, dots_angle=None, endcap_color=None, endcap_color1=None, endcap_color2=None, joint_color=None, dots_color=None, color=None, trim=None, trim1=None, trim2=None, singleton_scale=None, convexity=None, **kwargs):

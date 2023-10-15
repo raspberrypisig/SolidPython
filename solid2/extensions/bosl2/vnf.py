@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/vnf.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/vnf.scad'}", False)
 
 EMPTY_VNF = _OpenSCADConstant('EMPTY_VNF')
 _vnf_validate_errs = _OpenSCADConstant('_vnf_validate_errs')

@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 
 from .bosl2_base import Bosl2Base as _Bosl2Base
 
-_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/gears.scad'}", use_not_include=False)
+_extra_scad_include(f"{_Path(__file__).parent.parent / 'bosl2/BOSL2/gears.scad'}", False)
 
 class spur_gear(_Bosl2Base):
     def __init__(self, pitch=None, teeth=None, thickness=None, shaft_diam=None, hide=None, pressure_angle=None, clearance=None, backlash=None, helical=None, slices=None, interior=None, mod=None, anchor=None, spin=None, orient=None, **kwargs):
