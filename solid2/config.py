@@ -32,7 +32,10 @@ class Config:
             'Windows': Path('My Documents/OpenSCAD/libraries')
         }
 
-        paths.append(default_paths[platform.system()])
+        try:
+            paths.append(default_paths[platform.system()])
+        except KeyError:
+            pass
 
         #system wide paths
         if platform.system() == 'Linux':
