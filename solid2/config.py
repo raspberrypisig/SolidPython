@@ -9,8 +9,8 @@ class Config:
     def __init__(self):
         self.use_implicit_builtins = "--implicit" in sys.argv
 
-        self.enable_pickle_cache = True
         self.pickle_cache_dir = self.get_pickle_cache_dir()
+        self.enable_pickle_cache = True and self.pickle_cache_dir is not None
 
         self.openscad_library_paths = self.get_openscad_library_paths()
 
@@ -32,7 +32,10 @@ class Config:
             'Windows': Path('My Documents/OpenSCAD/libraries')
         }
 
-        paths.append(default_paths[platform.system()])
+        try:
+            paths.append(default_paths[platform.system()])
+        except KeyError:
+            pass
 
         #system wide paths
         if platform.system() == 'Linux':
@@ -47,7 +50,10 @@ class Config:
             'Darwin':  Path.home() / 'Documents/SolidPython2/pickle_cache',
             'Windows': Path('My Documents/SolidPython2/pickle_cache')
         }
-        return default_paths[platform.system()]
+        try:
+            return default_paths[platform.system()]
+        except KeyError:
+            return None
 
 
 config = Config()
