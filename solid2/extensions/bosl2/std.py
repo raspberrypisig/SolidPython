@@ -11,9 +11,7 @@ from .shapes2d import *
 from .drawing import *
 from .masks3d import *
 from .masks2d import *
-from .math import *
 from .paths import *
-from .lists import *
 from .comparisons import *
 from .linalg import *
 from .trigonometry import *
@@ -22,8 +20,6 @@ from .affine import *
 from .coords import *
 from .geometry import *
 from .regions import *
-from .strings import *
 from .skin import *
 from .vnf import *
-from .utility import *
 from .partitions import *
