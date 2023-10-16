@@ -55,6 +55,8 @@ def generateBosl2Std(bosl2_dir):
                 l = l.replace("include <", "").replace(">", "")
                 if Path(l).stem not in ["math", "lists", "strings", "utility"]:
                     std_f.write(f"from .{Path(l).stem} import *\n")
+                else:
+                    std_f.write(f"from . import {Path(l).stem} as bosl2_{Path(l).stem}\n")
 
 def generateBosl2AccessSyntaxMixin(bosl2_dir, outputDir):
     def generateCallable(c):
