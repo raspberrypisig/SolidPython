@@ -15,8 +15,7 @@ def wheel():
     return cylinder(r=35, h=15, center=True).rotate(0, 90, 0)
 
 def axle():
-    a = cylinder(r=10, h=120, center=True).\
-            rotate(0, 90, 0)
+    a = cylinder(r=10, h=120, center=True).rotate(0, 90, 0)
 
     w1 = wheel().left(70)
     w2 = wheel().right(70)
@@ -37,7 +36,7 @@ def car():
 
     front_axle = axle().down(20).back(80)
 
-    rear_axle = front_axle.forward(160)
+    rear_axle = axle().down(20).forward(80)
 
     return t + front_axle + rear_axle
 
