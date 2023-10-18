@@ -1,4 +1,5 @@
-from ..object_base import OpenSCADObject as _OpenSCADObject
+from ..object_base import OpenSCADObject as _OpenSCADObject, \
+                          BareOpenSCADObject as _BareOpenSCADObject
 
 from pathlib import Path as _Path
 from typing import Sequence as _Sequence,\
@@ -40,11 +41,11 @@ class polygon(_OpenSCADObject):
     to 2D before compiling
     """
 
-    def __init__(self, points: _Union[Points, _OpenSCADObject], paths: Indexes = None, convexity: int = None) -> None:
+    def __init__(self, points: _Union[Points, _BareOpenSCADObject], paths: Indexes = None, convexity: int = None) -> None:
         # Force points to 2D if they're defined in Python, pass through if they're
         # included OpenSCAD code
         pts = points # type: ignore
-        if not isinstance(points, _OpenSCADObject):
+        if not isinstance(points, _BareOpenSCADObject):
             pts = list([(p[0], p[1]) for p in points]) # type: ignore
 
         args = {'points':pts, 'convexity':convexity}
