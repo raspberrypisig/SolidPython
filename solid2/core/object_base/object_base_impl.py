@@ -20,6 +20,19 @@ class RenderMixin:
         from ..scad_render import render_to_stl_file
         return render_to_stl_file(self, filename)
 
+    def _ipython_display_(self):
+        from IPython import get_ipython, display
+        from importlib import find_loader
+
+        def is_notebook():
+            return get_ipython().__class__.__name__ == 'ZMQInteractiveShell'
+
+        if is_notebook() and find_loader("jupyterscad", None):
+            from jupyterscad import render
+            display.display(render(self))
+        else:
+            print(self.as_scad())
+
 class ObjectBase(RenderMixin):
     def __init__(self):
         self._children = []
